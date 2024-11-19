@@ -2,7 +2,7 @@ import { Router } from "express";
 import bcrypt from "bcrypt";
 import { User } from "../models/user.js";
 import dataSource from "../db/connection.js";
-import jwt from "jsonwebtoken";
+import { generateToken } from "../utils/jwt.js";
 
 const router = Router();
 const userRepository = dataSource.getRepository(User);
@@ -30,11 +30,7 @@ router.post("/", async (req, res) => {
       });
     }
 
-    const token = jwt.sign(
-      { user_id: user.user_id, email: user.email },
-      jwtSecret,
-      { expiresIn: "5h" }
-    );
+    const token = generateToken(user.user_id, user.email);
 
     res.status(200).json({
       success: true,
