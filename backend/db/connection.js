@@ -1,6 +1,10 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { User } from "../models/user.js";
+import { Trip } from "../models/trip.js";
+import { TripParticipant } from "../models/tripParticipant.js";
+import { Journey } from "../models/journey.js";
+import { Activity } from "../models/activity.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -13,7 +17,7 @@ const dataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB,
   synchronize: true,
-  entities: [User],
+  entities: [User, Trip, TripParticipant, Journey, Activity],
 });
 
 export default dataSource;
