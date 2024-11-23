@@ -19,3 +19,12 @@ export const checkRequiredFields = (fields, res) => {
   }
   return null;
 };
+
+export const getUserIdFromToken = (req, res) => {
+  const user_id = req.user?.user_id; 
+  if (!user_id) {
+    return res.status(401).json({ message: "Unauthorized: Missing user_id" });
+  }
+  console.log(`The user id is ${user_id}`);
+  return user_id;
+};

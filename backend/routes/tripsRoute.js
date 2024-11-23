@@ -2,10 +2,10 @@ import { Router } from "express";
 import { Trip } from "../models/trip.js";
 import { User } from "../models/user.js";
 import dataSource from "../db/connection.js";
-import { getUserIdFromToken } from "../middleware/authenticate.js";
 import {
   checkIfEntityExists,
   checkRequiredFields,
+  getUserIdFromToken,
 } from "../helpers/errorHelpers.js";
 
 const router = Router();
