@@ -3,6 +3,7 @@ import { Trip } from "../models/trip.js";
 import { User } from "../models/user.js";
 import dataSource from "../db/connection.js";
 import {
+  checkIfEntitiesExist,
   checkIfEntityExists,
   checkRequiredFields,
   getUserIdFromToken,
@@ -26,8 +27,8 @@ router.post("/new-trip", async (req, res) => {
     if (validationError) return validationError;
 
     const user = await dataSource.getRepository(User).findOneBy({ user_id });
-    const userError = checkIfEntityExists(user, "User", res);
-    if (userError) return userError;
+    const entitiesNotFound = await checkIfEntitiesExist([user], ["User"], res);
+    if (entitiesNotFound) return;
 
     const existingTrip = await tripRepository.findOneBy({ user: { user_id } });
     if (existingTrip) {
@@ -38,7 +39,7 @@ router.post("/new-trip", async (req, res) => {
     }
 
     const newTrip = tripRepository.create({
-      user: { user_id },
+      user,
       trip_name,
       start_date,
       end_date,
@@ -47,7 +48,16 @@ router.post("/new-trip", async (req, res) => {
 
     const savedTrip = await tripRepository.save(newTrip);
 
-    res.status(201).json({ success: true, trip: savedTrip });
+    res.status(201).json({
+      success: true,
+      trip: {
+        ...savedTrip, 
+        user: {
+          user_id: savedTrip.user.user_id,
+          email: savedTrip.user.email,
+        },
+      },
+    });
   } catch (err) {
     console.error("Error creating trip:", err);
     res.status(500).json({
@@ -69,8 +79,8 @@ router.delete("/delete-trip", async (req, res) => {
       relations: ["user"],
     });
 
-    const tripError = checkIfEntityExists(trip, "Trip", res);
-    if (tripError) return tripError;
+    const entitiesNotFound = await checkIfEntitiesExist([trip], ["Trip"], res);
+    if (entitiesNotFound) return;
 
     if (trip.user.user_id !== user_id) {
       return res.status(403).json({
