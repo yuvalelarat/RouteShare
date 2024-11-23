@@ -7,6 +7,8 @@ import loginRouter from './routes/login.js';
 import { authenticateToken } from './middleware/authenticate.js';
 import usersRouter from './routes/usersRoute.js';
 import tripsRouter from './routes/tripsRoute.js';
+import journeysRouter from './routes/journeysRoute.js';
+import tripPaticipantsRouter from './routes/tripParticipantsRoute.js';
 
 
 dotenv.config();
@@ -40,6 +42,8 @@ app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/users', usersRouter);
 app.use('/trips', authenticateToken, tripsRouter);
+app.use('/journeys', authenticateToken, journeysRouter);
+app.use('/participants', authenticateToken, tripPaticipantsRouter);
 
 
 app.listen(port, () => {

@@ -1,3 +1,15 @@
+export const checkIfEntitiesExist = async (entities, entityNames, res) => {
+  for (let i = 0; i < entities.length; i++) {
+    if (!entities[i]) {
+      return res.status(404).json({
+        success: false,
+        message: `${entityNames[i]} not found`,
+      });
+    }
+  }
+  return null;
+};
+
 export const checkIfEntityExists = (entity, entityName, res) => {
   if (!entity) {
     return res.status(404).json({
@@ -21,7 +33,7 @@ export const checkRequiredFields = (fields, res) => {
 };
 
 export const getUserIdFromToken = (req, res) => {
-  const user_id = req.user?.user_id; 
+  const user_id = req.user?.user_id;
   if (!user_id) {
     return res.status(401).json({ message: "Unauthorized: Missing user_id" });
   }
