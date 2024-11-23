@@ -48,5 +48,10 @@ export const Trip = new EntitySchema({
       inverseSide: "trip",
       cascade: true,
     },
+    journeys: {
+      type: "one-to-many",
+      target: "Journey",
+      inverseSide: "trip",
+    },
   },
 });
