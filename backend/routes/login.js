@@ -6,7 +6,6 @@ import { generateToken } from "../utils/jwt.js";
 
 const router = Router();
 const userRepository = dataSource.getRepository(User);
-const jwtSecret = process.env.JWT_SECRET; //TODO: Delete on next start
 
 router.post("/", async (req, res) => {
   const { email, password } = req.body;
