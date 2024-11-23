@@ -4,7 +4,9 @@ import cors from 'cors';
 import dataSource from './db/connection.js';
 import registerRouter from './routes/register.js';
 import loginRouter from './routes/login.js';
+import { authenticateToken } from './middleware/authenticate.js';
 import usersRouter from './routes/usersRoute.js';
+import tripsRouter from './routes/tripsRoute.js';
 
 
 dotenv.config();
@@ -37,6 +39,7 @@ app.get("/test", (_, res) => {
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/users', usersRouter);
+app.use('/trips', authenticateToken, tripsRouter);
 
 
 app.listen(port, () => {
