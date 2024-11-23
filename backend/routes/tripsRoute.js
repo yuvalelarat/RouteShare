@@ -4,10 +4,10 @@ import { User } from "../models/user.js";
 import dataSource from "../db/connection.js";
 import {
   checkIfEntitiesExist,
-  checkIfEntityExists,
   checkRequiredFields,
   getUserIdFromToken,
 } from "../helpers/errorHelpers.js";
+import { TripParticipant } from "../models/tripParticipant.js";
 
 const router = Router();
 const tripRepository = dataSource.getRepository(Trip);
@@ -48,14 +48,30 @@ router.post("/new-trip", async (req, res) => {
 
     const savedTrip = await tripRepository.save(newTrip);
 
+    const tripParticipantRepository = dataSource.getRepository(TripParticipant);
+    const newParticipant = tripParticipantRepository.create({
+      trip: savedTrip,
+      user,
+      role: "admin",
+    });
+
+    await tripParticipantRepository.save(newParticipant);
+
     res.status(201).json({
       success: true,
       trip: {
-        ...savedTrip, 
+        ...savedTrip,
         user: {
           user_id: savedTrip.user.user_id,
           email: savedTrip.user.email,
         },
+        participants: [
+          {
+            trip_participant_id: newParticipant.trip_participant_id,
+            user_id: newParticipant.user.user_id,
+            role: newParticipant.role,
+          },
+        ],
       },
     });
   } catch (err) {
@@ -63,6 +79,55 @@ router.post("/new-trip", async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error creating trip",
+      error: err.message,
+    });
+  }
+});
+
+//get trip by id
+router.get("/get-trip/:trip_id", async (req, res) => {
+  const { trip_id } = req.params;
+
+  try {
+    const user_id = getUserIdFromToken(req, res);
+    if (!user_id) return;
+
+    const trip = await dataSource.getRepository(Trip).findOne({
+      where: { trip_id },
+      relations: ["user", "participants", "participants.user"],
+    });
+
+    const entitiesNotFound = await checkIfEntitiesExist([trip], ["Trip"], res);
+    if (entitiesNotFound) return;
+
+    if (trip.user.user_id !== user_id) {
+      const participant = trip.participants.find(
+        (p) => p.user.user_id === user_id
+      );
+      if (!participant || !["view", "edit"].includes(participant.role)) {
+        return res.status(403).json({
+          success: false,
+          message:
+            "You must be a participant with 'view' or 'edit' role to access this trip",
+        });
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      trip: {
+        ...trip,
+        user: {
+          user_id: trip.user.user_id,
+          email: trip.user.email,
+        },
+      },
+    });
+  } catch (err) {
+    console.error("Error fetching trip:", err);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching trip",
       error: err.message,
     });
   }

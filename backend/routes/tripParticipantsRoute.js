@@ -24,7 +24,10 @@ router.post("/add-participant", async (req, res) => {
     const fieldsNotFound = checkRequiredFields(requiredFields, res);
     if (fieldsNotFound) return;
 
-    const trip = await dataSource.getRepository(Trip).findOneBy({ trip_id });
+    const trip = await dataSource.getRepository(Trip).findOne({
+      where: { trip_id },
+      relations: ["user"],
+    });
     const user = await dataSource.getRepository(User).findOneBy({ email });
 
     const entitiesNotFound = await checkIfEntitiesExist(
@@ -33,6 +36,13 @@ router.post("/add-participant", async (req, res) => {
       res
     );
     if (entitiesNotFound) return;
+
+    if (trip.user.user_id !== currentUserId) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to add participants to this trip.",
+      });
+    }
 
     const existingParticipant = await tripParticipantRepository.findOne({
       where: { trip: { trip_id }, user: { user_id: user.user_id } },
@@ -91,7 +101,11 @@ router.delete("/remove-participant", async (req, res) => {
     const fieldsNotFound = checkRequiredFields(requiredFields, res);
     if (fieldsNotFound) return;
 
-    const trip = await dataSource.getRepository(Trip).findOneBy({ trip_id });
+    const trip = await dataSource.getRepository(Trip).findOne({
+      where: { trip_id },
+      relations: ["user"],
+    });
+
     const user = await dataSource.getRepository(User).findOneBy({ email });
 
     const entitiesNotFound = await checkIfEntitiesExist(
@@ -100,6 +114,21 @@ router.delete("/remove-participant", async (req, res) => {
       res
     );
     if (entitiesNotFound) return;
+
+    if (trip.user.user_id !== currentUserId) {
+      return res.status(403).json({
+        success: false,
+        message:
+          "You are not authorized to remove participants from this trip.",
+      });
+    }
+
+    if (trip.user.user_id === user.user_id) {
+      return res.status(403).json({
+        success: false,
+        message: "The trip creator cannot remove themselves as a participant.",
+      });
+    }
 
     const existingParticipant = await tripParticipantRepository.findOne({
       where: { trip: { trip_id }, user: { user_id: user.user_id } },
@@ -126,6 +155,84 @@ router.delete("/remove-participant", async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error removing participant",
+      error: err.message,
+    });
+  }
+});
+
+router.patch("/edit-participant-role", async (req, res) => {
+  const { trip_id, email, new_role } = req.body;
+
+  try {
+    const currentUserId = getUserIdFromToken(req, res);
+    if (!currentUserId) return;
+
+    const requiredFields = { trip_id, email, new_role };
+    const fieldsNotFound = checkRequiredFields(requiredFields, res);
+    if (fieldsNotFound) return;
+
+    const trip = await dataSource.getRepository(Trip).findOne({
+      where: { trip_id },
+      relations: ["user"],
+    });
+
+    const user = await dataSource.getRepository(User).findOneBy({ email });
+
+    const entitiesNotFound = await checkIfEntitiesExist(
+      [trip, user],
+      ["Trip", "User"],
+      res
+    );
+    if (entitiesNotFound) return;
+
+    if (trip.user.user_id !== currentUserId) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to edit participants for this trip.",
+      });
+    }
+
+    if (trip.user.user_id === user.user_id) {
+      return res.status(403).json({
+        success: false,
+        message: "The trip creator cannot edit their own role.",
+      });
+    }
+
+    const existingParticipant = await tripParticipantRepository.findOne({
+      where: { trip: { trip_id }, user: { user_id: user.user_id } },
+      relations: ["trip", "user"],
+    });
+
+    if (!existingParticipant) {
+      return res.status(404).json({
+        success: false,
+        message: "User is not a participant in this trip.",
+      });
+    }
+
+    existingParticipant.role = new_role;
+    const updatedParticipant = await tripParticipantRepository.save(
+      existingParticipant
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Participant role updated successfully.",
+      participant: {
+        trip: { trip_id: updatedParticipant.trip.trip_id },
+        user: {
+          user_id: updatedParticipant.user.user_id,
+          email: updatedParticipant.user.email,
+        },
+        role: updatedParticipant.role,
+      },
+    });
+  } catch (err) {
+    console.error("Error editing participant role:", err);
+    res.status(500).json({
+      success: false,
+      message: "Error editing participant role",
       error: err.message,
     });
   }
