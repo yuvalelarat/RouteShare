@@ -7,8 +7,7 @@ import {
 
 export const createActivity = async (req, res) => {
   const { journey_id } = req.params;
-  const { activity_name, location, cost, activity_type, description } =
-    req.body;
+  const { activity_name, location, cost, activity_type, description } = req.body;
 
   try {
     const user_id = getUserIdFromToken(req, res);
@@ -30,11 +29,7 @@ export const createActivity = async (req, res) => {
     });
   } catch (err) {
     console.error("Error creating activity:", err);
-    res.status(500).json({
-      success: false,
-      message: "Error creating activity",
-      error: err.message,
-    });
+    next(err);
   }
 };
 
@@ -60,18 +55,13 @@ export const deleteActivity = async (req, res) => {
     }
   } catch (err) {
     console.error("Error deleting activity:", err);
-    res.status(500).json({
-      success: false,
-      message: "Error deleting activity",
-      error: err.message,
-    });
+    next(err);
   }
 };
 
 export const updateActivity = async (req, res) => {
   const { activity_id } = req.params;
-  const { activity_name, location, cost, activity_type, description } =
-    req.body;
+  const { activity_name, location, cost, activity_type, description } = req.body;
 
   try {
     const user_id = getUserIdFromToken(req, res);
@@ -98,10 +88,6 @@ export const updateActivity = async (req, res) => {
     });
   } catch (err) {
     console.error("Error updating activity:", err);
-    res.status(500).json({
-      success: false,
-      message: "Error updating activity",
-      error: err.message,
-    });
+    next(err);
   }
 };

@@ -9,9 +9,9 @@ import {
   getUserIdFromToken,
 } from "../utils/errorHelpers.js";
 
-export const createTrip = async (req, res) => {
-  const { trip_name, start_date, end_date, description } = req.body;
+export const createTrip = async (req, res, next) => {
   try {
+    const { trip_name, start_date, end_date, description } = req.body;
     const user_id = getUserIdFromToken(req, res);
     if (!user_id) return;
 
@@ -41,18 +41,13 @@ export const createTrip = async (req, res) => {
       trip: result.trip,
     });
   } catch (err) {
-    console.error("Error in createTrip:", err);
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      error: err.message,
-    });
+    next(err);
   }
 };
 
-export const getTrip = async (req, res) => {
-  const { trip_id } = req.params;
+export const getTrip = async (req, res, next) => {
   try {
+    const { trip_id } = req.params;
     const user_id = getUserIdFromToken(req, res);
     if (!user_id) return;
 
@@ -70,16 +65,11 @@ export const getTrip = async (req, res) => {
       trip: result.trip,
     });
   } catch (err) {
-    console.error("Error in getTrip:", err);
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      error: err.message,
-    });
+    next(err);
   }
 };
 
-export const deleteTrip = async (req, res) => {
+export const deleteTrip = async (req, res, next) => {
   try {
     const user_id = getUserIdFromToken(req, res);
     if (!user_id) return;
@@ -98,19 +88,15 @@ export const deleteTrip = async (req, res) => {
       message: result.message,
     });
   } catch (err) {
-    console.error("Error in deleteTrip:", err);
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      error: err.message,
-    });
+    next(err);
   }
 };
 
-export const editTrip = async (req, res) => {
-  const { trip_id } = req.params;
-  const { trip_name, start_date, end_date, description } = req.body;
+export const editTrip = async (req, res, next) => {
   try {
+    const { trip_id } = req.params;
+    const { trip_name, start_date, end_date, description } = req.body;
+
     const user_id = getUserIdFromToken(req, res);
     if (!user_id) return;
 
@@ -141,11 +127,6 @@ export const editTrip = async (req, res) => {
       trip: result.trip,
     });
   } catch (err) {
-    console.error("Error in editTrip:", err);
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      error: err.message,
-    });
+    next(err);
   }
 };

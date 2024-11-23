@@ -16,17 +16,14 @@ export const createJourney = async (req, res) => {
       { trip_id, day_number, country, description },
       user_id
     );
+
     res.status(201).json({
       success: true,
       journey: savedJourney,
     });
   } catch (err) {
     console.error("Error creating journey:", err);
-    res.status(500).json({
-      success: false,
-      message: "Error creating journey",
-      error: err.message,
-    });
+    next(err);
   }
 };
 
@@ -37,17 +34,14 @@ export const deleteJourney = async (req, res) => {
     if (!user_id) return;
 
     const message = await deleteJourneyService(journey_id, user_id);
+
     res.status(200).json({
       success: true,
       message,
     });
   } catch (err) {
     console.error("Error deleting journey:", err);
-    res.status(500).json({
-      success: false,
-      message: "Error deleting journey",
-      error: err.message,
-    });
+    next(err);
   }
 };
 
@@ -61,6 +55,7 @@ export const editJourney = async (req, res) => {
       { journey_id, day_number, country, description },
       user_id
     );
+
     res.status(200).json({
       success: true,
       message: "Journey updated successfully",
@@ -68,11 +63,7 @@ export const editJourney = async (req, res) => {
     });
   } catch (err) {
     console.error("Error editing journey:", err);
-    res.status(500).json({
-      success: false,
-      message: "Error editing journey",
-      error: err.message,
-    });
+    next(err);
   }
 };
 
@@ -83,16 +74,13 @@ export const getAllJourneys = async (req, res) => {
     if (!user_id) return;
 
     const journeys = await getAllJourneysService(trip_id, user_id);
+
     res.status(200).json({
       success: true,
       journeys,
     });
   } catch (err) {
     console.error("Error fetching journeys:", err);
-    res.status(500).json({
-      success: false,
-      message: "Error fetching journeys",
-      error: err.message,
-    });
+    next(err);
   }
 };

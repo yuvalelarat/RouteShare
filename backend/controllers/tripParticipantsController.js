@@ -40,12 +40,7 @@ export const addParticipant = async (req, res) => {
       participant: result,
     });
   } catch (err) {
-    console.error("Error in addParticipant:", err);
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      error: err.message,
-    });
+    next(err);
   }
 };
 
@@ -78,17 +73,13 @@ export const removeParticipant = async (req, res) => {
       message: "User removed as participant.",
     });
   } catch (err) {
-    console.error("Error in removeParticipant:", err);
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      error: err.message,
-    });
+    next(err);
   }
 };
 
 export const editParticipantRole = async (req, res) => {
   const { trip_id, email, new_role } = req.body;
+
   try {
     const currentUserId = getUserIdFromToken(req, res);
     if (!currentUserId) return;
@@ -117,17 +108,13 @@ export const editParticipantRole = async (req, res) => {
       participant: result,
     });
   } catch (err) {
-    console.error("Error in editParticipantRole:", err);
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      error: err.message,
-    });
+    next(err);
   }
 };
 
 export const getAllparticipants = async (req, res) => {
   const { trip_id } = req.params;
+
   try {
     const currentUserId = getUserIdFromToken(req, res);
     if (!currentUserId) return;
@@ -146,11 +133,6 @@ export const getAllparticipants = async (req, res) => {
       participants: result.participants,
     });
   } catch (err) {
-    console.error("Error in getAllParticipants:", err);
-    res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
-      error: err.message,
-    });
+    next(err);
   }
 };
