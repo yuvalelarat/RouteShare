@@ -2,6 +2,11 @@ import { Router } from "express";
 import { Trip } from "../models/trip.js";
 import { User } from "../models/user.js";
 import dataSource from "../db/connection.js";
+import { getUserIdFromToken } from "../middleware/authenticate.js";
+import {
+  checkIfEntityExists,
+  checkRequiredFields,
+} from "../helpers/errorHelpers.js";
 
 const router = Router();
 const tripRepository = dataSource.getRepository(Trip);
@@ -11,25 +16,18 @@ router.post("/new-trip", async (req, res) => {
   const { trip_name, start_date, end_date, description } = req.body;
 
   try {
-    const user_id = req.user?.user_id;
-    if (!user_id) {
-      return res.status(401).json({ message: "Unauthorized: Missing user_id" });
-    }
-    console.log(`the user id is ${user_id}`);
+    const user_id = getUserIdFromToken(req, res);
+    if (!user_id) return;
 
-    if (!trip_name || !start_date || !end_date) {
-      return res.status(400).json({
-        success: false,
-        message: "All fields are required (trip_name, start_date, end_date).",
-      });
-    }
+    const validationError = checkRequiredFields(
+      { trip_name, start_date, end_date },
+      res
+    );
+    if (validationError) return validationError;
 
     const user = await dataSource.getRepository(User).findOneBy({ user_id });
-    if (!user) {
-      return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
-    }
+    const userError = checkIfEntityExists(user, "User", res);
+    if (userError) return userError;
 
     const existingTrip = await tripRepository.findOneBy({ user: { user_id } });
     if (existingTrip) {
@@ -63,23 +61,16 @@ router.post("/new-trip", async (req, res) => {
 //delete trip
 router.delete("/delete-trip", async (req, res) => {
   try {
-    const user_id = req.user?.user_id;
-    if (!user_id) {
-      return res.status(401).json({ message: "Unauthorized: Missing user_id" });
-    }
-    console.log(`the user id is ${user_id}`);
+    const user_id = getUserIdFromToken(req, res);
+    if (!user_id) return;
 
     const trip = await tripRepository.findOne({
-      where: {  user: { user_id } },
+      where: { user: { user_id } },
       relations: ["user"],
     });
 
-    if (!trip) {
-      return res.status(404).json({
-        success: false,
-        message: "Trip not found",
-      });
-    }
+    const tripError = checkIfEntityExists(trip, "Trip", res);
+    if (tripError) return tripError;
 
     if (trip.user.user_id !== user_id) {
       return res.status(403).json({
@@ -103,6 +94,5 @@ router.delete("/delete-trip", async (req, res) => {
     });
   }
 });
-
 
 export default router;
