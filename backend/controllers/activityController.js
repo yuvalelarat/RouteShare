@@ -6,6 +6,7 @@ import {
   createActivityService,
   deleteActivityService,
   updateActivityService,
+  getActivitiesByJourneyIdService
 } from "../services/activityService.js";
 
 export const createActivity = async (req, res) => {
@@ -128,3 +129,35 @@ export const updateActivity = async (req, res) => {
     });
   }
 };
+
+export const getActivitiesByJourneyId = async (req, res) => {
+  const { journey_id } = req.params;
+
+  try {
+    const user_id = getUserIdFromToken(req, res);
+   if (!user_id) {
+      console.log("user id from token is not available");
+      return;
+    }
+
+    const result = await getActivitiesByJourneyIdService(journey_id, user_id);
+
+    if (result.error) {
+      return res.status(403).json({
+        success: false,
+        message: result.error,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      activities: result,
+    });
+  } catch (err) {
+    console.error("Unexpected error in getActivityByJourneyId:", err.message || err);
+    res.status(500).json({
+      success: false,
+      error: err.message || "Something went wrong",
+    });
+  }
+}

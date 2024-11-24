@@ -4,7 +4,6 @@ import {
   getTripService,
   editTripService,
   getAllTripsService,
-  getTripWithAllDetailsService
 } from "../services/tripService.js";
 import {
   checkRequiredFields,

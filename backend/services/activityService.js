@@ -125,3 +125,40 @@ export const updateActivityService = async (
     throw new Error(err.message || "Error updating activity");
   }
 };
+
+export const getActivitiesByJourneyIdService = async (journey_id, user_id) => {
+  try {
+    const journey = await journeyRepository.findOne({
+      where: { journey_id },
+      relations: [
+        "trip",
+        "trip.user",
+        "trip.participants",
+        "trip.participants.user",
+        "activities",
+      ],
+    });
+
+    console.log(journey.activities)
+
+    if (!journey) {
+      throw new Error("Journey not found");
+    }
+
+    if (journey.trip.user.user_id !== user_id) {
+      const participant = journey.trip.participants.find(
+        (p) => p.user.user_id === user_id
+      );
+      if (!participant || participant.role !== "edit", participant.role !== "view") {
+        throw new Error(
+          "You do not have permission to view activities for this journey."
+        );
+      }
+    }
+
+    
+    return journey.activities;
+  } catch (err) {
+    throw new Error(err.message || "Error retrieving activities");
+  }
+};
