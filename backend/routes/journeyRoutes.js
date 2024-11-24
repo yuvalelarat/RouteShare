@@ -1,16 +1,11 @@
 import express from "express";
-import {
-  createJourney,
-  deleteJourney,
-  editJourney,
-  getAllJourneys,
-} from "../controllers/journeyController.js";
+import * as journeyController from "../controllers/journeyController.js";
 
 const router = express.Router();
 
-router.post("/new-journey", createJourney);
-router.delete("/delete-journey", deleteJourney);
-router.patch("/edit-journey", editJourney);
-router.get("/all-journeys/:trip_id", getAllJourneys);
+router.post("/new-journey", journeyController.createJourney);
+router.delete("/delete-journey", journeyController.deleteJourney);
+router.patch("/edit-journey", journeyController.editJourney);
+router.get("/all-journeys/:trip_id", journeyController.getAllJourneys);
 
 export default router;
