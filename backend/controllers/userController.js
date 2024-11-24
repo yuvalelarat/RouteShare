@@ -20,25 +20,7 @@ export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await userService.findUserByEmail(email);
-
-    if (!user) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid email or password",
-      });
-    }
-
-    const isPasswordValid = await userService.validatePassword(password, user.password_hash);
-
-    if (!isPasswordValid) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid email or password",
-      });
-    }
-
-    const token = userService.generateAuthToken(user);
+    const { token, user } = await userService.loginService(email, password);
 
     res.status(200).json({
       success: true,
@@ -50,11 +32,38 @@ export const loginUser = async (req, res) => {
     });
   } catch (err) {
     console.error("Error logging in:", err);
+
+    if (err.message === "Invalid email or password") {
+      return res.status(400).json({
+        success: false,
+        message: err.message,
+      });
+    }
+
+    if (err.message === "Email not verified") {
+      return res.status(403).json({
+        success: false,
+        message: err.message,
+      });
+    }
+
     res.status(500).json({
       success: false,
       message: "Error logging in",
       error: err.message,
     });
+  }
+};
+
+export const verifyEmail   = async (req, res) => {
+  const { token } = req.query;
+
+  try {
+    const result = await userService.verifyEmailService(token);
+    res.status(200).json(result);
+  } catch (err) {
+    console.error("Error verifying email:", err);
+    res.status(400).json({ success: false, message: err.message });
   }
 };
 
