@@ -139,8 +139,6 @@ export const getActivitiesByJourneyIdService = async (journey_id, user_id) => {
       ],
     });
 
-    console.log(journey.activities)
-
     if (!journey) {
       throw new Error("Journey not found");
     }
