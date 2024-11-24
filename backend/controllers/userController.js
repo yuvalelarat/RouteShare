@@ -1,25 +1,10 @@
-import { Router } from "express";
-import { User } from "../models/user.js";
-import dataSource from "../db/connection.js";
-import bcrypt from "bcrypt";
-import { generateToken } from "../utils/jwt.js";
+import * as userService from "../services/userService.js";
 
-const router = Router();
-const userRepository = dataSource.getRepository(User);
-
-router.post("/register", async (req, res) => {
+export const registerUser = async (req, res) => {
   const { email, password, full_name } = req.body;
+
   try {
-    const saltRounds = 10;
-    const passwordHash = await bcrypt.hash(password, saltRounds);
-
-    const newUser = userRepository.create({
-      email,
-      password_hash: passwordHash,
-      full_name,
-    });
-    const savedUser = await userRepository.save(newUser);
-
+    const savedUser = await userService.createUser(email, password, full_name);
     res.status(201).json({ success: true, user: savedUser });
   } catch (err) {
     console.error("Error creating user:", err);
@@ -29,13 +14,13 @@ router.post("/register", async (req, res) => {
       error: err.message,
     });
   }
-});
+};
 
-router.post("/login", async (req, res) => {
+export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await userRepository.findOneBy({ email });
+    const user = await userService.findUserByEmail(email);
 
     if (!user) {
       return res.status(400).json({
@@ -44,7 +29,7 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password_hash);
+    const isPasswordValid = await userService.validatePassword(password, user.password_hash);
 
     if (!isPasswordValid) {
       return res.status(400).json({
@@ -53,7 +38,7 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    const token = generateToken(user.user_id, user.email);
+    const token = userService.generateAuthToken(user);
 
     res.status(200).json({
       success: true,
@@ -71,11 +56,11 @@ router.post("/login", async (req, res) => {
       error: err.message,
     });
   }
-});
+};
 
-router.get("/all", async (_, res) => {
+export const getAllUsers = async (req, res) => {
   try {
-    const users = await userRepository.find();
+    const users = await userService.getAllUsers();
     res.status(200).json({ success: true, users });
   } catch (err) {
     console.error("Error fetching users:", err);
@@ -85,6 +70,4 @@ router.get("/all", async (_, res) => {
       error: err.message,
     });
   }
-});
-
-export default router;
+};
