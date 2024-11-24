@@ -2,8 +2,6 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import dataSource from "./db/connection.js";
-import registerRouter from "./routes/register.js";
-import loginRouter from "./routes/login.js";
 import { authenticateToken } from "./middleware/authenticate.js";
 import usersRouter from "./routes/usersRoute.js";
 import tripsRouter from "./routes/tripsRoute.js";
@@ -30,8 +28,6 @@ app.use(cors()); //allow from all origins (for now)
 })();
 
 //routes
-app.use("/register", registerRouter);
-app.use("/login", loginRouter);
 app.use("/users", usersRouter);
 app.use("/trips", authenticateToken, tripsRouter);
 app.use("/participants", authenticateToken, tripPaticipantsRouter);

@@ -20,7 +20,7 @@ export const createTripService = async (
 
   const existingTrip = await tripRepository.findOneBy({ user: { user_id } });
   if (existingTrip) {
-    throw new Error("User already has a trip. Cannot create another trip." );
+    throw new Error("User already has a trip. Cannot create another trip.");
   }
 
   const newTrip = tripRepository.create({
@@ -155,4 +155,67 @@ export const editTripService = async (
       },
     },
   };
+};
+
+export const getAllTripsService = async (user_id) => {
+  try {
+    const tripRepository = dataSource.getRepository(Trip);
+
+    const participantTrips = await tripRepository
+      .createQueryBuilder("trip")
+      .innerJoinAndSelect("trip.participants", "participant") //include participant
+      .innerJoinAndSelect("participant.user", "user")
+      .where("participant.role IN (:...roles)", { roles: ["view", "edit"] })
+      .andWhere("user.user_id = :user_id", { user_id })
+      .getMany();
+
+    return { trips: participantTrips };
+  } catch (err) {
+    console.error("Error fetching trips:", err);
+    throw new Error("Error fetching trips");
+  }
+};
+
+export const getTripWithAllDetailsService = async (trip_id, user_id) => {
+  try {
+    const tripRepository = dataSource.getRepository(Trip);
+
+    const trip = await tripRepository
+      .createQueryBuilder("trip")
+      .leftJoinAndSelect("trip.journeys", "journey") //include journeys
+      .leftJoinAndSelect("journey.activities", "activity") //include activities
+      .innerJoinAndSelect("trip.participants", "participant") //include participants
+      .innerJoinAndSelect("participant.user", "user") //include user details for participants
+      .where("trip.trip_id = :trip_id", { trip_id }) //filter by trip_id
+      .getOne();
+
+    if (!trip) {
+      throw new Error("Trip not found");
+    }
+
+    const isOwner = trip.user.user_id === user_id;
+    const isParticipant = trip.participants.some(
+      (participant) =>
+        participant.user.user_id === user_id &&
+        ["view", "edit"].includes(participant.role)
+    );
+
+    if (!isOwner && !isParticipant) {
+      throw new Error(
+        "Unauthorized: You do not have permission to view this trip"
+      );
+    }
+
+    return {
+      trip: {
+        trip_id: trip.trip_id,
+        name: trip.name,
+        description: trip.description,
+        journeys: trip.journeys,
+      },
+    };
+  } catch (err) {
+    console.error("Error fetching trip with journeys and activities:", err);
+    throw new Error("Error fetching trip with journeys and activities");
+  }
 };
