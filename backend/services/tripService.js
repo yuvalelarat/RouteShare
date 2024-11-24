@@ -1,7 +1,9 @@
-import { Trip } from "../models/trip.js";
-import { User } from "../models/user.js";
-import { TripParticipant } from "../models/tripParticipant.js";
 import dataSource from "../db/connection.js";
+import { User } from "../models/user.js"
+import { Trip } from "../models/trip.js";
+import { TripParticipant } from "../models/tripParticipant.js";
+import { Journey } from "../models/journey.js";
+import { Activity } from "../models/activity.js";
 import { checkIfEntitiesExist } from "../utils/errorHelpers.js";
 
 const tripRepository = dataSource.getRepository(Trip);
@@ -173,49 +175,5 @@ export const getAllTripsService = async (user_id) => {
   } catch (err) {
     console.error("Error fetching trips:", err);
     throw new Error("Error fetching trips");
-  }
-};
-
-export const getTripWithAllDetailsService = async (trip_id, user_id) => {
-  try {
-    const tripRepository = dataSource.getRepository(Trip);
-
-    const trip = await tripRepository
-      .createQueryBuilder("trip")
-      .leftJoinAndSelect("trip.journeys", "journey") //include journeys
-      .leftJoinAndSelect("journey.activities", "activity") //include activities
-      .innerJoinAndSelect("trip.participants", "participant") //include participants
-      .innerJoinAndSelect("participant.user", "user") //include user details for participants
-      .where("trip.trip_id = :trip_id", { trip_id }) //filter by trip_id
-      .getOne();
-
-    if (!trip) {
-      throw new Error("Trip not found");
-    }
-
-    const isOwner = trip.user.user_id === user_id;
-    const isParticipant = trip.participants.some(
-      (participant) =>
-        participant.user.user_id === user_id &&
-        ["view", "edit"].includes(participant.role)
-    );
-
-    if (!isOwner && !isParticipant) {
-      throw new Error(
-        "Unauthorized: You do not have permission to view this trip"
-      );
-    }
-
-    return {
-      trip: {
-        trip_id: trip.trip_id,
-        name: trip.name,
-        description: trip.description,
-        journeys: trip.journeys,
-      },
-    };
-  } catch (err) {
-    console.error("Error fetching trip with journeys and activities:", err);
-    throw new Error("Error fetching trip with journeys and activities");
   }
 };

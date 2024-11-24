@@ -191,38 +191,3 @@ export const getAllTrips = async (req, res, next) => {
     });
   }
 };
-
-export const getTripWithAllDetails = async (req, res, next) => {
-  const { trip_id } = req.params;
-
-  try {
-    const user_id = getUserIdFromToken(req, res);
-    if (!user_id) {
-      console.log("user id from token is not available");
-      return;
-    }
-
-    const result = await getTripWithAllDetailsService(
-      trip_id,
-      user_id
-    );
-
-    if (result.error) {
-      return res.status(403).json({
-        success: false,
-        message: result.error,
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      trip: result.trip,
-    });
-  } catch (err) {
-    console.error("Unexpected error in getTripWithJourneysAndActivities:", err.message || err);
-    res.status(500).json({
-      success: false,
-      error: err.message || "Something went wrong",
-    });
-  }
-};
