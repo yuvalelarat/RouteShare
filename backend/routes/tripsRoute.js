@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post("/new-trip", createTrip);
 router.delete("/delete-trip", deleteTrip);
-router.get("/get-trip/:trip_id", getTrip);
+router.get("/get-trip", getTrip);
 router.patch("/edit-trip/:trip_id", editTrip);
 
 export default router;

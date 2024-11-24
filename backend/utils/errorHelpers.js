@@ -10,15 +10,6 @@ export const checkIfEntitiesExist = async (entities, entityNames, res) => {
   return null;
 };
 
-export const checkIfEntityExists = (entity, entityName, res) => {
-  if (!entity) {
-    return res.status(404).json({
-      success: false,
-      message: `${entityName} not found`,
-    });
-  }
-  return null;
-};
 
 export const checkRequiredFields = (fields, res) => {
   for (const field in fields) {

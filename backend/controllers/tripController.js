@@ -13,13 +13,17 @@ export const createTrip = async (req, res, next) => {
   try {
     const { trip_name, start_date, end_date, description } = req.body;
     const user_id = getUserIdFromToken(req, res);
-    if (!user_id) return;
+    if (!user_id) {
+      console.log("user id from token is not available");
+      return;
+    }
 
-    const validationError = checkRequiredFields(
-      { trip_name, start_date, end_date },
-      res
-    );
-    if (validationError) return validationError;
+    const requiredFields = { trip_name, start_date, end_date };
+    const fieldsNotFound = checkRequiredFields(requiredFields, res);
+    if (fieldsNotFound) {
+      console.log("missing required fields");
+      return fieldsNotFound;
+    }
 
     const result = await createTripService(
       user_id,
@@ -41,17 +45,23 @@ export const createTrip = async (req, res, next) => {
       trip: result.trip,
     });
   } catch (err) {
-    next(err);
+    console.error("Unexpected error in createTrip:", err.message || err);
+    res.status(500).json({
+      success: false,
+      error: err.message || "Something went wrong",
+    });
   }
 };
 
 export const getTrip = async (req, res, next) => {
   try {
-    const { trip_id } = req.params;
     const user_id = getUserIdFromToken(req, res);
-    if (!user_id) return;
+    if (!user_id) {
+      console.log("user id from token is not available");
+      return;
+    }
 
-    const result = await getTripService(trip_id, user_id);
+    const result = await getTripService(user_id);
 
     if (result.error) {
       return res.status(403).json({
@@ -65,14 +75,21 @@ export const getTrip = async (req, res, next) => {
       trip: result.trip,
     });
   } catch (err) {
-    next(err);
+    console.error("Unexpected error in getTrip:", err.message || err);
+    res.status(500).json({
+      success: false,
+      error: err.message || "Something went wrong",
+    });
   }
 };
 
 export const deleteTrip = async (req, res, next) => {
   try {
     const user_id = getUserIdFromToken(req, res);
-    if (!user_id) return;
+    if (!user_id) {
+      console.log("user id from token is not available");
+      return;
+    }
 
     const result = await deleteTripService(user_id);
 
@@ -88,7 +105,11 @@ export const deleteTrip = async (req, res, next) => {
       message: result.message,
     });
   } catch (err) {
-    next(err);
+    console.error("Unexpected error in deleteTrip:", err.message || err);
+    res.status(500).json({
+      success: false,
+      error: err.message || "Something went wrong",
+    });
   }
 };
 
@@ -98,13 +119,17 @@ export const editTrip = async (req, res, next) => {
     const { trip_name, start_date, end_date, description } = req.body;
 
     const user_id = getUserIdFromToken(req, res);
-    if (!user_id) return;
+    if (!user_id) {
+      console.log("user id from token is not available");
+      return;
+    }
 
-    const validationError = checkRequiredFields(
-      { trip_name, start_date, end_date },
-      res
-    );
-    if (validationError) return validationError;
+    const requiredFields = { trip_name, start_date, end_date };
+    const fieldsNotFound = checkRequiredFields(requiredFields, res);
+    if (fieldsNotFound) {
+      console.log("missing required fields");
+      return fieldsNotFound;
+    }
 
     const result = await editTripService(
       trip_id,
@@ -127,6 +152,10 @@ export const editTrip = async (req, res, next) => {
       trip: result.trip,
     });
   } catch (err) {
-    next(err);
+    console.error("Unexpected error in editTrip:", err.message || err);
+    res.status(500).json({
+      success: false,
+      error: err.message || "Something went wrong",
+    });
   }
 };

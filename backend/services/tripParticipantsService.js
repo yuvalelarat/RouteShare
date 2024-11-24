@@ -26,7 +26,7 @@ export const addParticipantService = async (
   if (entitiesNotFound) return { error: "Entities not found" };
 
   if (trip.user.user_id !== currentUserId) {
-    return { error: "Unauthorized" };
+    throw new Error("Unauthorized");
   }
 
   const existingParticipant = await tripParticipantRepository.findOne({
@@ -34,7 +34,7 @@ export const addParticipantService = async (
   });
 
   if (existingParticipant) {
-    return { error: "User is already a participant" };
+    throw new Error("User is already a participant");
   }
 
   const newTripParticipant = tripParticipantRepository.create({
@@ -76,11 +76,11 @@ export const removeParticipantService = async (
   if (entitiesNotFound) return { error: "Entities not found" };
 
   if (trip.user.user_id !== currentUserId) {
-    return { error: "Unauthorized" };
+    throw new Error("Unauthorized");
   }
 
   if (trip.user.user_id === user.user_id) {
-    return { error: "The trip creator cannot remove themselves" };
+    throw new Error("The trip creator cannot remove themselves");
   }
 
   const existingParticipant = await tripParticipantRepository.findOne({
@@ -88,7 +88,7 @@ export const removeParticipantService = async (
   });
 
   if (!existingParticipant) {
-    return { error: "User is not a participant" };
+    throw new Error("User is not a participant");
   }
 
   await tripParticipantRepository.delete({
@@ -116,14 +116,16 @@ export const editParticipantRoleService = async (
     [trip, user],
     ["Trip", "User"]
   );
-  if (entitiesNotFound) return { error: "Entities not found" };
+  if (entitiesNotFound) {
+    throw new Error("Entities not found");
+  }
 
   if (trip.user.user_id !== currentUserId) {
-    return { error: "Unauthorized" };
+    throw new Error("Unauthorized");
   }
 
   if (trip.user.user_id === user.user_id) {
-    return { error: "The trip creator cannot edit their own role" };
+    throw new Error("The trip creator cannot edit their own role");
   }
 
   const existingParticipant = await tripParticipantRepository.findOne({
@@ -132,7 +134,7 @@ export const editParticipantRoleService = async (
   });
 
   if (!existingParticipant) {
-    return { error: "User is not a participant" };
+    throw new Error("User is not a participant");
   }
 
   existingParticipant.role = new_role;
@@ -155,7 +157,7 @@ export const getAllParticipantsService = async (trip_id, currentUserId) => {
   });
 
   if (!trip) {
-    return { error: "Trip not found" };
+    throw new Error("Trip not found");
   }
 
   if (trip.user.user_id !== currentUserId) {
@@ -163,7 +165,7 @@ export const getAllParticipantsService = async (trip_id, currentUserId) => {
       (p) => p.user.user_id === currentUserId
     );
     if (!isParticipant) {
-      return { error: "Unauthorized" };
+      throw new Error("Unauthorized");
     }
   }
 

@@ -1,7 +1,6 @@
 import { Activity } from "../models/activity.js";
 import { Journey } from "../models/journey.js";
 import dataSource from "../db/connection.js";
-import { checkIfEntitiesExist } from "../utils/errorHelpers.js";
 
 const activityRepository = dataSource.getRepository(Activity);
 const journeyRepository = dataSource.getRepository(Journey);

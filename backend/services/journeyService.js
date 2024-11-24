@@ -1,11 +1,7 @@
 import { Journey } from "../models/journey.js";
 import { Trip } from "../models/trip.js";
 import dataSource from "../db/connection.js";
-import {
-  checkIfEntitiesExist,
-  checkRequiredFields,
-  getUserIdFromToken,
-} from "../utils/errorHelpers.js";
+import { checkIfEntitiesExist } from "../utils/errorHelpers.js";
 
 const journeyRepository = dataSource.getRepository(Journey);
 const tripRepository = dataSource.getRepository(Trip);
@@ -14,17 +10,14 @@ export const createJourneyService = async (
   { trip_id, day_number, country, description },
   user_id
 ) => {
-  const requiredFields = { trip_id, day_number, country };
-  const fieldsNotFound = checkRequiredFields(requiredFields);
-  if (fieldsNotFound) throw new Error("Required fields missing");
-
   const trip = await tripRepository.findOne({
     where: { trip_id },
     relations: ["user", "participants", "participants.user"],
   });
 
-  const entitiesNotFound = await checkIfEntitiesExist([trip], ["Trip"]);
-  if (entitiesNotFound) throw new Error("Trip not found");
+  if (!trip) {
+    throw new Error("Trip not found" );
+  }
 
   if (trip.user && trip.user.user_id !== user_id) {
     const participant = trip.participants.find(

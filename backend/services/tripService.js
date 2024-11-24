@@ -20,7 +20,7 @@ export const createTripService = async (
 
   const existingTrip = await tripRepository.findOneBy({ user: { user_id } });
   if (existingTrip) {
-    return { error: "User already has a trip. Cannot create another trip." };
+    throw new Error("User already has a trip. Cannot create another trip." );
   }
 
   const newTrip = tripRepository.create({
@@ -60,14 +60,14 @@ export const createTripService = async (
   };
 };
 
-export const getTripService = async (trip_id, user_id) => {
+export const getTripService = async (user_id) => {
   const trip = await dataSource.getRepository(Trip).findOne({
-    where: { trip_id },
+    where: { user: { user_id } },
     relations: ["user", "participants", "participants.user"],
   });
 
   if (!trip) {
-    return { error: "Trip not found" };
+    throw new Error("Trip not found");
   }
 
   if (trip.user.user_id !== user_id) {
@@ -75,10 +75,9 @@ export const getTripService = async (trip_id, user_id) => {
       (p) => p.user.user_id === user_id
     );
     if (!participant || !["view", "edit"].includes(participant.role)) {
-      return {
-        error:
-          "You must be a participant with 'view' or 'edit' role to access this trip",
-      };
+      throw new Error(
+        "You must be a participant with 'view' or 'edit' role to access this trip"
+      );
     }
   }
 
@@ -100,11 +99,11 @@ export const deleteTripService = async (user_id) => {
   });
 
   if (!trip) {
-    return { error: "Trip not found" };
+    throw new Error("Trip not found");
   }
 
   if (trip.user.user_id !== user_id) {
-    return { error: "You can only delete your own trips" };
+    throw new Error("You can only delete your own trips");
   }
 
   await tripRepository.delete(trip.trip_id);
@@ -126,7 +125,7 @@ export const editTripService = async (
   });
 
   if (!trip) {
-    return { error: "Trip not found" };
+    throw new Error("Trip not found");
   }
 
   if (trip.user.user_id !== user_id) {
@@ -134,10 +133,9 @@ export const editTripService = async (
       (p) => p.user.user_id === user_id
     );
     if (!participant || !["edit"].includes(participant.role)) {
-      return {
-        error:
-          "You must be the trip owner or a participant with 'edit' role to edit this trip",
-      };
+      throw new Error(
+        "You must be the trip owner or a participant with 'edit' role to edit this trip"
+      );
     }
   }
 

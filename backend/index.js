@@ -10,7 +10,6 @@ import tripsRouter from "./routes/tripsRoute.js";
 import tripPaticipantsRouter from "./routes/tripParticipantsRoute.js";
 import journeysRouter from "./routes/journeysRoute.js";
 import activitiesRouter from "./routes/activitiesRoute.js";
-import errorMiddleware from "./middleware/errorMiddleware.js";
 
 dotenv.config();
 
@@ -39,8 +38,6 @@ app.use("/participants", authenticateToken, tripPaticipantsRouter);
 app.use("/journeys", authenticateToken, journeysRouter);
 app.use("/activities", authenticateToken, activitiesRouter);
 
-//errir middleware
-app.use(errorMiddleware);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);

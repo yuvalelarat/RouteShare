@@ -14,11 +14,17 @@ export const addParticipant = async (req, res) => {
 
   try {
     const currentUserId = getUserIdFromToken(req, res);
-    if (!currentUserId) return;
+    if (!currentUserId) {
+      console.log("user id from token is not available");
+      return;
+    }
 
     const requiredFields = { trip_id, email, role };
     const fieldsNotFound = checkRequiredFields(requiredFields, res);
-    if (fieldsNotFound) return;
+    if (fieldsNotFound) {
+      console.log("missing required fields");
+      return;
+    }
 
     const result = await addParticipantService(
       trip_id,
@@ -40,7 +46,11 @@ export const addParticipant = async (req, res) => {
       participant: result,
     });
   } catch (err) {
-    next(err);
+    console.error("Unexpected error in addParticipant:", err.message || err);
+    res.status(500).json({
+      success: false,
+      error: err.message || "Something went wrong",
+    });
   }
 };
 
@@ -49,11 +59,17 @@ export const removeParticipant = async (req, res) => {
 
   try {
     const currentUserId = getUserIdFromToken(req, res);
-    if (!currentUserId) return;
+    if (!currentUserId) {
+      console.log("user id from token is not available");
+      return;
+    }
 
     const requiredFields = { trip_id, email };
     const fieldsNotFound = checkRequiredFields(requiredFields, res);
-    if (fieldsNotFound) return;
+    if (fieldsNotFound) {
+      console.log("missing required fields");
+      return;
+    }
 
     const result = await removeParticipantService(
       trip_id,
@@ -73,7 +89,11 @@ export const removeParticipant = async (req, res) => {
       message: "User removed as participant.",
     });
   } catch (err) {
-    next(err);
+    console.error("Unexpected error in removeParticipant:", err.message || err);
+    res.status(500).json({
+      success: false,
+      error: err.message || "Something went wrong",
+    });
   }
 };
 
@@ -82,11 +102,17 @@ export const editParticipantRole = async (req, res) => {
 
   try {
     const currentUserId = getUserIdFromToken(req, res);
-    if (!currentUserId) return;
+    if (!currentUserId) {
+      console.log("user id from token is not available");
+      return;
+    }
 
     const requiredFields = { trip_id, email, new_role };
     const fieldsNotFound = checkRequiredFields(requiredFields, res);
-    if (fieldsNotFound) return;
+    if (fieldsNotFound) {
+      console.log("missing required fields");
+      return;
+    }
 
     const result = await editParticipantRoleService(
       trip_id,
@@ -108,7 +134,14 @@ export const editParticipantRole = async (req, res) => {
       participant: result,
     });
   } catch (err) {
-    next(err);
+    console.error(
+      "Unexpected error in editParticipantRole:",
+      err.message || err
+    );
+    res.status(500).json({
+      success: false,
+      error: err.message || "Something went wrong",
+    });
   }
 };
 
@@ -117,7 +150,10 @@ export const getAllparticipants = async (req, res) => {
 
   try {
     const currentUserId = getUserIdFromToken(req, res);
-    if (!currentUserId) return;
+    if (!currentUserId) {
+      console.log("user id from token is not available");
+      return;
+    }
 
     const result = await getAllParticipantsService(trip_id, currentUserId);
 
@@ -133,6 +169,13 @@ export const getAllparticipants = async (req, res) => {
       participants: result.participants,
     });
   } catch (err) {
-    next(err);
+    console.error(
+      "Unexpected error in getAllparticipants:",
+      err.message || err
+    );
+    res.status(500).json({
+      success: false,
+      error: err.message || "Something went wrong",
+    });
   }
 };

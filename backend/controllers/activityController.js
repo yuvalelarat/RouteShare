@@ -1,4 +1,7 @@
-import { getUserIdFromToken } from "../utils/errorHelpers.js";
+import {
+  getUserIdFromToken,
+  checkRequiredFields,
+} from "../utils/errorHelpers.js";
 import {
   createActivityService,
   deleteActivityService,
@@ -7,11 +10,22 @@ import {
 
 export const createActivity = async (req, res) => {
   const { journey_id } = req.params;
-  const { activity_name, location, cost, activity_type, description } = req.body;
+  const { activity_name, location, cost, activity_type, description } =
+    req.body;
 
   try {
     const user_id = getUserIdFromToken(req, res);
-    if (!user_id) return;
+    if (!user_id) {
+      console.log("user id from token is not available");
+      return;
+    }
+
+    const requiredFields = { activity_name, location };
+    const fieldsNotFound = checkRequiredFields(requiredFields, res);
+    if (fieldsNotFound) {
+      console.log("missing required fields");
+      return fieldsNotFound;
+    }
 
     const newActivity = await createActivityService(
       journey_id,
@@ -28,8 +42,11 @@ export const createActivity = async (req, res) => {
       activity: newActivity,
     });
   } catch (err) {
-    console.error("Error creating activity:", err);
-    next(err);
+    console.error("Unexpected error in createActivity:", err.message || err);
+    res.status(500).json({
+      success: false,
+      error: err.message || "Something went wrong",
+    });
   }
 };
 
@@ -38,7 +55,10 @@ export const deleteActivity = async (req, res) => {
 
   try {
     const user_id = getUserIdFromToken(req, res);
-    if (!user_id) return;
+    if (!user_id) {
+      console.log("user id from token is not available");
+      return;
+    }
 
     const success = await deleteActivityService(activity_id, user_id);
 
@@ -54,18 +74,32 @@ export const deleteActivity = async (req, res) => {
       });
     }
   } catch (err) {
-    console.error("Error deleting activity:", err);
-    next(err);
+    console.error("Unexpected error in deleteActivity:", err.message || err);
+    res.status(500).json({
+      success: false,
+      error: err.message || "Something went wrong",
+    });
   }
 };
 
 export const updateActivity = async (req, res) => {
   const { activity_id } = req.params;
-  const { activity_name, location, cost, activity_type, description } = req.body;
+  const { activity_name, location, cost, activity_type, description } =
+    req.body;
 
   try {
     const user_id = getUserIdFromToken(req, res);
-    if (!user_id) return;
+    if (!user_id) {
+      console.log("user id from token is not available");
+      return;
+    }
+
+    const requiredFields = { activity_name, location };
+    const fieldsNotFound = checkRequiredFields(requiredFields, res);
+    if (fieldsNotFound) {
+      console.log("missing required fields");
+      return fieldsNotFound;
+    }
 
     const activityData = {
       activity_name,
@@ -87,7 +121,10 @@ export const updateActivity = async (req, res) => {
       activity: updatedActivity,
     });
   } catch (err) {
-    console.error("Error updating activity:", err);
-    next(err);
+    console.error("Unexpected error in updateActivity:", err.message || err);
+    res.status(500).json({
+      success: false,
+      error: err.message || "Something went wrong",
+    });
   }
 };
