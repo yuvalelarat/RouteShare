@@ -147,14 +147,17 @@ export const getActivitiesByJourneyIdService = async (journey_id, user_id) => {
       const participant = journey.trip.participants.find(
         (p) => p.user.user_id === user_id
       );
-      if (!participant || participant.role !== "edit", participant.role !== "view") {
+      
+      if (
+        !participant ||
+        (participant.role !== "edit" && participant.role !== "view")
+      ) {
         throw new Error(
           "You do not have permission to view activities for this journey."
         );
       }
     }
 
-    
     return journey.activities;
   } catch (err) {
     throw new Error(err.message || "Error retrieving activities");
