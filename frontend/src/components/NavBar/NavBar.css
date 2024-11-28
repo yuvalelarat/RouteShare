@@ -1,14 +1,17 @@
 .logo-img {
-    margin-right: "8px";
-    display: "flex";
-    height: "55px";
+  margin-right: 8px;
+  display: flex;
+  height: 55px;
 }
 
 @media (max-width: 900px) {
+  .logo-img {
+    height: 50px;
+  }
+}
+
+@media (max-width: 600px) {
     .logo-img {
-        margin-right: "0px";
-        display: "none";
-        height: "55px";
+      height: 45px;
     }
   }
-  
