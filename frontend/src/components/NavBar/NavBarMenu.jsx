@@ -5,9 +5,8 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
 
-function NavBarMenu({ pages }) {
+function NavBarMenu({ pages, handleNavigation }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -47,14 +46,15 @@ function NavBarMenu({ pages }) {
         sx={{ display: { xs: "block", md: "none" } }}
       >
         {pages.map((page) => (
-          <MenuItem key={page} onClick={handleCloseNavMenu}>
+          <MenuItem
+            key={page}
+            onClick={() => {
+              handleCloseNavMenu();
+              handleNavigation(page);
+            }}
+          >
             <Typography sx={{ textAlign: "center", color: "black" }}>
-              <Link
-                to={`/${page.toLowerCase().replace(" ", "-")}`}
-                style={{ textDecoration: "none", color: "black" }}
-              >
-                {page}
-              </Link>
+              {page}
             </Typography>
           </MenuItem>
         ))}

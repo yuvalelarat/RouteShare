@@ -9,9 +9,14 @@ import NavBarMenu from "./NavBarMenu";
 import NavBarLogo from "./NavBarLogo";
 import { pages } from "./constants";
 import { desktopTypographyStyle, mobileTypographyStyle } from "./styles.js";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function NavBar() {
+  const navigate = useNavigate();
+
+  const handleNavigation = (page) => {
+    navigate(`/${page.toLowerCase().replace(" ", "-")}`);
+  };
   return (
     <AppBar
       position="static"
@@ -19,24 +24,25 @@ function NavBar() {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* Desktop View */}
+          {/* Mobile Menu */}
+          <NavBarMenu pages={pages} handleNavigation={handleNavigation} />
+          <NavBarLogo />
+          {/* Desktop Title */}
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            onClick={() => navigate("/")}
             sx={desktopTypographyStyle}
           >
             TRIPSYNC
           </Typography>
-          {/* Mobile Menu */}
-          <NavBarMenu pages={pages} />
-          <NavBarLogo />
+          {/* Mobile Title */}
           <Typography
             variant="h5"
             noWrap
             component="a"
-            href="/"
+            onClick={() => navigate("/")}
             sx={mobileTypographyStyle}
           >
             TRIPSYNC
@@ -46,8 +52,7 @@ function NavBar() {
             {pages.map((page) => (
               <Button
                 key={page}
-                component={Link} // This is where you use `Link` on the buttons
-                to={`/${page.toLowerCase().replace(" ", "-")}`} // Map pages to routes
+                onClick={() => handleNavigation(page)}
                 sx={{ my: 2, color: "black", display: "block" }}
               >
                 {page}
