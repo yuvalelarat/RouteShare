@@ -7,7 +7,9 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import NavBarMenu from "./NavBarMenu";
 import NavBarLogo from "./NavBarLogo";
-import { pages, desktopTypography, mobileTypography } from "./constants";
+import { pages } from "./constants";
+import { desktopTypographyStyle, mobileTypographyStyle } from "./styles.js";
+import { Link } from "react-router-dom";
 
 function NavBar() {
   return (
@@ -23,7 +25,7 @@ function NavBar() {
             noWrap
             component="a"
             href="/"
-            sx={desktopTypography}
+            sx={desktopTypographyStyle}
           >
             TRIPSYNC
           </Typography>
@@ -35,7 +37,7 @@ function NavBar() {
             noWrap
             component="a"
             href="/"
-            sx={mobileTypography}
+            sx={mobileTypographyStyle}
           >
             TRIPSYNC
           </Typography>
@@ -44,6 +46,8 @@ function NavBar() {
             {pages.map((page) => (
               <Button
                 key={page}
+                component={Link} // This is where you use `Link` on the buttons
+                to={`/${page.toLowerCase().replace(" ", "-")}`} // Map pages to routes
                 sx={{ my: 2, color: "black", display: "block" }}
               >
                 {page}
