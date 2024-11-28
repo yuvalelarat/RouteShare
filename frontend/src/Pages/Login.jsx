@@ -1,8 +1,12 @@
 import React from "react";
+import PageTitle from "../components/common/PageTitle";
 
 function Login() {
   return (
-    <p>HERE WILL BE THE LOGIN PAGE</p>
+    <>
+      <PageTitle title={"Login"} />
+      <p>HERE WILL BE THE LOGIN PAGE</p>
+    </>
   );
 }
 

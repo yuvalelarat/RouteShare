@@ -1,8 +1,12 @@
 import React from "react";
+import PageTitle from "../components/common/PageTitle";
 
 function Register() {
   return (
-    <p>HERE WILL BE THE REGISTER PAGE</p>
+    <>
+      <PageTitle title={"Register"} />
+      <p>HERE WILL BE THE REGISTER PAGE</p>
+    </>
   );
 }
 
