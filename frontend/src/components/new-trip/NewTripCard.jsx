@@ -5,6 +5,7 @@ import { CustomAlert } from '../common/CustomAlert.jsx';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
+import { fields } from './constants.js';
 import { Box, FormControl, Input, InputAdornment, InputLabel, TextField } from '@mui/material';
 import { boxStyle, cardStyle, cardContentStyle } from './styles';
 import './NewTripCard.css';
@@ -28,16 +29,31 @@ function NewTripCard() {
 
     const navigate = useNavigate();
 
-
     const handleFieldChange = (key, value) => {
+
         setErrors((prev) => ({ ...prev, [key]: false }));
+
+        if (key === 'tripName') {
+            if (value.length > 35) value = value.slice(0, 35);
+        }
+
+        if (key === 'description') {
+            if (value.length > 350) value = value.slice(0, 350);
+        }
+
+        //validation: ensure endDate is not earlier than startDate
+        if (key === 'startDate' && formValues.endDate && value > formValues.endDate) {
+            setErrors((prev) => ({ ...prev, endDate: true }));
+        }
+        if (key === 'endDate' && value < formValues.startDate) {
+            setErrors((prev) => ({ ...prev, endDate: true }));
+        }
         setFormValues((prev) => ({ ...prev, [key]: value }));
     };
 
     const handleNavigate = () => {
         navigate('/');
     };
-
 
     const handleSave = () => {
         const newErrors = {
@@ -62,92 +78,74 @@ function NewTripCard() {
     };
 
     const handleAlertClose = () => {
-        setAlertOpen(false); // Close the alert manually when clicked
+        setAlertOpen(false);
     };
 
-
     return (
-        <>
-            <Box sx={boxStyle}>
-                <CustomAlert
-                    type="error"
-                    message={alertMessage}
-                    open={alertOpen}
-                    handleClose={handleAlertClose}
-                />
-                <Card sx={cardStyle}>
-                    <CardContent sx={cardContentStyle}>
-                        <TextField
-                            id="trip-name"
-                            label="Trip name*"
-                            variant="standard"
-                            value={formValues.tripName}
-                            className="trip-name"
-                            onChange={(e) => handleFieldChange('tripName', e.target.value)}
-                            error={errors.tripName}
-                        />
-                        <FormControl variant="standard" type="date" error={errors.startDate}>
-                            <InputLabel htmlFor="input-with-icon-adornment">
-                                Start Date*
-                            </InputLabel>
-                            <Input
-                                id="start-date"
-                                type="date"
-                                value={formValues.startDate}
-                                className="date-field"
-                                onChange={(e) => handleFieldChange('startDate', e.target.value)}
-                                startAdornment={
-                                    <InputAdornment position="start">
-                                    </InputAdornment>
-                                }
+        <Box sx={boxStyle}>
+            <CustomAlert
+                type="error"
+                message={alertMessage}
+                open={alertOpen}
+                handleClose={handleAlertClose}
+            />
+            <Card sx={cardStyle}>
+                <CardContent sx={cardContentStyle}>
+                    {fields.map((field) => {
+                        const minValue = field.min || (field.getMin && field.getMin(formValues));
+                        const helperText = field.helperText
+                            ? field.helperText(formValues[field.valueKey] || '')
+                            : '';
+                        return field.multiline ? (
+                            <TextField
+                                key={field.id}
+                                id={field.id}
+                                label={field.label}
+                                variant="outlined"
+                                multiline={field.multiline || false}
+                                rows={field.rows || undefined}
+                                value={formValues[field.valueKey]}
+                                className={field.id}
+                                onChange={(e) => {
+                                    const maxLength = field.maxLength || Infinity;
+                                    const value = e.target.value.slice(0, maxLength);
+                                    handleFieldChange(field.valueKey, value);
+                                }}
+                                helperText={helperText}
                             />
-                        </FormControl>
-                        <FormControl variant="standard" type="date" error={errors.endDate}>
-                            <InputLabel htmlFor="input-with-icon-adornment">
-                                End Date*
-                            </InputLabel>
-                            <Input
-                                id="end-date"
-                                type="date"
-                                value={formValues.endDate}
-                                className="date-field"
-                                onChange={(e) => handleFieldChange('endDate', e.target.value)}
-                                startAdornment={
-                                    <InputAdornment position="start">
-                                    </InputAdornment>
-                                }
-                            />
-                        </FormControl>
-                        <TextField
-                            id="description"
-                            label="Description"
-                            variant="outlined"
-                            multiline
-                            rows={5}
-                            value={formValues.description}
-                            className="description"
-                            onChange={(e) => handleFieldChange('description', e.target.value)}
-                        />
-                    </CardContent>
-                    <CardActions sx={{ justifyContent: 'space-between' }}>
-                        <Button
-                            variant="contained"
-                            disableElevation={true}
-                            color="error"
-                            onClick={handleNavigate}>
-                            Cancel
-                        </Button>
-                        <Button
-                            variant="contained"
-                            disableElevation={true}
-                            color="success"
-                            onClick={handleSave}>
-                            Save
-                        </Button>
-                    </CardActions>
-                </Card>
-            </Box>
-        </>
+                        ) : (
+                            <FormControl
+                                key={field.id}
+                                variant="standard"
+                                error={field.errorKey ? errors[field.errorKey] : false}>
+                                <InputLabel htmlFor={field.id}>{field.label}</InputLabel>
+                                <Input
+                                    id={field.id}
+                                    type={field.type}
+                                    value={formValues[field.valueKey]}
+                                    className={field.id}
+                                    onChange={(e) => handleFieldChange(field.valueKey, e.target.value)}
+                                    inputProps={minValue ? { min: minValue } : {}}
+                                    startAdornment={<InputAdornment position="start"></InputAdornment>}
+                                />
+                            </FormControl>
+                        );
+                    })}
+                </CardContent>
+                <CardActions sx={{ justifyContent: 'space-between' }}>
+                    <Button
+                        variant="contained"
+                        disableElevation={true}
+                        color="error"
+                        onClick={handleNavigate}>
+                        Cancel
+                    </Button>
+                    <Button variant="contained" disableElevation={true} color="success" onClick={handleSave}>
+                        Save
+                    </Button>
+                </CardActions>
+            </Card>
+        </Box>
     );
 }
 

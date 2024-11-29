@@ -1,40 +1,44 @@
-import { textFieldColors, DateFieldColors } from "./styles.js";
+const localToday = new Date();
+export const today = localToday.toLocaleDateString('en-CA');
 
-export const today = new Date().toISOString().split("T")[0];
-
-export const fieldsConfig = [
-  {
-    id: "trip-name",
-    label: "Trip name",
-    type: "text",
-    valueKey: "tripName",
-    maxLength: 44,
-    sx: { ...textFieldColors, width: "55%" },
-  },
-  {
-    id: "start-date",
-    label: "Start date",
-    type: "date",
-    valueKey: "startDate",
-    refKey: "startDateInputRef",
-    sx: DateFieldColors,
-  },
-  {
-    id: "end-date",
-    label: "End date",
-    type: "date",
-    valueKey: "endDate",
-    refKey: "endDateInputRef",
-    sx: DateFieldColors,
-  },
-  {
-    id: "description",
-    label: "Description",
-    type: "text",
-    multiline: true,
-    rows: 5,
-    valueKey: "description",
-    maxLength: 410,
-    sx: textFieldColors,
-  },
+export const fields = [
+    {
+        id: 'trip-name',
+        label: 'Trip name*',
+        type: 'text',
+        valueKey: 'tripName',
+        errorKey: 'tripName',
+        multiline: true,
+        maxLength: 35,
+        helperText: (value) => `${value.length}/35 characters`
+    },
+    {
+        id: 'start-date',
+        label: 'Start Date*',
+        type: 'date',
+        valueKey: 'startDate',
+        errorKey: 'startDate',
+        multiline: false,
+        min: today
+    },
+    {
+        id: 'end-date',
+        label: 'End Date*',
+        type: 'date',
+        valueKey: 'endDate',
+        errorKey: 'endDate',
+        multiline: false,
+        getMin: (formValues) => formValues.startDate || today
+    },
+    {
+        id: 'description',
+        label: 'Description',
+        type: 'text',
+        valueKey: 'description',
+        errorKey: 'tripName',
+        multiline: true,
+        rows: 5,
+        maxLength: 350,
+        helperText: (value) => `${value.length}/350 characters`
+    }
 ];

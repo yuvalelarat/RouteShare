@@ -5,7 +5,15 @@
     }
 }
 
-.date-field {
+.start-date {
+    width: 30%;
+    min-width: 8rem;
+    @media (max-width: 800px) {
+        width: 50%;
+    }
+}
+
+.end-date {
     width: 30%;
     min-width: 8rem;
     @media (max-width: 800px) {
