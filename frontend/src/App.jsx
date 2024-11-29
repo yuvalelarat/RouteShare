@@ -1,5 +1,5 @@
-import "./App.css";
-import Navbar from "./components/NavBar/NavBar";
+import "./styles/global.css";
+import Header from "./components/Header/Header.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "./Pages/MainPage.jsx";
 import Login from "./Pages/Login.jsx";
@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar />
+        <Header />
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/login" element={<Login />} />
