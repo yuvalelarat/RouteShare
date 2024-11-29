@@ -5,10 +5,9 @@ import { CustomAlert } from '../common/CustomAlert.jsx';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import { Box, FormControl, Input, InputAdornment, InputLabel, TextField, Typography } from '@mui/material';
+import { Box, FormControl, Input, InputAdornment, InputLabel, TextField } from '@mui/material';
 import { boxStyle, cardStyle, cardContentStyle } from './styles';
 import './NewTripCard.css';
-import { stringToUrlFormat } from '../../utils/common.utils.js';
 
 function NewTripCard() {
     const [formValues, setFormValues] = useState({
