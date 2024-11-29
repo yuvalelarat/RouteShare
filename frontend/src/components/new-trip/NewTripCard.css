@@ -1,0 +1,21 @@
+.trip-name {
+    width: 50%;
+    @media (max-width: 800px) {
+        width: 70%;
+    }
+}
+
+.date-field {
+    width: 30%;
+    min-width: 8rem;
+    @media (max-width: 800px) {
+        width: 50%;
+    }
+}
+
+.description {
+    width: 100%;
+    @media (max-width: 800px) {
+        width: 100%;
+    }
+}

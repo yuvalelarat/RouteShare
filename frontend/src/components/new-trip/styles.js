@@ -1,7 +1,7 @@
 export const textFieldColors = {};
 
 export const DateFieldColors = {
-    width: '35%',
+    width: '35%'
 };
 
 export const boxStyle = {
@@ -11,6 +11,7 @@ export const boxStyle = {
     alignItems: 'center',
     textAlign: 'center',
     padding: '16px',
+    position: 'relative'
 };
 
 export const cardStyle = {
@@ -24,16 +25,16 @@ export const cardStyle = {
     padding: 3,
     '@media (max-width: 900px)': {
         width: '80%',
-        padding: '2rem',
+        padding: '2rem'
     },
     '@media (max-width: 600px)': {
         width: '90%',
-        padding: '1rem',
-    },
+        padding: '1rem'
+    }
 };
 
 export const cardContentStyle = {
     display: 'flex',
     flexDirection: 'column',
-    gap: 2,
+    gap: 2
 };
