@@ -1,0 +1,11 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    width: 33%;
+    justify-content: center;
+
+    @media (max-width: 900px) {
+        display: none;
+    }
+}
