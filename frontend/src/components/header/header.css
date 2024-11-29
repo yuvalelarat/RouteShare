@@ -3,10 +3,72 @@
     flex-direction: row;
     gap: 12px;
     width: 50%;
-    outline: 1px solid red;
     justify-content: center;
 
-    @media (max-width: 900px) {
+    @media (max-width: 800px) {
         display: none;
     }
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+
+    @media (max-width: 800px) {
+        display: block;
+    }
+}
+
+.header-container {
+    display: flex;
+    padding: 0 24px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-lightblue);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.header-left {
+    display: flex;
+    width: 25%;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-greeting {
+    width: 25%;
+    text-align: end;
+    @media (max-width: 800px) {
+        display: none;
+    }
+}
+
+.text-ellipsis {
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.drawer-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-wrap: nowrap;
+    text-align: center;
+}
+
+.drawer-hello {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    margin: 0;
+}
+
+.button-style {
+    color: black !important;
+    white-space: nowrap;
 }
