@@ -2,7 +2,7 @@ import PageTitle from '../components/common/PageTitle';
 import LoginCard from '../components/login/LoginCard.jsx';
 import UnderCard from '../components/login/UnderCard.jsx';
 
-function Login() {
+function LoginPage() {
     return (
         <>
             <PageTitle title={'Login'} />
@@ -12,4 +12,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default LoginPage;

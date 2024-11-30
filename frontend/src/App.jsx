@@ -2,10 +2,10 @@ import './styles/global.css';
 import Header from './components/header/Header.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainPage from './Pages/MainPage.jsx';
-import Login from './Pages/Login.jsx';
-import Register from './Pages/Register.jsx';
-import NewTrip from './Pages/NewTrip.jsx';
-import MyTrips from './Pages/MyTrips.jsx';
+import LoginPage from './Pages/LoginPage.jsx';
+import RegisterPage from './Pages/RegisterPage.jsx';
+import NewTripPage from './Pages/NewTripPage.jsx';
+import MyTripsPage from './Pages/MyTripsPage.jsx';
 
 function App() {
     return (
@@ -14,10 +14,10 @@ function App() {
                 <Header />
                 <Routes>
                     <Route path="/" element={<MainPage />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/my-trips" element={<MyTrips />} />
-                    <Route path="/new-trip" element={<NewTrip />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/my-trips" element={<MyTripsPage />} />
+                    <Route path="/new-trip" element={<NewTripPage />} />
                 </Routes>
             </BrowserRouter>
         </>

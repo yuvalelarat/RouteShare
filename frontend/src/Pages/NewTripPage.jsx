@@ -2,7 +2,7 @@ import React from 'react';
 import NewTripCard from '../components/new-trip/NewTripCard';
 import PageTitle from '../components/common/PageTitle';
 
-function NewTrip() {
+function NewTripPage() {
     return (
         <>
             <PageTitle title={'Create a new trip'} />
@@ -11,4 +11,4 @@ function NewTrip() {
     );
 }
 
-export default NewTrip;
+export default NewTripPage;

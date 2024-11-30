@@ -1,0 +1,54 @@
+.trip-details {
+    padding-left: 2rem;
+}
+
+.truncate-header-trip {
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 1000px) {
+    .trip-details {
+        padding-left: 0;
+    }
+}
+
+.buttonDiv {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    padding-right: 2rem;
+}
+
+@media (max-width: 1000px) {
+    .buttonDiv {
+        padding-right: 0;
+    }
+}
+
+.view-edit-button {
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: #bfe2ff !important;
+}
+
+.share-button {
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: #c7ffb5 !important;
+}
+
+.expenses-button {
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: #fff4b1 !important;
+}
+
+.delete-button {
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: #ff7373 !important;
+}

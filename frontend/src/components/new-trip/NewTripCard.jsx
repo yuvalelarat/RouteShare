@@ -34,7 +34,7 @@ function NewTripCard() {
         setErrors((prev) => ({ ...prev, [key]: false }));
 
         if (key === 'tripName') {
-            if (value.length > 35) value = value.slice(0, 35);
+            if (value.length > 29) value = value.slice(0, 29);
         }
 
         if (key === 'description') {
