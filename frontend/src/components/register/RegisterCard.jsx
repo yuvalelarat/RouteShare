@@ -7,7 +7,7 @@ import { boxStyle, cardContentStyle, cardStyle } from './styles.js';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { CustomAlert } from '../common/CustomAlert.jsx';
-import { isValidEmail } from '../../utils/common.utils.js';
+import { formFields } from './constants.js';
 
 function LoginCard() {
     const [fields, setFields] = useState({
@@ -16,6 +16,7 @@ function LoginCard() {
         email: '',
         password: ''
     });
+
     const [errors, setErrors] = useState({
         firstName: false,
         lastName: false,
@@ -25,20 +26,6 @@ function LoginCard() {
 
     const [alertOpen, setAlertOpen] = useState(false);
     const navigate = useNavigate();
-
-    const validateField = (fieldName, value) => {
-        switch (fieldName) {
-            case 'firstName':
-            case 'lastName':
-                return !value;
-            case 'email':
-                return !value || !isValidEmail(value);
-            case 'password':
-                return !value;
-            default:
-                return false;
-        }
-    };
 
     const handleChange = (field) => (e) => {
         setFields((prevFields) => ({
@@ -54,10 +41,16 @@ function LoginCard() {
         }
     };
 
+    const validateField = (fieldName, value) => {
+        const field = formFields.find((field) => field.name === fieldName);
+        return field?.validate(value);
+    };
+
     const handleSubmit = () => {
         let isValid = true;
         const newErrors = {};
 
+        // Validate each field based on the form configuration
         Object.keys(fields).forEach((field) => {
             const hasError = validateField(field, fields[field]);
             if (hasError) {
@@ -70,7 +63,7 @@ function LoginCard() {
 
         if (isValid) {
             setAlertOpen(false);
-            navigate('/'); //TODO Navigate on successful validation
+            navigate('/'); // TODO: Navigate on successful validation
         } else {
             setAlertOpen(true);
         }
@@ -89,39 +82,18 @@ function LoginCard() {
             />
             <Card sx={cardStyle}>
                 <CardContent sx={cardContentStyle}>
-                    <TextField
-                        label="First name"
-                        variant="outlined"
-                        value={fields.firstName}
-                        onChange={handleChange('firstName')}
-                        error={errors.firstName}
-                        helperText={errors.firstName ? 'First name is required' : ''}
-                    />
-                    <TextField
-                        label="Last name"
-                        variant="outlined"
-                        value={fields.lastName}
-                        onChange={handleChange('lastName')}
-                        error={errors.lastName}
-                        helperText={errors.lastName ? 'Last name is required' : ''}
-                    />
-                    <TextField
-                        label="Email"
-                        variant="outlined"
-                        value={fields.email}
-                        onChange={handleChange('email')}
-                        error={errors.email}
-                        helperText={errors.email ? 'Please enter a valid email address' : ''}
-                    />
-                    <TextField
-                        label="Password"
-                        variant="outlined"
-                        type="password"
-                        value={fields.password}
-                        onChange={handleChange('password')}
-                        error={errors.password}
-                        helperText={errors.password ? 'Password is required' : ''}
-                    />
+                    {formFields.map((field) => (
+                        <TextField
+                            key={field.name}
+                            label={field.label}
+                            variant="outlined"
+                            type={field.type}
+                            value={fields[field.name]}
+                            onChange={handleChange(field.name)}
+                            error={errors[field.name]}
+                            helperText={errors[field.name] ? field.helperText : ''}
+                        />
+                    ))}
                 </CardContent>
                 <CardActions sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
                     <Button variant="contained" disableElevation={true} onClick={handleSubmit}>

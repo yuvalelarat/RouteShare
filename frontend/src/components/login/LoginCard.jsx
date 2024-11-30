@@ -7,6 +7,7 @@ import { boxStyle, cardContentStyle, cardStyle } from './styles.js';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { CustomAlert } from '../common/CustomAlert.jsx';
+import { formFields } from './constants.js';
 
 function LoginCard() {
     const [fields, setFields] = useState({
@@ -66,8 +67,8 @@ function LoginCard() {
     const handleAlertClose = () => setAlertOpen(false);
 
     const handleNavigate = (action) => {
-        if (action === 'signUp') {
-            navigate('/sign-up');
+        if (action === 'register') {
+            navigate('/register');
         } else {
             navigate('/'); // Navigate on successful login (or validation)
         }
@@ -83,27 +84,22 @@ function LoginCard() {
             />
             <Card sx={cardStyle}>
                 <CardContent sx={cardContentStyle}>
-                    <TextField
-                        label="Email"
-                        variant="outlined"
-                        value={fields.email}
-                        onChange={handleChange('email')}
-                        error={errors.email}
-                        helperText={errors.email ? 'Please enter a valid email address' : ''}
-                    />
-                    <TextField
-                        label="Password"
-                        variant="outlined"
-                        type="password"
-                        value={fields.password}
-                        onChange={handleChange('password')}
-                        error={errors.password}
-                        helperText={errors.password ? 'Password is required' : ''}
-                    />
+                    {formFields.map((field) => (
+                        <TextField
+                            key={field.name}
+                            label={field.label}
+                            variant="outlined"
+                            type={field.type}
+                            value={fields[field.name]}
+                            onChange={handleChange(field.name)}
+                            error={errors[field.name]}
+                            helperText={errors[field.name] ? field.helperText : ''}
+                        />
+                    ))}
                 </CardContent>
                 <CardActions sx={{ justifyContent: 'space-between' }}>
-                    <Button variant="outlined" onClick={() => handleNavigate('signUp')}>
-                        Sign up
+                    <Button variant="outlined" onClick={() => handleNavigate('register')}>
+                        Register
                     </Button>
                     <Button variant="contained" disableElevation={true} onClick={handleSubmit}>
                         Login
