@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { CustomAlert } from '../common/CustomAlert.jsx';
 import { formFields } from './constants.js';
+import './RegisterCard.css';
 
 function LoginCard() {
     const [fields, setFields] = useState({
@@ -96,8 +97,8 @@ function LoginCard() {
                     ))}
                 </CardContent>
                 <CardActions sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
-                    <Button variant="contained" disableElevation={true} onClick={handleSubmit}>
-                        Login
+                    <Button variant="contained" disableElevation onClick={handleSubmit} className={'login-button'}>
+                        Register
                     </Button>
                 </CardActions>
             </Card>

@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { CustomAlert } from '../common/CustomAlert.jsx';
 import { formFields } from './constants.js';
+import './LoginCard.css';
 
 function LoginCard() {
     const [fields, setFields] = useState({
@@ -24,8 +25,8 @@ function LoginCard() {
 
     const validateField = (fieldName, value) => {
         if (value.trim() === '') return true;
-        if (fieldName === 'email' && !/\S+@\S+\.\S+/.test(value)) return true;
-        return false;
+        return fieldName === 'email' && !/\S+@\S+\.\S+/.test(value);
+
     };
 
     const handleChange = (field) => (e) => {
@@ -98,10 +99,11 @@ function LoginCard() {
                     ))}
                 </CardContent>
                 <CardActions sx={{ justifyContent: 'space-between' }}>
-                    <Button variant="outlined" onClick={() => handleNavigate('register')}>
+                    <Button variant="outlined" className={'register-button'} onClick={() => handleNavigate('register')}>
                         Register
                     </Button>
-                    <Button variant="contained" disableElevation={true} onClick={handleSubmit}>
+                    <Button variant="contained" disableElevation onClick={handleSubmit}
+                            className={'login-button'}>
                         Login
                     </Button>
                 </CardActions>

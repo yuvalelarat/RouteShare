@@ -1,0 +1,17 @@
+.login-button {
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: #99ccff !important;
+}
+
+.register-button {
+    outline: 1px solid #376cdf !important;
+    color: #376cdf !important;
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.register-button:hover {
+    background-color: #a1befa !important;
+    color: black !important;
+}

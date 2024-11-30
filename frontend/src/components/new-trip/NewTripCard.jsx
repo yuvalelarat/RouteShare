@@ -136,12 +136,13 @@ function NewTripCard() {
                 <CardActions sx={{ justifyContent: 'space-between' }}>
                     <Button
                         variant="contained"
-                        disableElevation={true}
-                        color="error"
-                        onClick={handleNavigate}>
+                        disableElevation
+                        className={'cancel-button'}
+                        onClick={handleNavigate}
+                    >
                         Cancel
                     </Button>
-                    <Button variant="contained" disableElevation={true} color="success" onClick={handleSave}>
+                    <Button variant="contained" disableElevation className={'save-button'} onClick={handleSave}>
                         Save
                     </Button>
                 </CardActions>

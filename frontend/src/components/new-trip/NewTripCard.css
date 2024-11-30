@@ -36,3 +36,16 @@
         width: 100%;
     }
 }
+
+.save-button {
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: #aaff7c !important;
+}
+
+.cancel-button {
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: #ff7373 !important;
+}
+
