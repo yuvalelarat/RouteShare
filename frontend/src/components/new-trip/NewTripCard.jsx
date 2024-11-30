@@ -102,6 +102,7 @@ function NewTripCard() {
                                 id={field.id}
                                 label={field.label}
                                 variant="outlined"
+                                error={field.id !== 'description' && (field.errorKey ? errors[field.errorKey] : false)}
                                 multiline={field.multiline || false}
                                 rows={field.rows || undefined}
                                 value={formValues[field.valueKey]}
