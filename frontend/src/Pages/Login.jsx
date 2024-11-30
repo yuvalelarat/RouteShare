@@ -1,13 +1,15 @@
-import React from "react";
-import PageTitle from "../components/common/PageTitle";
+import PageTitle from '../components/common/PageTitle';
+import LoginCard from '../components/login/LoginCard.jsx';
+import UnderCard from '../components/login/UnderCard.jsx';
 
 function Login() {
-  return (
-    <>
-      <PageTitle title={"Login"} />
-      <p>HERE WILL BE THE LOGIN PAGE</p>
-    </>
-  );
+    return (
+        <>
+            <PageTitle title={'Login'} />
+            <LoginCard />
+            <UnderCard />
+        </>
+    );
 }
 
 export default Login;

@@ -1,0 +1,10 @@
+.forgot-password {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.reset-password {
+    cursor: pointer;
+    color: #005ce6;
+}
