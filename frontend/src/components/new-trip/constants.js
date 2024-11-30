@@ -9,8 +9,8 @@ export const fields = [
         valueKey: 'tripName',
         errorKey: 'tripName',
         multiline: true,
-        maxLength: 29,
-        helperText: (value) => `${value.length}/29 characters`
+        maxLength: 35,
+        helperText: (value) => `${value.length}/35 characters`
     },
     {
         id: 'start-date',

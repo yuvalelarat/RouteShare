@@ -14,7 +14,10 @@ function MyTripsArea() {
                         <div className={'trip-details'}>
                             <h3 className={'truncate-header-trip'}>{trip.tripName}</h3>
                             <h3 className={'truncate-header-trip'}>
-                                <span style={{ fontWeight: 'normal' }}>{trip.startDate}</span>&nbsp;-
+                                <span style={{
+                                    fontWeight: 'normal',
+                                    whiteSpace: 'nowrap'
+                                }}>{trip.startDate}</span>&nbsp;-
                                 &nbsp;
                                 <span style={{ fontWeight: 'normal' }}>{trip.endDate}</span>
                             </h3>

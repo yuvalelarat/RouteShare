@@ -1,9 +1,9 @@
 .trip-name {
-    width: 40%;
+    width: 50%;
     @media (max-width: 900px) {
-        width: 70%;
+        width: 80%;
     }
-    @media (max-width: 500px) {
+    @media (max-width: 700px) {
         width: 100%;
     }
 }

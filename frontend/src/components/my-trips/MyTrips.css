@@ -1,12 +1,17 @@
 .trip-details {
     padding-left: 2rem;
+    text-align: left;
+}
+
+@media (max-width: 1000px) {
+    .trip-details {
+        padding-left: 0;
+        text-align: center;
+    }
 }
 
 .truncate-header-trip {
     margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 @media (max-width: 1000px) {
