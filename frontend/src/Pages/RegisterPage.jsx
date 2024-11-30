@@ -1,11 +1,13 @@
-import React from 'react';
 import PageTitle from '../components/common/PageTitle';
+import UnderCard from '../components/common/UnderCard.jsx';
+import RegisterCard from '../components/register/RegisterCard.jsx';
 
 function RegisterPage() {
     return (
         <>
             <PageTitle title={'Register'} />
-            <p>HERE WILL BE THE REGISTER PAGE</p>
+            <RegisterCard />
+            <UnderCard text={'Already have an account?'} linkText={'Click here to login!'} link={'login'} />
         </>
     );
 }

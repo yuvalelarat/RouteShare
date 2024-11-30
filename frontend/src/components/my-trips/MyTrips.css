@@ -34,6 +34,18 @@
     }
 }
 
+.shared-trip-role-and-creator {
+    display: flex;
+    width: 30%;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .shared-trip-role-and-creator {
+        width: 100%;
+    }
+}
+
 .view-edit-button {
     color: black !important;
     outline: 1px solid black !important;

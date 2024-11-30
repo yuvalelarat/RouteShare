@@ -9,61 +9,67 @@ import { useState } from 'react';
 import { CustomAlert } from '../common/CustomAlert.jsx';
 
 function LoginCard() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [emailError, setEmailError] = useState(false);
-    const [passwordError, setPasswordError] = useState(false);
-    const [alertOpen, setAlertOpen] = useState(false);
+    const [fields, setFields] = useState({
+        email: '',
+        password: ''
+    });
+    const [errors, setErrors] = useState({
+        email: false,
+        password: false
+    });
 
+    const [alertOpen, setAlertOpen] = useState(false);
     const navigate = useNavigate();
 
-    const handleNavigate = (click) => {
-        if (click === 'signUp') {
-            navigate('/'); //TODO: Add link to sign up page
-        } else {
-            navigate('/'); //TODO: Add login validations
+    const validateField = (fieldName, value) => {
+        if (value.trim() === '') return true;
+        if (fieldName === 'email' && !/\S+@\S+\.\S+/.test(value)) return true;
+        return false;
+    };
+
+    const handleChange = (field) => (e) => {
+        setFields((prevFields) => ({
+            ...prevFields,
+            [field]: e.target.value
+        }));
+
+        if (errors[field] && e.target.value) {
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                [field]: false
+            }));
         }
     };
 
     const handleSubmit = () => {
-        let valid = true;
-        if (!email) {
-            setEmailError(true);
-            valid = false;
-        } else {
-            setEmailError(false);
-        }
+        let isValid = true;
+        const newErrors = {};
 
-        if (!password) {
-            setPasswordError(true);
-            valid = false;
-        } else {
-            setPasswordError(false);
-        }
+        Object.keys(fields).forEach((field) => {
+            const hasError = validateField(field, fields[field]);
+            if (hasError) {
+                isValid = false;
+                newErrors[field] = true;
+            }
+        });
 
-        if (!valid) {
-            setAlertOpen(true);
-        } else {
+        setErrors(newErrors);
+
+        if (isValid) {
             setAlertOpen(false);
-            handleNavigate('/'); //TODO: add login validations
+            navigate('/'); // TODO: Navigate on successful validation
+        } else {
+            setAlertOpen(true);
         }
     };
 
-    const handleAlertClose = () => {
-        setAlertOpen(false);
-    };
+    const handleAlertClose = () => setAlertOpen(false);
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-        if (emailError && e.target.value) {
-            setEmailError(false);
-        }
-    };
-
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-        if (passwordError && e.target.value) {
-            setPasswordError(false);
+    const handleNavigate = (action) => {
+        if (action === 'signUp') {
+            navigate('/sign-up');
+        } else {
+            navigate('/'); // Navigate on successful login (or validation)
         }
     };
 
@@ -80,28 +86,23 @@ function LoginCard() {
                     <TextField
                         label="Email"
                         variant="outlined"
-                        value={email}
-                        onChange={handleEmailChange}
-                        error={emailError}
-                        helperText={emailError ? 'Email is required' : ''}
+                        value={fields.email}
+                        onChange={handleChange('email')}
+                        error={errors.email}
+                        helperText={errors.email ? 'Please enter a valid email address' : ''}
                     />
                     <TextField
                         label="Password"
                         variant="outlined"
                         type="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                        error={passwordError}
-                        helperText={passwordError ? 'Password is required' : ''}
+                        value={fields.password}
+                        onChange={handleChange('password')}
+                        error={errors.password}
+                        helperText={errors.password ? 'Password is required' : ''}
                     />
                 </CardContent>
                 <CardActions sx={{ justifyContent: 'space-between' }}>
-                    <Button
-                        variant="outlined"
-                        onClick={() => {
-                            console.log('sign up clicked');
-                            handleNavigate('signUp');
-                        }}>
+                    <Button variant="outlined" onClick={() => handleNavigate('signUp')}>
                         Sign up
                     </Button>
                     <Button variant="contained" disableElevation={true} onClick={handleSubmit}>

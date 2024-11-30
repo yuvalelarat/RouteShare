@@ -16,9 +16,9 @@ function SharedTripsArea() {
                         <span style={{ fontWeight: 'normal' }}>End Date</span>
                     </h3>
                 </div>
-                <div>
-                    <h3 style={{ margin: '0px' }}>Created by:</h3>
-                    <h3 style={{ margin: '0px' }}>Your role: Role</h3>
+                <div className={'shared-trip-role-and-creator'}>
+                    <h3 style={{ margin: '0px' }}>Created by: <br /> Yuval Elarat</h3>
+                    <h3 style={{ margin: '0px' }}>Role: <br /> View</h3>
                 </div>
                 <div className={'buttonDiv'}>
                     <Button variant="contained" disableElevation className={'view-edit-button'}>
