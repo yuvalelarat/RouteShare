@@ -3,12 +3,25 @@ import Drawer from '@mui/material/Drawer';
 import NavBarLogo from './NavBarLogo';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { pages } from './constants.js';
 import { stringToUrlFormat } from '../../utils/common.utils.js';
+import { logout } from '../../redux/slices/userDataSlice.js';
 
 // eslint-disable-next-line react/prop-types
 function HeaderDrawer({ open, toggleDrawer }) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleNavigate = (page) => {
+        if (page === 'Logout') {
+            dispatch(logout());
+            console.log('Logged out');
+            navigate('/login');
+        } else {
+            navigate(`/${stringToUrlFormat(page)}`);
+        }
+    };
 
     return (
         <Drawer
@@ -39,7 +52,7 @@ function HeaderDrawer({ open, toggleDrawer }) {
                     className="button-style"
                     onClick={() => {
                         toggleDrawer(false)();
-                        navigate(`/${stringToUrlFormat(page)}`);
+                        handleNavigate(page);
                     }}
                 >
                     {page}

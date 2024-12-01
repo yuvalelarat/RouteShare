@@ -17,6 +17,7 @@ function Header() {
     const handleNavigate = (page) => {
         if (page === 'Logout') {
             dispatch(logout());
+            console.log('Logged out');
             navigate('/login');
         } else {
             navigate(`/${stringToUrlFormat(page)}`);

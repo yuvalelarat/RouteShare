@@ -73,6 +73,7 @@ function LoginCard() {
                 dispatch(setToken(response.token));
                 dispatch(setUserFirstName(response.user.first_name));
                 dispatch(setUserLastName(response.user.last_name));
+                //TODO:Add token also to cookies
                 navigate('/my-trips');
             } catch (err) {
                 console.error('Login failed:', err);
@@ -90,8 +91,6 @@ function LoginCard() {
     const handleNavigate = (action) => {
         if (action === 'register') {
             navigate('/register');
-        } else {
-            navigate('/'); // Navigate on successful login (or validation)
         }
     };
 
