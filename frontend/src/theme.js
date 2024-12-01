@@ -1,8 +1,10 @@
 // src/theme.js
 import { createTheme } from '@mui/material/styles';
 
-
 const theme = createTheme({
+    typography: {
+        fontFamily: 'Poppins, serif'
+    },
     components: {
         MuiOutlinedInput: {
             styleOverrides: {
@@ -57,6 +59,17 @@ const theme = createTheme({
                     '&.Mui-error:before': {
                         borderBottom: '2px solid red'
                     }
+                }
+            }
+        },
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    fontFamily: 'Poppins, serif',
+                    fontWeight: '400',
+                    fontStyle: 'normal',
+                    textTransform: 'none',
+                    fontSize: '16px'
                 }
             }
         }

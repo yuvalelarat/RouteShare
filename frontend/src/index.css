@@ -1,6 +1,9 @@
 body {
-  margin: 0;
-  height: 100vh; 
-  color: black;
-  font-family: "Poppins", serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    color: black;
+    font-family: "Poppins", serif;
+    box-sizing: border-box;
 }

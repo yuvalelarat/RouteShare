@@ -1,4 +1,4 @@
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo4.png';
 import './NavBarLogo.css';
 import { useNavigate } from 'react-router-dom';
 
