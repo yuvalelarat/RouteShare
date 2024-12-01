@@ -74,7 +74,7 @@ function LoginCard() {
                 dispatch(setUserFirstName(response.user.first_name));
                 dispatch(setUserLastName(response.user.last_name));
                 //TODO:Add token also to cookies
-                navigate('/my-trips');
+                navigate('/');
             } catch (err) {
                 console.error('Login failed:', err);
                 setAlertMessage(err.data?.message || 'Login failed. Please try again.');
@@ -91,6 +91,12 @@ function LoginCard() {
     const handleNavigate = (action) => {
         if (action === 'register') {
             navigate('/register');
+        }
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleSubmit();
         }
     };
 
@@ -114,6 +120,7 @@ function LoginCard() {
                             onChange={handleChange(field.name)}
                             error={errors[field.name]}
                             helperText={errors[field.name] ? field.helperText : ''}
+                            {...(field.name === 'password' && { onKeyDown: handleKeyDown })}
                         />
                     ))}
                 </CardContent>
@@ -133,7 +140,7 @@ function LoginCard() {
                         className="login-button"
                         disabled={isLoading}
                     >
-                        {isLoading ? 'Logging in...' : 'Login'}
+                        {isLoading ? 'Logging in...' : 'Login'} {/*TODO: Add loading spinner*/}
                     </Button>
                 </CardActions>
             </Card>

@@ -6,8 +6,11 @@ import LoginPage from './Pages/LoginPage.jsx';
 import RegisterPage from './Pages/RegisterPage.jsx';
 import NewTripPage from './Pages/NewTripPage.jsx';
 import MyTripsPage from './Pages/MyTripsPage.jsx';
+import UsersRoutes from './components/PrivateRoutes/UsersRoutes.jsx';
 
 function App() {
+
+
     return (
         <>
             <BrowserRouter>
@@ -16,8 +19,10 @@ function App() {
                     <Route path="/" element={<MainPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/my-trips" element={<MyTripsPage />} />
-                    <Route path="/new-trip" element={<NewTripPage />} />
+                    <Route element={<UsersRoutes />}>
+                        <Route path="/my-trips" element={<MyTripsPage />} />
+                        <Route path="/new-trip" element={<NewTripPage />} />
+                    </Route>
                 </Routes>
                 {/*TODO: Add footer*/}
             </BrowserRouter>
