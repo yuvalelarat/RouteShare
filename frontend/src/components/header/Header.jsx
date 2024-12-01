@@ -8,6 +8,7 @@ import { stringToUrlFormat } from '../../utils/common.utils.js';
 import { pages } from './constants.js';
 import HeaderLeft from './HeaderLeft';
 import HeaderDrawer from './HeaderDrawer';
+import HeaderRight from './headerRight.jsx';
 
 function Header() {
     const navigate = useNavigate();
@@ -42,10 +43,7 @@ function Header() {
                     </Button>
                 ))}
             </nav>
-            <div className="header-right">
-                <p className="text-ellipsis">{`Hello, |user_full_name|`}</p>
-            </div>
-
+            <HeaderRight />
             <HeaderDrawer open={open} toggleDrawer={toggleDrawer} />
         </div>
     );
