@@ -82,7 +82,7 @@ function LoginCard() {
                     expiresAt: expirationTime
                 }));
 
-                navigate('/');
+                navigate('/my-trips');
             } catch (err) {
                 console.error('Login failed:', err);
                 setAlertMessage(err.data?.message || 'Login failed. Please try again.');

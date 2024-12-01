@@ -1,9 +1,9 @@
-import React from "react";
+import Main from '../components/main/Main';
 
 function MainPage() {
-  return (
-    <p>HERE WILL BE THE MAIN PAGE</p>
-  );
+    return (
+        <Main />
+    );
 }
 
 export default MainPage;

@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // eslint-disable-next-line react/prop-types
-const UsersRoutes = ({ children }) => {
+const UserRoutes = ({ children }) => {
     const token = useSelector((state) => state.userData.token);
 
     if (!token || token === '') {
@@ -12,4 +12,4 @@ const UsersRoutes = ({ children }) => {
     return children ? children : <Outlet />;
 };
 
-export default UsersRoutes;
+export default UserRoutes;

@@ -12,14 +12,18 @@ export const boxStyle = {
 export const cardStyle = {
     width: '100%',
     maxWidth: '80rem',
-    boxShadow: '-4px 4px 4px rgba(0, 0, 0, 0.2)',
+    boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px',
     border: '1px solid var(--color-lightgray)',
     borderRadius: '8px',
     backgroundColor: 'var(--color-lightgray)',
     padding: 0,
+    transition: 'box-shadow 0.3s ease',
     '@media (max-width: 600px)': {
         width: '90%',
         padding: '1rem'
+    },
+    ':hover': {
+        boxShadow: 'rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px'  // New shadow on hover
     }
 };
 

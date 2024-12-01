@@ -14,9 +14,9 @@ function HeaderLeft({ toggleDrawer }) {
             </span>
 
             <NavBarLogo />
-            <h4 style={{ color: 'black', cursor: 'pointer' }} onClick={() => navigate('/')}>
+            <h3 style={{ color: 'black', cursor: 'pointer' }} onClick={() => navigate('/')}>
                 TRIPSYNC
-            </h4>
+            </h3>
         </div>
     );
 }
