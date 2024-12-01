@@ -21,6 +21,9 @@ function Header() {
         if (page === 'Logout') {
             dispatch(logout());
             console.log('Logged out');
+
+            localStorage.removeItem('userData');
+
             navigate('/login');
         } else {
             navigate(`/${stringToUrlFormat(page)}`);

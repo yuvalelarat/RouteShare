@@ -73,7 +73,15 @@ function LoginCard() {
                 dispatch(setToken(response.token));
                 dispatch(setUserFirstName(response.user.first_name));
                 dispatch(setUserLastName(response.user.last_name));
-                //TODO:Add token also to cookies
+
+                const expirationTime = new Date().getTime() + 2 * 60 * 60 * 1000; //2 hours in milliseconds
+                localStorage.setItem('userData', JSON.stringify({
+                    token: response.token,
+                    firstName: response.user.first_name,
+                    lastName: response.user.last_name,
+                    expiresAt: expirationTime
+                }));
+
                 navigate('/');
             } catch (err) {
                 console.error('Login failed:', err);
