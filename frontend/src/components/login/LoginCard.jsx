@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { CustomAlert } from '../common/CustomAlert.jsx';
 import { formFields } from './constants.js';
+import { useDispatch } from 'react-redux';
+import { setToken, setUserFirstName, setUserLastName } from '../../redux/slices/userDataSlice.js';
+import { useLoginUserMutation } from '../../redux/rtk/userDataApi.js';
 import './LoginCard.css';
 
 function LoginCard() {
@@ -21,7 +24,12 @@ function LoginCard() {
     });
 
     const [alertOpen, setAlertOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const [loginUser, { isLoading }] = useLoginUserMutation();
+
 
     const validateField = (fieldName, value) => {
         if (value.trim() === '') return true;
@@ -43,7 +51,7 @@ function LoginCard() {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         let isValid = true;
         const newErrors = {};
 
@@ -59,8 +67,20 @@ function LoginCard() {
 
         if (isValid) {
             setAlertOpen(false);
-            navigate('/'); // TODO: Navigate on successful validation
+            try {
+                const response = await loginUser(fields).unwrap();
+                console.log('Login successful:', response);
+                dispatch(setToken(response.token));
+                dispatch(setUserFirstName(response.user.first_name));
+                dispatch(setUserLastName(response.user.last_name));
+                navigate('/my-trips');
+            } catch (err) {
+                console.error('Login failed:', err);
+                setAlertMessage(err.data?.message || 'Login failed. Please try again.');
+                setAlertOpen(true);
+            }
         } else {
+            setAlertMessage('Both email and password are required.');
             setAlertOpen(true);
         }
     };
@@ -79,7 +99,7 @@ function LoginCard() {
         <Box sx={boxStyle}>
             <CustomAlert
                 type="error"
-                message="Both email and password required."
+                message={alertMessage}
                 open={alertOpen}
                 handleClose={handleAlertClose}
             />
@@ -99,12 +119,22 @@ function LoginCard() {
                     ))}
                 </CardContent>
                 <CardActions sx={{ justifyContent: 'space-between' }}>
-                    <Button variant="outlined" className={'register-button'} onClick={() => handleNavigate('register')}>
+                    <Button
+                        variant="outlined"
+                        className="register-button"
+                        onClick={() => handleNavigate('register')}
+                        disabled={isLoading}
+                    >
                         Register
                     </Button>
-                    <Button variant="contained" disableElevation onClick={handleSubmit}
-                            className={'login-button'}>
-                        Login
+                    <Button
+                        variant="contained"
+                        disableElevation
+                        onClick={handleSubmit}
+                        className="login-button"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Logging in...' : 'Login'}
                     </Button>
                 </CardActions>
             </Card>
