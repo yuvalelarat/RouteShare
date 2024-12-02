@@ -2,6 +2,7 @@ import {
     createTripService,
     deleteTripService,
     editTripService,
+    getMyTripsService,
     getSharedTripsService,
     getTripService
 } from '../services/tripService.js';
@@ -165,7 +166,7 @@ export const getSharedTrips = async (req, res, next) => {
             trips: result
         });
     } catch (err) {
-        console.error('Unexpected error in getAllTrips:', err.message || err);
+        console.error('Unexpected error in getSharedTrips:', err.message || err);
         res.status(500).json({
             success: false,
             error: err.message || 'Something went wrong'
@@ -173,3 +174,32 @@ export const getSharedTrips = async (req, res, next) => {
     }
 };
 
+export const getMyTrips = async (req, res, next) => {
+    try {
+        const user_id = getUserIdFromToken(req, res);
+        if (!user_id) {
+            console.log('user id from token is not available');
+            return;
+        }
+
+        const result = await getMyTripsService(user_id);
+
+        if (result.error) {
+            return res.status(403).json({
+                success: false,
+                message: result.error
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            trips: result
+        });
+    } catch (err) {
+        console.error('Unexpected error in getMyTrips:', err.message || err);
+        res.status(500).json({
+            success: false,
+            error: err.message || 'Something went wrong'
+        });
+    }
+};

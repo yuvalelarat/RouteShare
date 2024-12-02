@@ -73,25 +73,11 @@ export const loginService = async (email, password) => {
         throw new Error('Invalid email or password');
     }
 
-    const trips = await tripRepository.find({
-        where: { user: { user_id: user.user_id } },
-        relations: ['user']
-    });
-
     const token = generateAuthToken(user);
 
     return {
         token,
-        user,
-        trips: trips.map((trip) => ({
-            trip_id: trip.trip_id,
-            trip_name: trip.trip_name,
-            start_date: trip.start_date,
-            end_date: trip.end_date,
-            description: trip.description,
-            created_at: trip.created_at,
-            updated_at: trip.updated_at
-        }))
+        user
     };
 };
 

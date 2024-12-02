@@ -6,6 +6,7 @@ import { Journey } from '../models/journey.js';
 import { Activity } from '../models/activity.js';
 import { checkIfEntitiesExist } from '../utils/errorHelpers.js';
 import { Not } from 'typeorm';
+import { generateAuthToken } from './userService.js';
 
 const tripRepository = dataSource.getRepository(Trip);
 
@@ -196,6 +197,33 @@ export const getSharedTripsService = async (user_id) => {
             .getMany();
 
         return { trips: participantTrips };
+    } catch (err) {
+        console.error('Error fetching trips:', err);
+        throw new Error('Error fetching trips');
+    }
+};
+
+export const getMyTripsService = async (user_id) => {
+    try {
+        const tripRepository = dataSource.getRepository(Trip);
+
+        const trips = await tripRepository.find({
+            where: { user: { user_id } },
+            relations: ['user']
+        });
+
+
+        return {
+            trips: trips.map((trip) => ({
+                trip_id: trip.trip_id,
+                trip_name: trip.trip_name,
+                start_date: trip.start_date,
+                end_date: trip.end_date,
+                description: trip.description,
+                created_at: trip.created_at,
+                updated_at: trip.updated_at
+            }))
+        };
     } catch (err) {
         console.error('Error fetching trips:', err);
         throw new Error('Error fetching trips');

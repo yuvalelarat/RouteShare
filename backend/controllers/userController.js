@@ -20,7 +20,7 @@ export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const { token, user, trips } = await userService.loginService(email, password);
+        const { token, user } = await userService.loginService(email, password);
 
         res.status(200).json({
             success: true,
@@ -30,8 +30,7 @@ export const loginUser = async (req, res) => {
                 email: user.email,
                 first_name: user.first_name,
                 last_name: user.last_name
-            },
-            trips
+            }
         });
     } catch (err) {
         console.error('Error logging in:', err);
