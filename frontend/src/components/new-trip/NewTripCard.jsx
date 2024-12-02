@@ -52,7 +52,7 @@ function NewTripCard() {
     };
 
     const handleNavigate = () => {
-        navigate('/');
+        navigate('/my-trips');
     };
 
     const handleSave = () => {
