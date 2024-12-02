@@ -13,7 +13,7 @@ export const cardStyle = {
     width: '100%',
     maxWidth: '80rem',
     boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px',
-    border: '1px solid var(--color-lightgray)',
+    outline: '1px solid  var(--color-lightgray-outline)',
     borderRadius: '8px',
     backgroundColor: 'var(--color-lightgray)',
     padding: 0,

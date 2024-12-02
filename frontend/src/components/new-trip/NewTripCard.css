@@ -46,6 +46,6 @@
 .cancel-button {
     color: black !important;
     outline: 1px solid black !important;
-    background-color: #ff7373 !important;
+    background-color: var(--color-lightred-button) !important;
 }
 

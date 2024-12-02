@@ -49,23 +49,23 @@
 .view-edit-button {
     color: black !important;
     outline: 1px solid black !important;
-    background-color: #bfe2ff !important;
+    background-color: var(--color-lightblue-button) !important;
 }
 
 .share-button {
     color: black !important;
     outline: 1px solid black !important;
-    background-color: #c7ffb5 !important;
+    background-color: var(--color-lightgreen-button) !important;
 }
 
 .expenses-button {
     color: black !important;
     outline: 1px solid black !important;
-    background-color: #fff4b1 !important;
+    background-color: var(--color-lightyellow-button) !important;
 }
 
 .delete-button {
     color: black !important;
     outline: 1px solid black !important;
-    background-color: #ff7373 !important;
+    background-color: var(--color-lightred-button) !important;
 }
