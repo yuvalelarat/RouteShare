@@ -55,7 +55,7 @@
 .share-button {
     color: black !important;
     outline: 1px solid black !important;
-    background-color: var(--color-lightgreen-button) !important;
+    background-color: var(--color-lightgreen-button-share) !important;
 }
 
 .expenses-button {

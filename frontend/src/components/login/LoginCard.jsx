@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button';
-import { Box, TextField } from '@mui/material';
+import { Box, CircularProgress, TextField } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { CustomAlert } from '../common/CustomAlert.jsx';
 import { formFields } from './constants.js';
 import { useDispatch } from 'react-redux';
-import { setToken, setUserFirstName, setUserLastName } from '../../redux/slices/userDataSlice.js';
+import { setToken, setTrips, setUserFirstName, setUserLastName } from '../../redux/slices/userDataSlice.js';
 import { useLoginUserMutation } from '../../redux/rtk/userDataApi.js';
 import './LoginCard.css';
 
@@ -30,11 +30,9 @@ function LoginCard() {
 
     const [loginUser, { isLoading }] = useLoginUserMutation();
 
-
     const validateField = (fieldName, value) => {
         if (value.trim() === '') return true;
         return fieldName === 'email' && !/\S+@\S+\.\S+/.test(value);
-
     };
 
     const handleChange = (field) => (e) => {
@@ -73,14 +71,19 @@ function LoginCard() {
                 dispatch(setToken(response.token));
                 dispatch(setUserFirstName(response.user.first_name));
                 dispatch(setUserLastName(response.user.last_name));
+                dispatch(setTrips(response.trips));
 
                 const expirationTime = new Date().getTime() + 2 * 60 * 60 * 1000; //2 hours in milliseconds
-                localStorage.setItem('userData', JSON.stringify({
-                    token: response.token,
-                    firstName: response.user.first_name,
-                    lastName: response.user.last_name,
-                    expiresAt: expirationTime
-                }));
+                localStorage.setItem(
+                    'userData',
+                    JSON.stringify({
+                        token: response.token,
+                        firstName: response.user.first_name,
+                        lastName: response.user.last_name,
+                        trips: response.trips,
+                        expiresAt: expirationTime
+                    })
+                );
 
                 navigate('/my-trips');
             } catch (err) {
@@ -132,24 +135,28 @@ function LoginCard() {
                         />
                     ))}
                 </CardContent>
-                <CardActions sx={{ justifyContent: 'space-between' }}>
+                <CardActions sx={{ justifyContent: 'space-between', maxWidth: '21.5rem' }}>
                     <Button
                         variant="outlined"
                         className="register-button"
                         onClick={() => handleNavigate('register')}
-                        disabled={isLoading}
-                    >
+                        disabled={isLoading}>
                         Register
                     </Button>
-                    <Button
-                        variant="contained"
-                        disableElevation
-                        onClick={handleSubmit}
-                        className="login-button"
-                        disabled={isLoading}
-                    >
-                        {isLoading ? 'Logging in...' : 'Login'} {/*TODO: Add loading spinner*/}
-                    </Button>
+
+                    {isLoading ? (
+                        <CircularProgress size="30px" />
+
+                    ) : (
+                        <Button
+                            variant="contained"
+                            disableElevation
+                            onClick={handleSubmit}
+                            className="login-button"
+                            disabled={isLoading}>
+                            Login {/*TODO: Add loading spinner*/}
+                        </Button>
+                    )}
                 </CardActions>
             </Card>
         </Box>

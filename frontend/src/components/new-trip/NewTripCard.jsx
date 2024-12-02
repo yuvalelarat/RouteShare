@@ -133,7 +133,7 @@ function NewTripCard() {
                         );
                     })}
                 </CardContent>
-                <CardActions sx={{ justifyContent: 'space-between' }}>
+                <CardActions sx={{ justifyContent: 'space-between', maxWidth: '46.5rem' }}>
                     <Button
                         variant="contained"
                         disableElevation
