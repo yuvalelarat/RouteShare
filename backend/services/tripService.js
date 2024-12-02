@@ -5,16 +5,11 @@ import { TripParticipant } from '../models/tripParticipant.js';
 import { Journey } from '../models/journey.js';
 import { Activity } from '../models/activity.js';
 import { checkIfEntitiesExist } from '../utils/errorHelpers.js';
+import { Not } from 'typeorm';
 
 const tripRepository = dataSource.getRepository(Trip);
 
-export const createTripService = async (
-    user_id,
-    trip_name,
-    start_date,
-    end_date,
-    description
-) => {
+export const createTripService = async (user_id, trip_name, start_date, end_date, description) => {
     const user = await dataSource.getRepository(User).findOneBy({ user_id });
 
     const entitiesNotFound = await checkIfEntitiesExist([user], ['User']);
@@ -64,9 +59,9 @@ export const createTripService = async (
     };
 };
 
-export const getTripService = async (user_id) => {
+export const getTripService = async (user_id, trip_id) => {
     const trip = await dataSource.getRepository(Trip).findOne({
-        where: { user: { user_id } },
+        where: { trip_id },
         relations: ['user', 'participants', 'participants.user']
     });
 
@@ -74,18 +69,81 @@ export const getTripService = async (user_id) => {
         throw new Error('Trip not found');
     }
 
-    if (trip.user.user_id !== user_id) {
-        const participant = trip.participants.find(
-            (p) => p.user.user_id === user_id
-        );
-        if (!participant || !['view', 'edit'].includes(participant.role)) {
-            throw new Error(
-                'You must be a participant with \'view\' or \'edit\' role to access this trip'
-            );
-        }
+    if (trip.user.user_id === user_id) {
+        return {
+            trip_id: trip.trip_id,
+            trip_name: trip.trip_name,
+            start_date: trip.start_date,
+            end_date: trip.end_date,
+            description: trip.description,
+            user: {
+                user_id: trip.user.user_id,
+                email: trip.user.email
+            },
+            participants: trip.participants.map((p) => ({
+                user_id: p.user.user_id,
+                role: p.role
+            }))
+        };
+    }
+
+    const participant = trip.participants.find((p) => p.user.user_id === user_id);
+
+    if (!participant) {
+        throw new Error('You are not a participant in this trip');
+    }
+
+    if (!['view', 'edit'].includes(participant.role)) {
+        throw new Error('You do not have the required role to view this trip');
     }
 
     return {
+        trip_id: trip.trip_id,
+        trip_name: trip.trip_name,
+        start_date: trip.start_date,
+        end_date: trip.end_date,
+        description: trip.description,
+        user: {
+            user_id: trip.user.user_id,
+            email: trip.user.email
+        },
+        participants: trip.participants.map((p) => ({
+            user_id: p.user.user_id,
+            role: p.role
+        }))
+    };
+};
+
+export const getSharedTripsService = async (user_id) => {
+    const trips = await dataSource.getRepository(Trip).find({
+        where: {
+            participants: {
+                user: { user_id }
+            },
+            user: { user_id: Not(user_id) }
+        },
+        relations: ['user', 'participants', 'participants.user']
+    });
+
+    if (!trips || trips.length === 0) {
+        throw new Error('No trips found where the user is a participant');
+    }
+
+    const accessibleTrips = trips.filter((trip) => {
+        const participant = trip.participants.find(
+            (p) => p.user.user_id === user_id
+        );
+        return participant && ['view', 'edit'].includes(participant.role);
+    });
+
+    if (!accessibleTrips.length) {
+        throw new Error(
+            'You must be a participant with \'view\' or \'edit\' role to access any trip'
+        );
+    }
+    ;
+
+    return accessibleTrips.map((trip) => ({
         trip: {
             ...trip,
             user: {
@@ -93,7 +151,7 @@ export const getTripService = async (user_id) => {
                 email: trip.user.email
             }
         }
-    };
+    }));
 };
 
 export const deleteTripService = async (user_id) => {
@@ -115,14 +173,7 @@ export const deleteTripService = async (user_id) => {
     return { message: 'Trip deleted successfully' };
 };
 
-export const editTripService = async (
-    trip_id,
-    user_id,
-    trip_name,
-    start_date,
-    end_date,
-    description
-) => {
+export const editTripService = async (trip_id, user_id, trip_name, start_date, end_date, description) => {
     const trip = await dataSource.getRepository(Trip).findOne({
         where: { trip_id },
         relations: ['user', 'participants', 'participants.user']
@@ -133,13 +184,9 @@ export const editTripService = async (
     }
 
     if (trip.user.user_id !== user_id) {
-        const participant = trip.participants.find(
-            (p) => p.user.user_id === user_id
-        );
+        const participant = trip.participants.find((p) => p.user.user_id === user_id);
         if (!participant || !['edit'].includes(participant.role)) {
-            throw new Error(
-                'You must be the trip owner or a participant with \'edit\' role to edit this trip'
-            );
+            throw new Error('You must be the trip owner or a participant with \'edit\' role to edit this trip');
         }
     }
 
