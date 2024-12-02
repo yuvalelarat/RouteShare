@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 
 function MyTripsArea() {
     const trips = useSelector((state) => state.userData.trips);
-
+    //TODO: if no trips, return a message with link to new trip page
     return (
         <>
             {trips.map((trip) => (
@@ -19,7 +19,7 @@ function MyTripsArea() {
                                 <span
                                     style={{
                                         fontWeight: 'normal',
-                                        whiteSpace: 'nowrap',
+                                        whiteSpace: 'nowrap'
                                     }}>
                                     {new Date(trip.start_date).toLocaleDateString('en-GB')}
                                 </span>
