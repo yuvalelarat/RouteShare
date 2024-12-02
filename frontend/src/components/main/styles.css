@@ -7,9 +7,9 @@
     background-size: auto;
     background-position: center;
     text-align: center;
-    display: flex; /* Add this line to make it a flex container */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     margin: 0;
     max-width: 98%;
@@ -63,7 +63,7 @@
     font-weight: 400;
     font-size: 5rem;
     margin: 0;
-    text-align: center;
+    text-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
 }
 
 .second-heading {
@@ -71,7 +71,7 @@
     font-size: 5rem;
     color: #6a6a6a;
     margin: 0;
-    text-align: center;
+    text-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
 }
 
 @media (max-width: 850px) {
@@ -86,6 +86,22 @@
 
 .third-heading {
     margin: 0;
-    text-align: center;
-    padding: 0 10px
+    padding: 0 10px;
+    text-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.button-div {
+    cursor: pointer;
+    background-color: #1bc7fc;
+    padding: 0 4px;
+    margin: 10px 0;
+    outline: 1px solid #6a6a6a;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.button-div:hover {
+    transform: rotate(-5deg);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) -0px 10px 10px;
 }
