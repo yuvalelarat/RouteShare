@@ -28,7 +28,7 @@ function SharedTripsArea() {
                         Expenses
                     </Button>
                     <Button variant="contained" disableElevation className={'delete-button'}>
-                        Delete
+                        Remove
                     </Button>
                 </div>
             </CardContent>
