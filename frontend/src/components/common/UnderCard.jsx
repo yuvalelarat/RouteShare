@@ -12,7 +12,7 @@ function UnderCard({ text, linkText, link }) {
 
     return (
         <p className={'forgot-password'}>
-            {text} &nbsp;
+            {text}&nbsp;
             <a className={'reset-password'} onClick={() => handleNavigate(link)}>{linkText}</a>
         </p>
     );

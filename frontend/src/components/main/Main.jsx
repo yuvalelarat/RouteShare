@@ -18,7 +18,7 @@ function Main() {
             <div className={'button-div'} onClick={() => {
                 navigate('/register');
             }}>
-                <h3 style={{ margin: '5px', fontWeight: '600' }}>Register</h3>
+                <h3 className={'register'}>Register</h3>
             </div>
         </div>
     );
