@@ -36,7 +36,7 @@ function HeaderDrawer({ open, toggleDrawer }) {
             <div className="drawer-header">
                 <NavBarLogo toggleDrawer={toggleDrawer} />
                 <h4
-                    style={{ color: 'black', cursor: 'pointer', margin: '0' }}
+                    style={{ color: 'black', cursor: 'pointer', margin: '0', paddingBottom: '5px' }}
                     onClick={() => {
                         toggleDrawer(false)();
                         navigate('/');

@@ -20,9 +20,10 @@ function App() {
                     <Route element={<UserRoutes />}>
                         <Route path="/my-trips" element={<MyTripsPage />} />
                         <Route path="/new-trip" element={<NewTripPage />} />
+                        {/*TODO: <Route path="/trip/:tripId" element={<TripDetailsPage />} />*/}
                     </Route>
                 </Routes>
-                {/*TODO: Add footer*/}
+                {/*TODO: Add footer?*/}
             </BrowserRouter>
         </>
     );
