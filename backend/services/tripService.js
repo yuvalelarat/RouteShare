@@ -114,46 +114,6 @@ export const getTripService = async (user_id, trip_id) => {
     };
 };
 
-export const getSharedTripsService = async (user_id) => {
-    const trips = await dataSource.getRepository(Trip).find({
-        where: {
-            participants: {
-                user: { user_id }
-            },
-            user: { user_id: Not(user_id) }
-        },
-        relations: ['user', 'participants', 'participants.user']
-    });
-
-    if (!trips || trips.length === 0) {
-        throw new Error('No trips found where the user is a participant');
-    }
-
-    const accessibleTrips = trips.filter((trip) => {
-        const participant = trip.participants.find(
-            (p) => p.user.user_id === user_id
-        );
-        return participant && ['view', 'edit'].includes(participant.role);
-    });
-
-    if (!accessibleTrips.length) {
-        throw new Error(
-            'You must be a participant with \'view\' or \'edit\' role to access any trip'
-        );
-    }
-    ;
-
-    return accessibleTrips.map((trip) => ({
-        trip: {
-            ...trip,
-            user: {
-                user_id: trip.user.user_id,
-                email: trip.user.email
-            }
-        }
-    }));
-};
-
 export const deleteTripService = async (user_id) => {
     const trip = await tripRepository.findOne({
         where: { user: { user_id } },
@@ -208,16 +168,31 @@ export const editTripService = async (trip_id, user_id, trip_name, start_date, e
     };
 };
 
-export const getAllTripsService = async (user_id) => {
+export const getSharedTripsService = async (user_id) => {
     try {
         const tripRepository = dataSource.getRepository(Trip);
 
         const participantTrips = await tripRepository
             .createQueryBuilder('trip')
-            .innerJoinAndSelect('trip.participants', 'participant') //include participant
-            .innerJoinAndSelect('participant.user', 'user')
+            .leftJoinAndSelect('trip.user', 'adminUser') //join to get the admin (creator) details using trip.user (creator)
+            .innerJoin('trip.participants', 'participant') //join to ensure the user role is checked
             .where('participant.role IN (:...roles)', { roles: ['view', 'edit'] })
-            .andWhere('user.user_id = :user_id', { user_id })
+            .andWhere('participant.user_id = :user_id', { user_id }) //ensure user is a participant with the correct role
+            .select([
+                'trip.trip_id',
+                'trip.trip_name',
+                'trip.start_date',
+                'trip.end_date',
+                'trip.description',
+                'trip.created_at',
+                'trip.updated_at',
+                //admin (creator) information:
+                'adminUser.user_id',
+                'adminUser.first_name',
+                'adminUser.last_name',
+                //logged-in user's role in this trip:
+                'participant.role'
+            ])
             .getMany();
 
         return { trips: participantTrips };
@@ -226,3 +201,4 @@ export const getAllTripsService = async (user_id) => {
         throw new Error('Error fetching trips');
     }
 };
+
