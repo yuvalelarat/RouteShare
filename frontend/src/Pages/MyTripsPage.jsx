@@ -4,7 +4,7 @@ import TripCard from '../components/my-trips/TripCard.jsx';
 function MyTripsPage() {
     return (
         <>
-            <PageTitle title={'My Trips'} />
+            <PageTitle title={'My trips'} />
             <TripCard></TripCard>
         </>
     );

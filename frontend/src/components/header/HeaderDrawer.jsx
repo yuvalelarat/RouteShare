@@ -1,7 +1,5 @@
-// src/components/HeaderDrawer.jsx
 import Drawer from '@mui/material/Drawer';
 import NavBarLogo from './NavBarLogo';
-import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { userPages, guestPages } from './constants.js';
@@ -52,17 +50,17 @@ function HeaderDrawer({ open, toggleDrawer }) {
                     </>
                 )}
             </div>
-            {pages.map((pages) => (
-                <Button
-                    key={pages}
-                    variant="text"
-                    className="button-style"
+            {pages.map((page) => (
+                <div
+                    key={page}
+                    className="nav-button"
                     onClick={() => {
                         toggleDrawer(false)();
-                        handleNavigate(pages);
-                    }}>
-                    {pages}
-                </Button>
+                        handleNavigate(page);
+                    }}
+                >
+                    <p>{page}</p>
+                </div>
             ))}
         </Drawer>
     );

@@ -1,5 +1,4 @@
 import './header.css';
-import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,14 +37,14 @@ function Header() {
         <div className="header-container">
             <HeaderLeft toggleDrawer={toggleDrawer} />
             <nav className="navbar">
-                {pages.map((pages) => (
-                    <Button
-                        key={pages}
-                        variant="text"
-                        className="button-style"
-                        onClick={() => handleNavigate(pages)}>
-                        {pages}
-                    </Button>
+                {pages.map((page) => (
+                    <div
+                        key={page}
+                        className="nav-button"
+                        onClick={() => handleNavigate(page)}
+                    >
+                        <p>{page}</p>
+                    </div>
                 ))}
             </nav>
             <HeaderRight />
