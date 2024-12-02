@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { CustomAlert } from '../common/CustomAlert.jsx';
 import { formFields } from './constants.js';
 import { useDispatch } from 'react-redux';
-import { setToken, setTrips, setUserFirstName, setUserLastName } from '../../redux/slices/userDataSlice.js';
+import { setToken, setUserFirstName, setUserLastName } from '../../redux/slices/userDataSlice.js';
 import { useLoginUserMutation } from '../../redux/rtk/userDataApi.js';
 import './LoginCard.css';
 
@@ -71,19 +71,7 @@ function LoginCard() {
                 dispatch(setToken(response.token));
                 dispatch(setUserFirstName(response.user.first_name));
                 dispatch(setUserLastName(response.user.last_name));
-                dispatch(setTrips(response.trips));
 
-                const expirationTime = new Date().getTime() + 2 * 60 * 60 * 1000; //2 hours in milliseconds
-                localStorage.setItem(
-                    'userData',
-                    JSON.stringify({
-                        token: response.token,
-                        firstName: response.user.first_name,
-                        lastName: response.user.last_name,
-                        trips: response.trips,
-                        expiresAt: expirationTime
-                    })
-                );
 
                 navigate('/my-trips');
             } catch (err) {

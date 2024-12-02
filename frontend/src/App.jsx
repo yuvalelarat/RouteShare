@@ -7,6 +7,7 @@ import RegisterPage from './Pages/RegisterPage.jsx';
 import NewTripPage from './Pages/NewTripPage.jsx';
 import MyTripsPage from './Pages/MyTripsPage.jsx';
 import UserRoutes from './components/PrivateRoutes/UserRoutes.jsx';
+import TripPage from './Pages/TripPage.jsx';
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                     <Route element={<UserRoutes />}>
                         <Route path="/my-trips" element={<MyTripsPage />} />
                         <Route path="/new-trip" element={<NewTripPage />} />
+                        <Route path="/trip/:tripId" element={<TripPage />} />
                         {/*TODO: <Route path="/trip/:tripId" element={<TripDetailsPage />} />*/}
                     </Route>
                 </Routes>

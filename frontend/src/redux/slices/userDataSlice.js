@@ -4,8 +4,6 @@ const initialState = {
     firstName: '',
     lastName: '',
     token: '',
-    trips: [],
-    sharedTrips: [],
     isLoading: false
 };
 
@@ -24,13 +22,7 @@ const userDataSlice = createSlice({
         setToken: (state, action) => {
             state.token = action.payload;
         },
-        setTrips: (state, action) => {
-            state.trips = action.payload;
-        },
-        setSharedTrips: (state, action) => {
-            state.sharedTrips = action.payload;
-        },
-        logout: () => initialState
+        logoutUser: () => initialState
     }
 });
 
@@ -38,9 +30,7 @@ export const {
     setUserFirstName,
     setUserLastName,
     setToken,
-    setTrips,
-    setSharedTrips,
-    logout
+    logoutUser
 } = userDataSlice.actions;
 
 export default userDataSlice.reducer;

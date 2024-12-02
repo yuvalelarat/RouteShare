@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const baseUrl = 'http://localhost:10000';
+const baseUrl = 'http://localhost:10000/users';
 
 export const userDataApi = createApi({
     reducerPath: 'userDataApi',
@@ -13,17 +13,10 @@ export const userDataApi = createApi({
     endpoints: (builder) => ({
         loginUser: builder.mutation({
             query: (credentials) => ({
-                url: '/users/login',
+                url: '/login',
                 method: 'POST',
                 body: credentials
             })
-        }),
-        getSharedTrips: builder.query({
-            query: () => ({
-                url: '/trips/shared-trips',
-                method: 'GET'
-            }),
-            transformResponse: (response) => response.trips.trips
         })
     })
 });

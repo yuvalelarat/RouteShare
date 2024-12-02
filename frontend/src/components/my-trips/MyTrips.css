@@ -1,9 +1,22 @@
 .trip-details {
     padding-left: 2rem;
     text-align: left;
+    max-width: 40rem;
+}
+
+.shared-trip-details {
+    padding-left: 2rem;
+    text-align: left;
+    width: 320px;
 }
 
 @media (max-width: 1000px) {
+    .shared-trip-details {
+        padding-left: 0;
+        text-align: center;
+        width: unset;
+    }
+
     .trip-details {
         padding-left: 0;
         text-align: center;
@@ -12,6 +25,9 @@
 
 .truncate-header-trip {
     margin: 0;
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @media (max-width: 1000px) {
@@ -34,19 +50,30 @@
     }
 }
 
+.shared-trip-trip-name {
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
 .shared-trip-role-and-creator {
     display: flex;
     width: 30%;
     justify-content: space-between;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 500px) {
     .shared-trip-role-and-creator {
         width: 100%;
+        white-space: wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 
 .view-edit-button {
+    min-width: 118.95px !important;
     color: black !important;
     outline: 1px solid black !important;
     background-color: var(--color-lightblue-button) !important;

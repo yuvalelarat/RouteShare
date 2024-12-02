@@ -11,7 +11,7 @@ function TripCard() {
             <Box sx={boxStyle}>
                 <MyTripsArea />
             </Box>
-            <PageTitle title={'Trips shard with me'} />
+            <PageTitle title={'Trips shared with me'} />
             <Box sx={boxStyle}>
                 <SharedTripsArea />
             </Box>

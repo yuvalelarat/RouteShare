@@ -2,7 +2,8 @@ import './header.css';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../redux/slices/userDataSlice.js';
+import { logoutUser } from '../../redux/slices/userDataSlice.js';
+import { logoutTrips } from '../../redux/slices/tripsDataSlice.js';
 import { stringToUrlFormat } from '../../utils/common.utils.js';
 import { userPages, guestPages } from './constants.js';
 import HeaderLeft from './HeaderLeft';
@@ -18,10 +19,9 @@ function Header() {
 
     const handleNavigate = (page) => {
         if (page === 'Logout') {
-            dispatch(logout());
+            dispatch(logoutUser());
+            dispatch(logoutTrips());
             console.log('Logged out');
-
-            localStorage.removeItem('userData');
 
             navigate('/login');
         } else {
