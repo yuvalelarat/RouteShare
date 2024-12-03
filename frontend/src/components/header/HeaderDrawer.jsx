@@ -51,7 +51,7 @@ function HeaderDrawer({ open, toggleDrawer }) {
                 )}
             </div>
             {pages.map((page) => (
-                <div
+                <button
                     key={page}
                     className="nav-button"
                     onClick={() => {
@@ -60,7 +60,7 @@ function HeaderDrawer({ open, toggleDrawer }) {
                     }}
                 >
                     <p>{page}</p>
-                </div>
+                </button>
             ))}
         </Drawer>
     );

@@ -11,6 +11,11 @@
 }
 
 .nav-button {
+    background-color: transparent;
+    border: transparent;
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-size: medium;
     cursor: pointer;
     color: black;
     margin: 0;
@@ -20,7 +25,6 @@
     position: relative;
     justify-content: center;
     padding: 10px 12px;
-    font-weight: 400;
 }
 
 .nav-button p {
@@ -43,7 +47,7 @@
     bottom: 0;
     left: 0;
     width: 0;
-    height: 1px;
+    height: 2px;
     background-color: var(--color-blue-symbol);
     transition: width 0.3s ease, background-color 0.3s ease, height 0.3s ease;
 }
@@ -97,7 +101,7 @@
 
 .drawer-header {
     padding-top: 20px;
-    
+
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -15,11 +15,11 @@ function Main() {
             <h3 className={'third-heading'}>
                 Organize trips, track expenses, and stay connected every step of the way!
             </h3>
-            <div className={'button-div'} onClick={() => {
+            <button className={'button-div'} onClick={() => {
                 navigate('/register');
             }}>
                 <h3 className={'register'}>Register</h3>
-            </div>
+            </button>
         </div>
     );
 }

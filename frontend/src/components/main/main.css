@@ -91,6 +91,10 @@
 }
 
 .button-div {
+    border: transparent;
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-size: medium;
     cursor: pointer;
     background-color: var(--color-blue-login-register-button);
     padding: 4px 6px;

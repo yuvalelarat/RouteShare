@@ -38,13 +38,13 @@ function Header() {
             <HeaderLeft toggleDrawer={toggleDrawer} />
             <nav className="navbar">
                 {pages.map((page) => (
-                    <div
+                    <button
                         key={page}
                         className="nav-button"
                         onClick={() => handleNavigate(page)}
                     >
                         <p>{page}</p>
-                    </div>
+                    </button>
                 ))}
             </nav>
             <HeaderRight />
