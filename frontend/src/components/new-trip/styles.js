@@ -5,13 +5,13 @@ export const boxStyle = {
     alignItems: 'center',
     textAlign: 'center',
     padding: '16px',
-    position: 'relative'
+    position: 'relative',
 };
 
 export const cardStyle = {
     minWidth: 200,
     width: '50rem',
-    boxShadow: '-4px 4px 4px rgba(0, 0, 0, 0.2)',
+    boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px',
     marginTop: 3,
     outline: '1px solid  var(--color-lightgray-outline)',
     borderRadius: '8px',
@@ -19,16 +19,16 @@ export const cardStyle = {
     padding: 3,
     '@media (max-width: 900px)': {
         width: '80%',
-        padding: '2rem'
+        padding: '2rem',
     },
     '@media (max-width: 600px)': {
         width: '90%',
-        padding: '1rem'
-    }
+        padding: '1rem',
+    },
 };
 
 export const cardContentStyle = {
     display: 'flex',
     flexDirection: 'column',
-    gap: 2
+    gap: 2,
 };

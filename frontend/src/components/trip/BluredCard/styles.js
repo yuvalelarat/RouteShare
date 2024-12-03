@@ -18,7 +18,7 @@ export const cardStyle = {
     width: '20vw',
     height: 400,
     padding: '24px',
-    boxShadow: '-4px 4px 4px rgba(0, 0, 0, 0.2)',
+    boxShadow: 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px',
     margin: '0',
     outline: '1px solid var(--color-lightgray-outline)',
     borderRadius: '8px',
