@@ -6,14 +6,12 @@ import { userPages, guestPages } from './constants.js';
 import { stringToUrlFormat } from '../../utils/common.utils.js';
 import { logoutUser } from '../../redux/slices/userDataSlice.js';
 import { logoutTrips } from '../../redux/slices/tripsDataSlice.js';
-import { useEffect } from 'react';
 
 // eslint-disable-next-line react/prop-types
 function HeaderDrawer({ open, toggleDrawer }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const firstName = useSelector((state) => state.userData.firstName);
-    const token = useSelector((state) => state.userData.token);
     const pages = firstName ? userPages : guestPages;
 
     const handleNavigate = (page) => {
@@ -25,12 +23,6 @@ function HeaderDrawer({ open, toggleDrawer }) {
             navigate(`/${stringToUrlFormat(page)}`);
         }
     };
-
-    useEffect(() => {
-        if (!token) {
-            navigate('/login');
-        }
-    }, [token, navigate]);
 
     return (
         <Drawer

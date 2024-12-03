@@ -1,6 +1,6 @@
 import './header.css';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../redux/slices/userDataSlice.js';
 import { logoutTrips } from '../../redux/slices/tripsDataSlice.js';
@@ -28,12 +28,6 @@ function Header() {
             navigate(`/${stringToUrlFormat(page)}`);
         }
     };
-
-    useEffect(() => {
-        if (!token) {
-            navigate('/login');
-        }
-    }, [token, navigate]);
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
