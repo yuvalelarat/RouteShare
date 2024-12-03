@@ -74,25 +74,28 @@
 }
 
 .view-edit-button {
-    min-width: 118.95px !important;
+    min-width: 126.49px !important;
     color: black !important;
     outline: 1px solid black !important;
     background-color: var(--color-lightblue-button) !important;
 }
 
 .share-button {
+    min-width: 126.49px !important;
     color: black !important;
     outline: 1px solid black !important;
     background-color: var(--color-lightgreen-button-share) !important;
 }
 
 .expenses-button {
+    min-width: 126.49px !important;
     color: black !important;
     outline: 1px solid black !important;
     background-color: var(--color-lightyellow-button) !important;
 }
 
 .delete-button {
+    min-width: 126.49px !important;
     color: black !important;
     outline: 1px solid black !important;
     background-color: var(--color-lightred-button) !important;
