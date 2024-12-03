@@ -41,7 +41,7 @@ export const tripsDataApi = createApi({
                 url: `/journeys/all-journeys/${trip_id}`,
                 method: 'GET',
             }),
-            transformResponse: (response) => response.journeys,
+            transformResponse: (response) => response,
         }),
     }),
 });

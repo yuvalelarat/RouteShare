@@ -12,7 +12,7 @@ function TripDayCard({ dayNumber, country, description }) {
             <Card sx={cardStyle}>
                 <CardContent sx={cardContentStyle}>
                     <h2 style={{ fontWeight: '400', margin: '0' }}>
-                        28/08/2024 - Day {dayNumber}
+                        Day {dayNumber}
                     </h2>
                     <h2 style={{ fontWeight: '400', margin: '0' }}>{country}</h2>
                     <div style={{

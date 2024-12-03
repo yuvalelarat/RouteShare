@@ -66,7 +66,7 @@ function MyTripsArea() {
                                     View & Edit
                                 </Button>
                                 <Button variant="contained" disableElevation className={'share-button'}>
-                                    Share
+                                    Edit Sharing
                                 </Button>
                                 <Button variant="contained" disableElevation className={'expenses-button'}>
                                     Expenses

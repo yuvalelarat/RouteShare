@@ -114,15 +114,18 @@ export const getAllJourneys = async (req, res) => {
   try {
     const user_id = getUserIdFromToken(req, res);
     if (!user_id) {
-      console.log("user id from token is not available");
-      return;
+      console.log("User ID from token is not available");
+      return res.status(401).json({
+        success: false,
+        error: "Unauthorized access",
+      });
     }
 
-    const journeys = await getAllJourneysService(trip_id, user_id);
+    const tripDetails = await getAllJourneysService(trip_id, user_id);
 
     res.status(200).json({
       success: true,
-      journeys,
+      ...tripDetails,
     });
   } catch (err) {
     console.error("Unexpected error in getAllJourneys:", err.message || err);

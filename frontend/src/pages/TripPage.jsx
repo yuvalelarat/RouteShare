@@ -7,13 +7,17 @@ import { useParams } from 'react-router-dom';
 
 function TripPage() {
     const { trip_id } = useParams();
-    console.log('Trip ID:', trip_id);
     if (!trip_id) {
         return <div>Error: Trip ID is not available.</div>;
     }
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { data, error, isLoading } = useGetAllJourneysQuery(trip_id);
 
+    const tripName = data?.trip_name;
+    const journeys = data?.journeys;
+    const tripAdmin = data?.trip_admin.admin_name;
+    const startDate = data?.start_date;
+    const endDate = data?.end_date;
 
     const titleDivStyle = {
         margin: '0',
@@ -38,21 +42,24 @@ function TripPage() {
     if (error) {
         return <div>Error loading journeys: {error.message}</div>;
     }
-
     return (
         <>
             <div style={titleDivStyle}>
-                <PageTitle title={'TRIP NAME'} />
+                <PageTitle title={tripName} />
             </div>
-            <TripDetailsHeaders />
+            <TripDetailsHeaders
+                tripAdmin={tripAdmin}
+                startDate={new Date(startDate).toLocaleDateString('en-GB')}
+                endDate={new Date(endDate).toLocaleDateString('en-GB')}
+            />
             <div style={cardDivStyle}>
-                {data?.map((journey) => (
-                    <TripDayCard
-                        key={journey.journey_id}
-                        dayNumber={journey.day_number}
-                        country={journey.country}
-                        description={journey.description}
-                    />
+                {journeys?.map((journey) => (
+                        <TripDayCard
+                            key={journey.journey_id}
+                            dayNumber={journey.day_number}
+                            country={journey.country}
+                            description={journey.description}
+                        />
                 ))}
                 <BluredCard />
             </div>

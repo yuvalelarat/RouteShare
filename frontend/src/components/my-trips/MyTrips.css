@@ -28,6 +28,7 @@
     white-space: wrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 600px;
 }
 
 @media (max-width: 1000px) {

@@ -34,6 +34,9 @@ export const cardContentStyle = {
     justifyContent: 'space-between',
     flexWrap: 'wrap',
     gap: '1rem',
+    '@media (max-width: 1250px)': {
+        justifyContent: 'center',
+    },
     '@media (max-width: 1000px)': {
         flexDirection: 'column',
         padding: '1rem',
@@ -41,5 +44,6 @@ export const cardContentStyle = {
         justifyContent: 'center',
         textAlign: 'center',
         gap: '1rem'
-    }
+    },
+
 };

@@ -125,13 +125,18 @@ export const getAllJourneysService = async (trip_id, user_id) => {
 
   if (trip.user.user_id !== user_id) {
     const isParticipant = trip.participants.some(
-      (p) => p.user.user_id === user_id
+        (p) => p.user.user_id === user_id
     );
     if (!isParticipant) {
       throw new Error(
-        "You do not have permission to view journeys for this trip."
+          "You do not have permission to view journeys for this trip."
       );
     }
+  }
+
+  const tripAdmin = trip.participants.find((participant) => participant.role === "admin");
+  if (!tripAdmin) {
+    throw new Error("Trip admin not found.");
   }
 
   const journeys = trip.journeys.map((journey) => ({
@@ -141,5 +146,16 @@ export const getAllJourneysService = async (trip_id, user_id) => {
     description: journey.description,
   }));
 
-  return journeys;
+
+  return {
+    trip_name: trip.trip_name,
+    start_date: trip.start_date,
+    end_date: trip.end_date,
+    trip_admin: {
+      admin_id: tripAdmin.user.user_id,
+      admin_name: `${tripAdmin.user.first_name} ${tripAdmin.user.last_name}`,
+    },
+    journeys,
+  };
 };
+
