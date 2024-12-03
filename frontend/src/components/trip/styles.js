@@ -1,15 +1,17 @@
 export const boxStyle = {
+    outline: '1px solid black',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
     padding: '16px',
-    position: 'relative'
+    position: 'relative',
+    minWidth: '280px'
 };
 
 export const cardStyle = {
-    minWidth: 210,
+    minWidth: '280px',
     width: '20vw',
     height: 400,
     boxShadow: '-4px 4px 4px rgba(0, 0, 0, 0.2)',

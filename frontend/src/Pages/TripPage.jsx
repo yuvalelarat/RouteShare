@@ -17,6 +17,7 @@ function TripPage() {
         flexDirection: 'row',
         justifyContent: 'center',
         gap: '5vw'
+
     };
 
     return (

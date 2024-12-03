@@ -7,7 +7,10 @@ import CardActions from '@mui/material/CardActions';
 
 function AddLoginCard() {
     const boxStyle = {
-        width: '20vw',
+        outline: '1px solid black',
+        width: '22vw',
+        minWidth: '321px',
+        minHeight: '432px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -18,7 +21,7 @@ function AddLoginCard() {
     };
 
     const cardStyle = {
-        minWidth: 210,
+        minWidth: '280px',
         width: '20vw',
         height: 400,
         padding: '24px',
