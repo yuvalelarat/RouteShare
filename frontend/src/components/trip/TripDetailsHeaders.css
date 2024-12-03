@@ -1,6 +1,11 @@
 .share-container {
     margin: 0.5rem;
-    margin-bottom: 0;
+    cursor: pointer;
+    padding: 3px;
+    border: none;
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-size: large;
     display: flex;
     align-items: center;
     outline: 1px solid black;

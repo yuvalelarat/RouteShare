@@ -25,11 +25,16 @@ function LoginCard() {
                         <p style={{ margin: '0' }}>here will be description of the day</p>
                     </div>
                 </CardContent>
-                <CardActions style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+                <CardActions
+                    style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', gap: '1rem' }}>
                     <h3 style={{ fontWeight: '400', margin: '0' }}>Expenses: 100$</h3>
-                    <div style={{
-                        margin: '0.5rem',
-                        marginBottom: '0',
+                    <button style={{
+                        border: 'none',
+                        fontFamily: 'inherit',
+                        fontWeight: '400',
+                        fontSize: 'medium',
+                        padding: '6px 8px',
+                        margin: '0',
                         display: 'flex',
                         alignItems: 'center',
                         outline: '1px solid black',
@@ -37,15 +42,8 @@ function LoginCard() {
                         backgroundColor: 'var(--color-blue-symbol)',
                         cursor: 'pointer'
                     }}>
-                        <h3 style={{
-                            padding: '6px 8px',
-                            margin: '0',
-                            fontWeight: '400',
-                            textAlign: 'center'
-                        }}>
-                            More info
-                        </h3>
-                    </div>
+                        More info
+                    </button>
                 </CardActions>
             </Card>
         </Box>
