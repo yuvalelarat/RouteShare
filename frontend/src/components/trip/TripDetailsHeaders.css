@@ -1,14 +1,15 @@
 .share-container {
-    margin: 0.5rem;
-    cursor: pointer;
-    padding: 3px;
-    border: none;
-    font-family: "Poppins", serif;
-    font-weight: 400;
-    font-size: small;
-    display: flex;
-    align-items: center;
-    outline: 1px solid black;
-    border-radius: 5px;
-    background-color: var(--color-lightyellow-button);
+    margin: 0.5rem !important;
+    cursor: pointer!important;
+    padding: 3px!important;
+    border: none!important;
+    font-family: "Poppins", serif!important;
+    font-weight: 400!important;
+    font-size: small!important;
+    color: black !important;
+    display: flex!important;
+    align-items: center!important;
+    outline: 1px solid black!important;
+    border-radius: 5px!important;
+    background-color: var(--color-lightyellow-button)!important;
 }

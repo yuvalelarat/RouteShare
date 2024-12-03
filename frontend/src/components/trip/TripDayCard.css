@@ -14,16 +14,17 @@
 }
 
 .more-info-button{
-    border: none;
-    font-family: inherit;
-    font-weight: 400;
-    font-size: medium;
-    padding: 6px 8px;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    outline: 1px solid black;
-    border-radius: 5px;
-    background-color: var(--color-blue-symbol);
-    cursor: pointer;
+    border: none!important;
+    font-family: inherit!important;
+    font-weight: 400!important;
+    font-size: medium!important;
+    padding: 6px 8px!important;
+    margin: 0!important;
+    display: flex!important;
+    color: black !important;
+    align-items: center!important;
+    outline: 1px solid black!important;
+    border-radius: 5px!important;
+    background-color: var(--color-blue-symbol)!important;
+    cursor: pointer!important;
 }

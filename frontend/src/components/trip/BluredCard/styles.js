@@ -10,7 +10,8 @@ export const boxStyle = {
     textAlign: 'center',
     padding: '16px',
     position: 'relative',
-    cursor: 'pointer',
+    cursor: 'default',
+    userSelect: 'none',
 };
 
 export const cardStyle = {
@@ -49,6 +50,9 @@ export const circleStyle = {
 export const headerStyle = {
     fontWeight: '600',
     margin: '0',
+    color: 'black',
+    backgroundColor: 'inherit',
+    borderRadius: '45px',
 };
 
 export const cardContentStyle = {

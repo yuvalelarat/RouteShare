@@ -16,6 +16,7 @@ import {
     circleContainerStyle,
     cardHeaderStyle,
 } from './styles.js';
+import Button from '@mui/material/Button';
 
 function BluredCard() {
     return (
@@ -41,7 +42,9 @@ function BluredCard() {
             </Card>
             <div style={circleContainerStyle}>
                 <div style={circleStyle}>
-                    <h3 style={headerStyle}>Add day</h3>
+                    <Button variant={'contained'} disableElevation style={headerStyle}>
+                        Add day
+                    </Button>
                 </div>
             </div>
         </Box>
