@@ -3,20 +3,35 @@ import './MyTrips.css';
 import { cardContentStyle, cardStyle } from './styles.js';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { useGetSharedTripsQuery } from '../../redux/rtk/tripsDataApi.js';
+import { useGetSharedTripsQuery, useLazyGetTripQuery } from '../../redux/rtk/tripsDataApi.js';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setSharedTrips } from '../../redux/slices/tripsDataSlice.js';
+import { useNavigate } from 'react-router-dom';
 
 function SharedTripsArea() {
     const { data, error, isLoading } = useGetSharedTripsQuery();
+    const [triggerGetSharedTrips, { data: sharedTripData, error: sharedTripError }] = useLazyGetTripQuery();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (data?.trips) {
             dispatch(setSharedTrips(data.trips));
         }
     }, [data, dispatch]);
+
+    const handleTripClick = (tripId) => {
+        triggerGetSharedTrips(tripId).unwrap()
+            .then((response) => {
+                if (response.success) {
+                    navigate(`/trip/${tripId}`);
+                } else {
+                    alert('Error: Unable to load shared trip details');
+                }
+            })
+            .catch((err) => alert('Error: ' + err.message));
+    };
 
     if (isLoading) {
         return <p>Loading...</p>; //TODO: Add animation for loading?
@@ -57,6 +72,7 @@ function SharedTripsArea() {
                                     variant="contained"
                                     disableElevation
                                     className={'view-edit-button'}
+                                    onClick={() => handleTripClick(trip.trip_id)}
                                 >
                                     {trip.participants[0].role === 'edit' ? 'View & Edit' : 'View only'}
                                 </Button>
@@ -72,7 +88,7 @@ function SharedTripsArea() {
                 ))
             ) : (
                 <p>No shared trips available</p>
-            )}{/*TODO: link to "new trip"*/}
+            )}
         </>
     );
 }

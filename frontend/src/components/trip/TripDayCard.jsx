@@ -3,18 +3,18 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import { boxStyle, cardContentStyle, cardStyle } from './styles.js';
-import './TripCard.css';
+import './TripDayCard.css';
 
-{/*TODO: Responsive for phones*/
-}
-
-function LoginCard() {
+// eslint-disable-next-line react/prop-types
+function TripDayCard({ dayNumber, country, description }) {
     return (
         <Box sx={boxStyle}>
             <Card sx={cardStyle}>
                 <CardContent sx={cardContentStyle}>
-                    <h2 style={{ fontWeight: '400', margin: '0' }}>28/08/2024 - Day 1</h2>
-                    <h2 style={{ fontWeight: '400', margin: '0' }}>Iceland</h2>
+                    <h2 style={{ fontWeight: '400', margin: '0' }}>
+                        28/08/2024 - Day {dayNumber}
+                    </h2>
+                    <h2 style={{ fontWeight: '400', margin: '0' }}>{country}</h2>
                     <div style={{
                         outline: '1px solid black',
                         borderRadius: '10px',
@@ -22,7 +22,7 @@ function LoginCard() {
                         textAlign: 'left',
                         padding: '0.5rem'
                     }}>
-                        <p style={{ margin: '0' }}>here will be description of the day</p>
+                        <p style={{ margin: '0' }}>{description}</p>
                     </div>
                 </CardContent>
                 <CardActions
@@ -50,4 +50,4 @@ function LoginCard() {
     );
 }
 
-export default LoginCard;
+export default TripDayCard;

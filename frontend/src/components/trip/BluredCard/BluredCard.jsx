@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import Card from '@mui/material/Card';
-import './TripCard.css';
+import '../TripDayCard.css';
 import CardContent from '@mui/material/CardContent';
-import { cardContentStyle } from './styles.js';
+import { cardContentStyle } from '../styles.js';
 import CardActions from '@mui/material/CardActions';
 
-function AddLoginCard() {
+function BluredCard() {
     const boxStyle = {
         outline: '1px solid black',
         width: '22vw',
@@ -109,4 +109,4 @@ function AddLoginCard() {
     );
 }
 
-export default AddLoginCard;
+export default BluredCard;

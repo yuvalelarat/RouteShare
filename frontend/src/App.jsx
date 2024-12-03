@@ -1,13 +1,13 @@
 import './styles/global.css';
 import Header from './components/header/Header.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import MainPage from './Pages/MainPage.jsx';
-import LoginPage from './Pages/LoginPage.jsx';
-import RegisterPage from './Pages/RegisterPage.jsx';
-import NewTripPage from './Pages/NewTripPage.jsx';
-import MyTripsPage from './Pages/MyTripsPage.jsx';
+import MainPage from './pages/MainPage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
+import RegisterPage from './pages/RegisterPage.jsx';
+import NewTripPage from './pages/NewTripPage.jsx';
+import MyTripsPage from './pages/MyTripsPage.jsx';
 import UserRoutes from './components/PrivateRoutes/UserRoutes.jsx';
-import TripPage from './Pages/TripPage.jsx';
+import TripPage from './pages/TripPage.jsx';
 
 function App() {
     return (
@@ -21,7 +21,7 @@ function App() {
                     <Route element={<UserRoutes />}>
                         <Route path="/my-trips" element={<MyTripsPage />} />
                         <Route path="/new-trip" element={<NewTripPage />} />
-                        <Route path="/trip/:tripId" element={<TripPage />} />
+                        <Route path="/trip/:trip_id" element={<TripPage />} />
                         {/*TODO: <Route path="/trip/:tripId" element={<TripDetailsPage />} />*/}
                     </Route>
                 </Routes>

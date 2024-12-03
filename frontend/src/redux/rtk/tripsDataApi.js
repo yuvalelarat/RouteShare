@@ -1,32 +1,55 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const baseUrl = 'http://localhost:10000/trips';
+const baseUrl = 'http://localhost:10000/';
 
 export const tripsDataApi = createApi({
     reducerPath: 'tripsDataApi',
-    baseQuery: async (args, api, extraOptions) => {
-        const token = api.getState().userData.token;
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
-        const result = await fetchBaseQuery({ baseUrl, headers })(args, api, extraOptions);
-        return result;
-    },
+    baseQuery: fetchBaseQuery({
+        baseUrl,
+        prepareHeaders: (headers, { getState }) => {
+            const token = getState().userData.token;
+            if (token) {
+                headers.set('Authorization', `Bearer ${token}`);
+            }
+            return headers;
+        },
+    }),
     endpoints: (builder) => ({
         getMyTrips: builder.query({
             query: () => ({
-                url: '/my-trips',
-                method: 'GET'
+                url: 'trips/my-trips',
+                method: 'GET',
             }),
-            transformResponse: (response) => response.trips // Extract trips from the response
+            transformResponse: (response) => response.trips,
         }),
         getSharedTrips: builder.query({
             query: () => ({
-                url: '/shared-trips',
-                method: 'GET'
+                url: 'trips/shared-trips',
+                method: 'GET',
             }),
-            transformResponse: (response) => response.trips // Extract trips from the response
-        })
-    })
-
+            transformResponse: (response) => response.trips,
+        }),
+        getTrip: builder.query({
+            query: (trip_id) => ({
+                url: `trips/get-trip/${trip_id}`,
+                method: 'GET',
+            }),
+            transformResponse: (response) => response,
+        }),
+        getAllJourneys: builder.query({
+            query: (trip_id) => ({
+                url: `/journeys/all-journeys/${trip_id}`,
+                method: 'GET',
+            }),
+            transformResponse: (response) => response.journeys,
+        }),
+    }),
 });
 
-export const { useGetMyTripsQuery, useGetSharedTripsQuery } = tripsDataApi;
+export const {
+    useGetMyTripsQuery,
+    useGetSharedTripsQuery,
+    useGetTripQuery,
+    useLazyGetTripQuery,
+    useGetAllJourneysQuery,
+} = tripsDataApi;

@@ -3,15 +3,17 @@ import './MyTrips.css';
 import { cardContentStyle, cardStyle } from './styles.js';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { useGetMyTripsQuery } from '../../redux/rtk/tripsDataApi.js';
+import { useNavigate } from 'react-router-dom';
+import { useGetMyTripsQuery, useLazyGetTripQuery } from '../../redux/rtk/tripsDataApi.js';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setTrips } from '../../redux/slices/tripsDataSlice.js';
 
-
 function MyTripsArea() {
     const { data, error, isLoading } = useGetMyTripsQuery();
+    const [getTrip, { data: tripData, error: tripError }] = useLazyGetTripQuery();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (data?.trips) {
@@ -19,8 +21,17 @@ function MyTripsArea() {
         }
     }, [data, dispatch]);
 
+    const handleTripClick = async (tripId) => {
+        const response = await getTrip(tripId);
+        if (response?.data?.success) {
+            navigate(`/trip/${tripId}`);
+        } else {
+            alert(response?.data?.error || 'Error fetching trip details.');
+        }
+    };
+
     if (isLoading) {
-        return <p>Loading...</p>; //TODO: Add animation for loading?
+        return <p>Loading...</p>; // TODO: Add animation for loading?
     }
 
     if (error) {
@@ -46,7 +57,12 @@ function MyTripsArea() {
                                 </h3>
                             </div>
                             <div className={'buttonDiv'}>
-                                <Button variant="contained" disableElevation className={'view-edit-button'}>
+                                <Button
+                                    variant="contained"
+                                    disableElevation
+                                    className={'view-edit-button'}
+                                    onClick={() => handleTripClick(trip.trip_id)}
+                                >
                                     View & Edit
                                 </Button>
                                 <Button variant="contained" disableElevation className={'share-button'}>
@@ -64,10 +80,9 @@ function MyTripsArea() {
                 ))
             ) : (
                 <p>No trips available</p>
-            )}{/*TODO: link to "new trip"*/}
+            )}
         </>
     );
-
 }
 
 export default MyTripsArea;
