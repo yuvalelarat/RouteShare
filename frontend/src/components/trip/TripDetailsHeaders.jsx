@@ -8,7 +8,7 @@ function TripDetailsHeaders({ tripAdmin, startDate, endDate }) {
             <h3 style={{ margin: '0', fontWeight: '400' }}>{`${startDate} - ${endDate}`}</h3>
 
             <button className={'share-container'}>
-                Share
+                Change dates
             </button>
         </div>
     );

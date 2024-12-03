@@ -1,0 +1,29 @@
+.description-div {
+    outline: 1px solid black;
+    border-radius: 10px;
+    height: 10rem;
+    text-align: left;
+    padding: 0.5rem;
+}
+
+.card-action-style{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.more-info-button{
+    border: none;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: medium;
+    padding: 6px 8px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    outline: 1px solid black;
+    border-radius: 5px;
+    background-color: var(--color-blue-symbol);
+    cursor: pointer;
+}
