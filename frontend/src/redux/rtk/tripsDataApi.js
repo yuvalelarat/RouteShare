@@ -46,10 +46,5 @@ export const tripsDataApi = createApi({
     }),
 });
 
-export const {
-    useGetMyTripsQuery,
-    useGetSharedTripsQuery,
-    useGetTripQuery,
-    useLazyGetTripQuery,
-    useGetAllJourneysQuery,
-} = tripsDataApi;
+export const { useGetMyTripsQuery, useGetSharedTripsQuery, useLazyGetTripQuery, useGetAllJourneysQuery } =
+    tripsDataApi;

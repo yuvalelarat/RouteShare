@@ -6,12 +6,14 @@ import { userPages, guestPages } from './constants.js';
 import { stringToUrlFormat } from '../../utils/common.utils.js';
 import { logoutUser } from '../../redux/slices/userDataSlice.js';
 import { logoutTrips } from '../../redux/slices/tripsDataSlice.js';
+import { useEffect } from 'react';
 
 // eslint-disable-next-line react/prop-types
 function HeaderDrawer({ open, toggleDrawer }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const firstName = useSelector((state) => state.userData.firstName);
+    const token = useSelector((state) => state.userData.token);
     const pages = firstName ? userPages : guestPages;
 
     const handleNavigate = (page) => {
@@ -19,19 +21,23 @@ function HeaderDrawer({ open, toggleDrawer }) {
             dispatch(logoutUser());
             dispatch(logoutTrips());
             console.log('Logged out');
-
-            navigate('/login');
         } else {
             navigate(`/${stringToUrlFormat(page)}`);
         }
     };
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/login');
+        }
+    }, [token, navigate]);
 
     return (
         <Drawer
             open={open}
             onClose={toggleDrawer(false)}
             PaperProps={{
-                className: 'drawer-style'
+                className: 'drawer-style',
             }}>
             <div className="drawer-header">
                 <NavBarLogo toggleDrawer={toggleDrawer} />
@@ -57,8 +63,7 @@ function HeaderDrawer({ open, toggleDrawer }) {
                     onClick={() => {
                         toggleDrawer(false)();
                         handleNavigate(page);
-                    }}
-                >
+                    }}>
                     <p>{page}</p>
                 </button>
             ))}

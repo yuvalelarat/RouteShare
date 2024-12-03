@@ -1,6 +1,6 @@
 import './header.css';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../redux/slices/userDataSlice.js';
 import { logoutTrips } from '../../redux/slices/tripsDataSlice.js';
@@ -9,6 +9,7 @@ import { userPages, guestPages } from './constants.js';
 import HeaderLeft from './HeaderLeft';
 import HeaderDrawer from './HeaderDrawer';
 import HeaderRight from './headerRight.jsx';
+import { tripsDataApi } from '../../redux/rtk/tripsDataApi.js';
 
 function Header() {
     const navigate = useNavigate();
@@ -21,13 +22,18 @@ function Header() {
         if (page === 'Logout') {
             dispatch(logoutUser());
             dispatch(logoutTrips());
+            dispatch(tripsDataApi.util.resetApiState()); //apparently this is necessary to reset the state of the api slice
             console.log('Logged out');
-
-            navigate('/login');
         } else {
             navigate(`/${stringToUrlFormat(page)}`);
         }
     };
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/login');
+        }
+    }, [token, navigate]);
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
@@ -38,11 +44,7 @@ function Header() {
             <HeaderLeft toggleDrawer={toggleDrawer} />
             <nav className="navbar">
                 {pages.map((page) => (
-                    <button
-                        key={page}
-                        className="nav-button"
-                        onClick={() => handleNavigate(page)}
-                    >
+                    <button key={page} className="nav-button" onClick={() => handleNavigate(page)}>
                         <p>{page}</p>
                     </button>
                 ))}

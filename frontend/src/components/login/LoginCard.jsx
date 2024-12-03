@@ -16,11 +16,11 @@ import './LoginCard.css';
 function LoginCard() {
     const [fields, setFields] = useState({
         email: '',
-        password: ''
+        password: '',
     });
     const [errors, setErrors] = useState({
         email: false,
-        password: false
+        password: false,
     });
 
     const [alertOpen, setAlertOpen] = useState(false);
@@ -38,13 +38,13 @@ function LoginCard() {
     const handleChange = (field) => (e) => {
         setFields((prevFields) => ({
             ...prevFields,
-            [field]: e.target.value
+            [field]: e.target.value,
         }));
 
         if (errors[field] && e.target.value) {
             setErrors((prevErrors) => ({
                 ...prevErrors,
-                [field]: false
+                [field]: false,
             }));
         }
     };
@@ -71,7 +71,6 @@ function LoginCard() {
                 dispatch(setToken(response.token));
                 dispatch(setUserFirstName(response.user.first_name));
                 dispatch(setUserLastName(response.user.last_name));
-
 
                 navigate('/my-trips');
             } catch (err) {
@@ -134,7 +133,6 @@ function LoginCard() {
 
                     {isLoading ? (
                         <CircularProgress size="30px" />
-
                     ) : (
                         <Button
                             variant="contained"
