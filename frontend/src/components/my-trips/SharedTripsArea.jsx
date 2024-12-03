@@ -48,7 +48,7 @@ function SharedTripsArea() {
                                 <h3 style={{ margin: '0px' }}>
                                     Created by: <br /> {trip.user.first_name} {trip.user.last_name}
                                 </h3>
-                                <h3 style={{ margin: '0px' }}>
+                                <h3 style={{ margin: '0px' }}> {/*TODO: Add padding right and fix gap on phones resolution!*/}
                                     Role: <br /> {trip.participants[0].role}
                                 </h3>
                             </div>
