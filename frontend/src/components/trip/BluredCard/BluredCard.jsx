@@ -22,14 +22,18 @@ function BluredCard() {
         <Box sx={boxStyle}>
             <Card sx={cardStyle}>
                 <CardContent sx={cardContentStyle}>
-                    <h2 style={cardHeaderStyle}>28/08/2024 - Day 1</h2>
-                    <h2 style={cardHeaderStyle}>Iceland</h2>
+                    <h2 style={cardHeaderStyle}>31/12/2222 - Day 11</h2>
+                    <h2 style={cardHeaderStyle}>Country</h2>
                     <div style={dayDescriptionBoxStyle}>
-                        <p style={{ margin: '0' }}>here will be description of the day</p>
+                        <p style={{ margin: '0' }}>
+                            here will be description of the day and you can tell all you want about it, and
+                            what will you do in this day, yes, it will be shown in the card, but it will be
+                            blured, so you can't read it, but you can
+                        </p>
                     </div>
                 </CardContent>
                 <CardActions style={cardActionsStyle}>
-                    <h3 style={cardHeaderStyle}>Expenses: 100$</h3>
+                    <h3 style={cardHeaderStyle}>Expenses: 10000$</h3>
                     <div style={moreInfoButtonStyle}>
                         <h3 style={moreInfoButtonTextStyle}>More info</h3>
                     </div>
