@@ -1,4 +1,6 @@
 import express from "express";
+import http from "http";
+import { Server } from "socket.io";
 import dotenv from "dotenv";
 import cors from "cors";
 import dataSource from "./db/connection.js";
@@ -27,6 +29,18 @@ app.use(cors()); //allow from all origins (for now)
   }
 })();
 
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
+
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+
 //routes
 app.use("/users", userRoutes);
 app.use("/trips", authenticateToken, tripRoutes);
@@ -34,7 +48,23 @@ app.use("/participants", authenticateToken, tripPaticipantRoutes);
 app.use("/journeys", authenticateToken, journeyRoutes);
 app.use("/activities", authenticateToken, activityRoutes);
 
+io.on("connection", (socket) => {
+  console.log("a user connected");
 
-app.listen(port, () => {
+  socket.on('join-trip', (tripId) => {
+    socket.join(tripId);
+    console.log(`User joined trip: ${tripId}`);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
+
+export const emitNewJourney = (tripId, newJourney) => {
+  io.to(tripId).emit('new-journey', newJourney);
+};
+
+server.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
 });

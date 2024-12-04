@@ -8,6 +8,7 @@ import {
   checkRequiredFields,
   getUserIdFromToken,
 } from "../utils/errorHelpers.js";
+import { emitNewJourney } from '../index.js';
 
 export const createJourney = async (req, res) => {
   const { trip_id, day_number, country, description } = req.body;
@@ -29,6 +30,9 @@ export const createJourney = async (req, res) => {
       { trip_id, day_number, country, description },
       user_id
     );
+
+    emitNewJourney(trip_id, savedJourney);
+
 
     res.status(201).json({
       success: true,
