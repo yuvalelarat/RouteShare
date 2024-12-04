@@ -1,5 +1,4 @@
 export const boxStyle = {
-    outline: '1px solid black',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',

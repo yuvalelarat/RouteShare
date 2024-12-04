@@ -144,6 +144,7 @@ export const getAllJourneysService = async (trip_id, user_id) => {
     day_number: journey.day_number,
     country: journey.country,
     description: journey.description,
+    expenses: journey.expenses,
   }));
 
 

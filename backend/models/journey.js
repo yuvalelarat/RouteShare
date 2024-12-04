@@ -32,6 +32,12 @@ export const Journey = new EntitySchema({
       type: "timestamp",
       updateDate: true,
     },
+    expenses: {
+      type: "numeric",
+      precision: 10,
+      scale: 2,
+      default: 0,
+    }
   },
   relations: {
     trip: {

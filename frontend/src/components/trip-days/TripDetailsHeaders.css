@@ -1,4 +1,4 @@
-.share-container {
+.edit-trip-details-button {
     margin: 0.5rem !important;
     cursor: pointer!important;
     padding: 3px!important;
@@ -13,3 +13,4 @@
     border-radius: 5px!important;
     background-color: var(--color-lightyellow-button)!important;
 }
+

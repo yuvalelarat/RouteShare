@@ -1,5 +1,4 @@
 export const boxStyle = {
-    outline: '1px solid black',
     width: '22vw',
     minWidth: '321px',
     minHeight: '432px',

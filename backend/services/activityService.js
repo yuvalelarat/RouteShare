@@ -49,6 +49,12 @@ export const createActivityService = async (
       description,
     });
 
+    if (cost) {
+      //ensure expenses is initialized to 0 if it's null or undefined
+      journey.expenses = (journey.expenses || 0) + cost;
+      await journeyRepository.save(journey);
+    }
+
     const savedActivity = await activityRepository.save(newActivity);
     return savedActivity;
   } catch (err) {
