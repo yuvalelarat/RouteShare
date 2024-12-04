@@ -17,8 +17,21 @@ import {
     cardHeaderStyle,
 } from './styles.js';
 import Button from '@mui/material/Button';
+import { useState } from 'react';
+import NewDayForm from '../NewDayForm/NewDayForm.jsx';
 
-function BluredCard() {
+// eslint-disable-next-line react/prop-types
+function BluredCard({startDate, endDate}) {
+    const [open, setOpen] = useState(false); // Manage dialog state
+
+    const handleClickOpen = () => {
+        setOpen(true); // Open the dialog
+    };
+
+    const handleClose = () => {
+        setOpen(false); // Close the dialog
+    };
+
     return (
         <Box sx={boxStyle}>
             <Card sx={cardStyle}>
@@ -42,11 +55,12 @@ function BluredCard() {
             </Card>
             <div style={circleContainerStyle}>
                 <div style={circleStyle}>
-                    <Button variant={'contained'} disableElevation style={headerStyle}>
+                    <Button variant={'contained'} disableElevation style={headerStyle} onClick={handleClickOpen} >
                         Add day
                     </Button>
                 </div>
             </div>
+            <NewDayForm open={open} onClose={handleClose} startDate={startDate} endDate={endDate}/>
         </Box>
     );
 }

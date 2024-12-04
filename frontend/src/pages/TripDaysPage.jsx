@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import './TripPage.css';
 import { calculateNumberOfDays } from '../utils/common.utils.js';
 
-function TripDayPage() {
+function TripDaysPage() {
     const { trip_id } = useParams();
 
     const { data, error, isLoading } = useGetAllJourneysQuery(trip_id);
@@ -48,10 +48,10 @@ function TripDayPage() {
                         expenses={journey.expenses}
                     />
                 ))}
-                {numberOfJourneys === numberOfDays ? null : <BluredCard />}
+                {numberOfJourneys === numberOfDays ? null : <BluredCard startDate={new Date(startDate).toLocaleDateString('en-GB')} endDate={new Date(endDate).toLocaleDateString('en-GB')}/>}
             </div>
         </>
     );
 }
 
-export default TripDayPage;
+export default TripDaysPage;
