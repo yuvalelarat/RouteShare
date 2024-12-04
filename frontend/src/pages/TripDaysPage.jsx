@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 import PageTitle from '../components/common/PageTitle';
 import TripDayCard from '../components/trip-days/TripDayCard.jsx';
 import TripDetailsHeaders from '../components/trip-days/TripDetailsHeaders.jsx';
@@ -7,18 +9,38 @@ import { useParams } from 'react-router-dom';
 import './TripPage.css';
 import { calculateNumberOfDays } from '../utils/common.utils.js';
 
+const socket = io('http://localhost:10000');
+
 function TripDaysPage() {
     const { trip_id } = useParams();
-
     const { data, error, isLoading } = useGetAllJourneysQuery(trip_id);
+    const [journeys, setJourneys] = useState([]);
+
+    useEffect(() => {
+        if (data) {
+            setJourneys(data.journeys);
+        }
+    }, [data]);
+
+    useEffect(() => {
+        socket.emit('join-trip', trip_id);
+        socket.on('new-journey', (newJourney) => {
+            setJourneys((prevJourneys) =>
+                [...prevJourneys, newJourney].sort((a, b) => a.day_number - b.day_number),
+            );
+        });
+
+        return () => {
+            socket.off('new-journey');
+            socket.emit('leave-trip', trip_id);
+        };
+    }, [trip_id]);
 
     const tripName = data?.trip_name;
-    const journeys = data?.journeys;
-    const sortedJourneys = journeys ? [...journeys].sort((a, b) => a.day_number - b.day_number) : [];
     const tripAdmin = data?.trip_admin.admin_name;
     const startDate = data?.start_date;
     const endDate = data?.end_date;
-    const numberOfJourneys = journeys ? journeys.length : 0;
+    const numberOfJourneys = journeys.length;
     const numberOfDays = calculateNumberOfDays(startDate, endDate);
 
     if (isLoading) {
@@ -39,7 +61,7 @@ function TripDaysPage() {
                 endDate={new Date(endDate).toLocaleDateString('en-GB')}
             />
             <div className={'cardDiv'}>
-                {sortedJourneys.map((journey) => (
+                {journeys.map((journey) => (
                     <TripDayCard
                         key={journey.journey_id}
                         dayNumber={journey.day_number}
@@ -48,7 +70,12 @@ function TripDaysPage() {
                         expenses={journey.expenses}
                     />
                 ))}
-                {numberOfJourneys === numberOfDays ? null : <BluredCard startDate={new Date(startDate).toLocaleDateString('en-GB')} endDate={new Date(endDate).toLocaleDateString('en-GB')}/>}
+                {numberOfJourneys === numberOfDays ? null : (
+                    <BluredCard
+                        startDate={new Date(startDate).toLocaleDateString('en-GB')}
+                        endDate={new Date(endDate).toLocaleDateString('en-GB')}
+                    />
+                )}
             </div>
         </>
     );

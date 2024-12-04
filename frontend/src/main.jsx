@@ -7,7 +7,17 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 import App from './App.jsx';
 import theme from './theme';
 import './index.css';
+import { io } from 'socket.io-client';
 
+const socket = io('http://localhost:10000');
+
+socket.on('connect', () => {
+    console.log('connected to server');
+});
+
+socket.on('disconnect', () => {
+    console.log('disconnected from server');
+});
 
 createRoot(document.getElementById('root')).render(
     <Provider store={store}>
@@ -19,5 +29,5 @@ createRoot(document.getElementById('root')).render(
                 </PersistGate>
             </StrictMode>
         </ThemeProvider>
-    </Provider>
+    </Provider>,
 );

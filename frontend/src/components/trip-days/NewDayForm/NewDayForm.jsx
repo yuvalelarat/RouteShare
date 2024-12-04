@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FormControl, Input, InputAdornment, InputLabel } from '@mui/material';
 import { formatDate, calculateDayNumber } from '../../../utils/common.utils.js';
 import { useCreateJourneyMutation } from '../../../redux/rtk/tripsDataApi.js';
@@ -23,10 +23,6 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
     const [descriptionHelperText, setDescriptionHelperText] = useState('0/120 characters');
     const [createJourney, { isLoading, error, data }] = useCreateJourneyMutation();
     const [localError, setLocalError] = useState(null);
-
-    useEffect(() => {
-        setDate(formatDate(startDate));
-    }, [startDate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -54,7 +50,6 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
         setLocationError(false);
         setLocationHelperText('0/30 characters');
         setDescriptionHelperText('0/120 characters');
-        setLocalError(null);
         onClose();
     };
 
@@ -63,6 +58,7 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
         let isValid = true;
 
         if (!date) {
+            console.log('Date is required');
             setDateError(true);
             isValid = false;
         }
@@ -71,11 +67,16 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
             setLocationError(true);
             isValid = false;
         }
+        console.log(new Date(date).toLocaleDateString('en-GB'));
+        console.log(startDate);
+        console.log(endDate);
 
-        if (
-            new Date(date).toLocaleDateString('en-GB') < startDate ||
-            new Date(date).toLocaleDateString('en-GB') > endDate
-        ) {
+        const parsedDate = new Date(date.split('/').reverse().join('-'));
+        const parsedStartDate = new Date(startDate.split('/').reverse().join('-'));
+        const parsedEndDate = new Date(endDate.split('/').reverse().join('-'));
+
+        if (parsedDate < parsedStartDate || parsedDate > parsedEndDate) {
+            console.log('Date is not in the range');
             setDateError(true);
             isValid = false;
         }

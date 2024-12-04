@@ -21,15 +21,15 @@ import { useState } from 'react';
 import NewDayForm from '../NewDayForm/NewDayForm.jsx';
 
 // eslint-disable-next-line react/prop-types
-function BluredCard({startDate, endDate}) {
-    const [open, setOpen] = useState(false); // Manage dialog state
+function BluredCard({ startDate, endDate }) {
+    const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
-        setOpen(true); // Open the dialog
+        setOpen(true);
     };
 
     const handleClose = () => {
-        setOpen(false); // Close the dialog
+        setOpen(false);
     };
 
     return (
@@ -55,12 +55,16 @@ function BluredCard({startDate, endDate}) {
             </Card>
             <div style={circleContainerStyle}>
                 <div style={circleStyle}>
-                    <Button variant={'contained'} disableElevation style={headerStyle} onClick={handleClickOpen} >
+                    <Button
+                        variant={'contained'}
+                        disableElevation
+                        style={headerStyle}
+                        onClick={handleClickOpen}>
                         Add day
                     </Button>
                 </div>
             </div>
-            <NewDayForm open={open} onClose={handleClose} startDate={startDate} endDate={endDate}/>
+            <NewDayForm open={open} onClose={handleClose} startDate={startDate} endDate={endDate} />
         </Box>
     );
 }
