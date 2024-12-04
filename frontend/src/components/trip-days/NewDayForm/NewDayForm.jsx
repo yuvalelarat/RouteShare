@@ -5,19 +5,23 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormControl, Input, InputAdornment, InputLabel } from '@mui/material';
 import { formatDate, calculateDayNumber } from '../../../utils/common.utils.js';
 
 // eslint-disable-next-line react/prop-types
 export default function NewDayForm({ open, onClose, startDate, endDate }) {
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState(formatDate(startDate));
     const [location, setLocation] = useState('');
     const [description, setDescription] = useState('');
     const [dateError, setDateError] = useState(false);
     const [locationError, setLocationError] = useState(false);
     const [locationHelperText, setLocationHelperText] = useState('0/30 characters');
     const [descriptionHelperText, setDescriptionHelperText] = useState('0/120 characters');
+
+    useEffect(() => {
+        setDate(formatDate(startDate));
+    }, [startDate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -59,6 +63,14 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
 
         if (!location) {
             setLocationError(true);
+            isValid = false;
+        }
+
+        if (
+            new Date(date).toLocaleDateString('en-GB') < startDate ||
+            new Date(date).toLocaleDateString('en-GB') > endDate
+        ) {
+            setDateError(true);
             isValid = false;
         }
 
