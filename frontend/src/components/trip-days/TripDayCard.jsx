@@ -20,9 +20,18 @@ function TripDayCard({ dayNumber, country, description, expenses }) {
                 </CardContent>
                 <CardActions className={'card-action-style'}>
                     <h3 style={{ fontWeight: '400', margin: '0' }}>{`Expenses: ${expenses}$`}</h3>
-                    <Button variant={'contained'} disableElevation className={'more-info-button'}>
-                        More info
-                    </Button>
+                    <div className={'buttons-container'}>
+                        {' '}
+                        <Button variant={'contained'} disableElevation className={'edit-day-button'}>
+                            Edit
+                        </Button>
+                        <Button variant={'contained'} disableElevation className={'more-info-button'}>
+                            View
+                        </Button>
+                        <Button variant={'contained'} disableElevation className={'delete-day-button'}>
+                            Delete
+                        </Button>
+                    </div>
                 </CardActions>
             </Card>
         </Box>

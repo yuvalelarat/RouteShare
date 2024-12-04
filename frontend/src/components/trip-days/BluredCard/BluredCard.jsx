@@ -41,15 +41,34 @@ function BluredCard({ startDate, endDate }) {
                     <div style={dayDescriptionBoxStyle}>
                         <p style={{ margin: '0' }}>
                             here will be description of the day and you can tell all you want about it, and
-                            what will you do in this day, yes, it will be shown in the card, but it will be
-                            blured, so you can't read it, but you can
+                            what will you do in this day, yes, it will be shown in the card
                         </p>
                     </div>
                 </CardContent>
                 <CardActions style={cardActionsStyle}>
                     <h3 style={cardHeaderStyle}>Expenses: 10000$</h3>
-                    <div style={moreInfoButtonStyle}>
-                        <h3 style={moreInfoButtonTextStyle}>More info</h3>
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: '2vw' }}>
+                        <Button
+                            variant={'contained'}
+                            disableElevation
+                            disabled={true}
+                            className={'edit-day-button'}>
+                            Edit
+                        </Button>
+                        <Button
+                            variant={'contained'}
+                            disableElevation
+                            disabled={true}
+                            className={'more-info-button'}>
+                            View
+                        </Button>
+                        <Button
+                            variant={'contained'}
+                            disableElevation
+                            disabled={true}
+                            className={'delete-day-button'}>
+                            Delete
+                        </Button>
                     </div>
                 </CardActions>
             </Card>

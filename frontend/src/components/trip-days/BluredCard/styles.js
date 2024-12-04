@@ -74,6 +74,7 @@ export const cardActionsStyle = {
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
+    gap: '1rem',
 };
 
 export const moreInfoButtonStyle = {
