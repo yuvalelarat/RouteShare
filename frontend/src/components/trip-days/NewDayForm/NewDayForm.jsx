@@ -22,6 +22,7 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
     const [locationHelperText, setLocationHelperText] = useState('0/30 characters');
     const [descriptionHelperText, setDescriptionHelperText] = useState('0/120 characters');
     const [createJourney, { isLoading, error, data }] = useCreateJourneyMutation();
+    const [localError, setLocalError] = useState(null);
 
     useEffect(() => {
         setDate(formatDate(startDate));
@@ -53,6 +54,7 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
         setLocationError(false);
         setLocationHelperText('0/30 characters');
         setDescriptionHelperText('0/120 characters');
+        setLocalError(null);
         onClose();
     };
 
@@ -97,6 +99,7 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
                 resetStates();
             } catch (err) {
                 console.error('Failed to create journey:', err.data.error);
+                setLocalError(err);
             }
         }
     };
@@ -147,7 +150,7 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
                     maxLength={120}
                     helperText={descriptionHelperText}
                 />
-                {error && <p style={{ color: 'red' }}>{error.data.error}</p>}
+                {localError && <p style={{ color: 'red' }}>{error.data.error}</p>}
             </DialogContent>
             <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button className={'cancel-button'} onClick={resetStates}>
