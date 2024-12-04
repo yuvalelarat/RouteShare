@@ -67,9 +67,6 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
             setLocationError(true);
             isValid = false;
         }
-        console.log(new Date(date).toLocaleDateString('en-GB'));
-        console.log(startDate);
-        console.log(endDate);
 
         const parsedDate = new Date(date.split('/').reverse().join('-'));
         const parsedStartDate = new Date(startDate.split('/').reverse().join('-'));
@@ -96,7 +93,10 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
             console.log('journeyData:', journeyData);
             try {
                 await createJourney(journeyData).unwrap();
-                console.log('Journey created successfully:', data);
+                let dateObj = new Date(date);
+                dateObj.setDate(dateObj.getDate() + 1);
+                let newDate = dateObj.toISOString().split('T')[0];
+                setDate(newDate);
                 resetStates();
             } catch (err) {
                 console.error('Failed to create journey:', err.data.error);
