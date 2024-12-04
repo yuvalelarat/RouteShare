@@ -8,9 +8,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useEffect, useState } from 'react';
 import { FormControl, Input, InputAdornment, InputLabel } from '@mui/material';
 import { formatDate, calculateDayNumber } from '../../../utils/common.utils.js';
+import { useCreateJourneyMutation } from '../../../redux/rtk/tripsDataApi.js';
+import { useParams } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
 export default function NewDayForm({ open, onClose, startDate, endDate }) {
+    const { trip_id } = useParams();
     const [date, setDate] = useState(formatDate(startDate));
     const [location, setLocation] = useState('');
     const [description, setDescription] = useState('');
@@ -18,6 +21,7 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
     const [locationError, setLocationError] = useState(false);
     const [locationHelperText, setLocationHelperText] = useState('0/30 characters');
     const [descriptionHelperText, setDescriptionHelperText] = useState('0/120 characters');
+    const [createJourney, { isLoading, error, data }] = useCreateJourneyMutation();
 
     useEffect(() => {
         setDate(formatDate(startDate));
@@ -41,7 +45,6 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
             }
         }
     };
-
     const resetStates = () => {
         setDate('');
         setLocation('');
@@ -53,7 +56,8 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
         onClose();
     };
 
-    const handleSave = () => {
+    const handleSave = async (e) => {
+        e.preventDefault();
         let isValid = true;
 
         if (!date) {
@@ -75,9 +79,25 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
         }
 
         if (isValid) {
-            console.log(calculateDayNumber(new Date(date).toLocaleDateString('en-GB'), startDate, endDate));
-            console.log('Day number is ???? Day details:', { date, location, description });
-            resetStates();
+            const dayNumber = calculateDayNumber(
+                new Date(date).toLocaleDateString('en-GB'),
+                startDate,
+                endDate,
+            );
+            const journeyData = {
+                trip_id,
+                day_number: dayNumber,
+                country: location,
+                description,
+            };
+            console.log('journeyData:', journeyData);
+            try {
+                await createJourney(journeyData).unwrap();
+                console.log('Journey created successfully:', data);
+                resetStates();
+            } catch (err) {
+                console.error('Failed to create journey:', err.data.error);
+            }
         }
     };
 
@@ -127,6 +147,7 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
                     maxLength={120}
                     helperText={descriptionHelperText}
                 />
+                {error && <p style={{ color: 'red' }}>{error.data.error}</p>}
             </DialogContent>
             <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button className={'cancel-button'} onClick={resetStates}>

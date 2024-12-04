@@ -43,8 +43,20 @@ export const tripsDataApi = createApi({
             }),
             transformResponse: (response) => response,
         }),
+        createJourney: builder.mutation({
+            query: ({ trip_id, day_number, country, description }) => ({
+                url: '/journeys/new-journey',
+                method: 'POST',
+                body: { trip_id, day_number, country, description },
+            }),
+        }),
     }),
 });
 
-export const { useGetMyTripsQuery, useGetSharedTripsQuery, useLazyGetTripQuery, useGetAllJourneysQuery } =
-    tripsDataApi;
+export const {
+    useGetMyTripsQuery,
+    useGetSharedTripsQuery,
+    useLazyGetTripQuery,
+    useGetAllJourneysQuery,
+    useCreateJourneyMutation,
+} = tripsDataApi;
