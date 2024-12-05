@@ -21,7 +21,7 @@ function MyTripsArea() {
         }
     }, [data, dispatch]);
 
-    const handleTripClick = async (tripId) => {
+    const handleViewTripClick = async (tripId) => {
         const response = await getTrip(tripId);
         if (response?.data?.success) {
             navigate(`/trip/${tripId}`);
@@ -61,8 +61,7 @@ function MyTripsArea() {
                                     variant="contained"
                                     disableElevation
                                     className={'view-edit-button'}
-                                    onClick={() => handleTripClick(trip.trip_id)}
-                                >
+                                    onClick={() => handleViewTripClick(trip.trip_id)}>
                                     View & Edit
                                 </Button>
                                 <Button variant="contained" disableElevation className={'share-button'}>

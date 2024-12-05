@@ -6,6 +6,7 @@ import { userDataApi } from './rtk/userDataApi.js';
 import tripsDataSlice from './slices/tripsDataSlice.js';
 import { tripsDataApi } from './rtk/tripsDataApi.js';
 import { journeyDataApi } from './rtk/journeyDataApi.js';
+import { activityDataApi } from './rtk/activityDataApi.js';
 
 const persistConfig = {
     key: 'userData',
@@ -21,13 +22,19 @@ const store = configureStore({
         [userDataApi.reducerPath]: userDataApi.reducer,
         [tripsDataApi.reducerPath]: tripsDataApi.reducer,
         [journeyDataApi.reducerPath]: journeyDataApi.reducer,
+        [activityDataApi.reducerPath]: activityDataApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: {
                 ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
             },
-        }).concat(userDataApi.middleware, tripsDataApi.middleware, journeyDataApi.middleware),
+        }).concat(
+            userDataApi.middleware,
+            tripsDataApi.middleware,
+            journeyDataApi.middleware,
+            activityDataApi.middleware,
+        ),
 });
 
 const persistor = persistStore(store);

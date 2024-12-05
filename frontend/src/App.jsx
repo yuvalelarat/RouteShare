@@ -8,6 +8,7 @@ import NewTripPage from './pages/NewTripPage.jsx';
 import MyTripsPage from './pages/MyTripsPage.jsx';
 import UserRoutes from './private-routes/UserRoutes.jsx';
 import TripDaysPage from './pages/TripDaysPage.jsx';
+import ActivitiesDayPage from './pages/ActivitiesDayPage.jsx';
 
 function App() {
     return (
@@ -22,7 +23,8 @@ function App() {
                         <Route path="/my-trips" element={<MyTripsPage />} />
                         <Route path="/new-trip" element={<NewTripPage />} />
                         <Route path="/trip/:trip_id" element={<TripDaysPage />} />
-                        {/*TODO: <Route path="/trip/:tripId" element={<TripDetailsPage />} />*/}
+                        <Route path="/trip/:trip_id/:journey_id" element={<ActivitiesDayPage />} />
+                        {/*TODO: Make error for random string in url*/}
                     </Route>
                 </Routes>
                 {/*TODO: Add footer??*/}
