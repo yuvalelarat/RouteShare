@@ -54,7 +54,7 @@ export const createJourneyService = async (
 export const deleteJourneyService = async (journey_id, user_id) => {
   const journey = await journeyRepository.findOne({
     where: { journey_id },
-    relations: ["trip", "trip.user", "trip.participants"],
+    relations: ["trip", "trip.user", "trip.participants", "trip.participants.user"],
   });
 
   const entitiesNotFound = await checkIfEntitiesExist([journey], ["Journey"]);
@@ -62,7 +62,7 @@ export const deleteJourneyService = async (journey_id, user_id) => {
 
   if (journey.trip.user.user_id !== user_id) {
     const participant = journey.trip.participants.find(
-      (p) => p.user.user_id === user_id
+        (p) => p.user && p.user.user_id === user_id
     );
     if (!participant || participant.role !== "edit") {
       throw new Error("You do not have permission to delete this journey");
@@ -123,15 +123,12 @@ export const getAllJourneysService = async (trip_id, user_id) => {
   const entitiesNotFound = await checkIfEntitiesExist([trip], ["Trip"]);
   if (entitiesNotFound) throw new Error("Trip not found");
 
-  if (trip.user.user_id !== user_id) {
-    const isParticipant = trip.participants.some(
-        (p) => p.user.user_id === user_id
-    );
-    if (!isParticipant) {
-      throw new Error(
-          "You do not have permission to view journeys for this trip."
-      );
-    }
+  const userRole = trip.participants.find(
+      (participant) => participant.user.user_id === user_id
+  )?.role;
+
+  if (!userRole && trip.user.user_id !== user_id) {
+    throw new Error("You do not have permission to view journeys for this trip.");
   }
 
   const tripAdmin = trip.participants.find((participant) => participant.role === "admin");
@@ -156,6 +153,7 @@ export const getAllJourneysService = async (trip_id, user_id) => {
       admin_id: tripAdmin.user.user_id,
       admin_name: `${tripAdmin.user.first_name} ${tripAdmin.user.last_name}`,
     },
+    user_role: userRole,
     journeys,
   };
 };
