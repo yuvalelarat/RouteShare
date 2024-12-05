@@ -6,7 +6,7 @@ import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import NewTripPage from './pages/NewTripPage.jsx';
 import MyTripsPage from './pages/MyTripsPage.jsx';
-import UserRoutes from './components/PrivateRoutes/UserRoutes.jsx';
+import UserRoutes from './private-routes/UserRoutes.jsx';
 import TripDaysPage from './pages/TripDaysPage.jsx';
 
 function App() {

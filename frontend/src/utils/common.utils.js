@@ -1,3 +1,5 @@
+import { addDays } from 'date-fns';
+
 export const stringToUrlFormat = (string) => {
     return string.toLowerCase().replace(' ', '-');
 };
@@ -47,4 +49,9 @@ export const calculateDayNumber = (selectedDate, startDate, endDate) => {
     const dayNumber = (selected - start) / (1000 * 60 * 60 * 24) + 1;
 
     return dayNumber;
+};
+
+export const calculateJourneyDate = (startDate, dayNumber) => {
+    const start = new Date(startDate);
+    return addDays(start, dayNumber - 1).toLocaleDateString('en-GB');
 };

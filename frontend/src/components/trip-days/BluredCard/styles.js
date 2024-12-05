@@ -31,7 +31,7 @@ export const cardStyle = {
     position: 'absolute',
 };
 
-export const cardHeaderStyle = { fontWeight: '400', margin: '0' };
+export const cardHeaderStyle = { fontWeight: '600', margin: '0' };
 
 export const circleStyle = {
     width: '100px',

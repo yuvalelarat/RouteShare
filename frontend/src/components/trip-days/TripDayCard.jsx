@@ -7,13 +7,13 @@ import './TripDayCard.css';
 import Button from '@mui/material/Button';
 
 // eslint-disable-next-line react/prop-types
-function TripDayCard({ dayNumber, country, description, expenses }) {
+function TripDayCard({ dayNumber, country, description, expenses, date }) {
     return (
         <Box sx={boxStyle}>
             <Card sx={cardStyle}>
                 <CardContent sx={cardContentStyle}>
-                    <h2 style={{ fontWeight: '400', margin: '0' }}>Day {dayNumber}</h2>
-                    <h2 style={{ fontWeight: '400', margin: '0' }}>{country}</h2>
+                    <h3 style={{ fontWeight: '600', margin: '0' }}>{`${date} - Day ${dayNumber}`}</h3>
+                    <h3 style={{ fontWeight: '400', margin: '0' }}>{country}</h3>
                     <div className={'description-div'}>
                         <p style={{ margin: '0' }}>{description}</p>
                     </div>
@@ -21,7 +21,6 @@ function TripDayCard({ dayNumber, country, description, expenses }) {
                 <CardActions className={'card-action-style'}>
                     <h3 style={{ fontWeight: '400', margin: '0' }}>{`Expenses: ${expenses}$`}</h3>
                     <div className={'buttons-container'}>
-                        {' '}
                         <Button variant={'contained'} disableElevation className={'edit-day-button'}>
                             Edit
                         </Button>

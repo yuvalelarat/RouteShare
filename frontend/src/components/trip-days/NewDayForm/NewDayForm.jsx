@@ -100,7 +100,7 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
                 resetStates();
             } catch (err) {
                 console.error('Failed to create journey:', err.data.error);
-                setLocalError(err);
+                setLocalError(err.data.error);
             }
         }
     };
@@ -151,7 +151,12 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
                     maxLength={120}
                     helperText={descriptionHelperText}
                 />
-                {localError && <p style={{ color: 'red' }}>{error.data.error}</p>}
+                {localError && (
+                    <p
+                        style={{
+                            color: 'red',
+                        }}>{`${localError} (${new Date(date).toLocaleDateString('en-GB')})`}</p>
+                )}
             </DialogContent>
             <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
                 <Button className={'cancel-button'} onClick={resetStates}>

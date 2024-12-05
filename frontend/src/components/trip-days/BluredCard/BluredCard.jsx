@@ -10,8 +10,6 @@ import {
     headerStyle,
     boxStyle,
     dayDescriptionBoxStyle,
-    moreInfoButtonStyle,
-    moreInfoButtonTextStyle,
     cardActionsStyle,
     circleContainerStyle,
     cardHeaderStyle,
@@ -36,8 +34,8 @@ function BluredCard({ startDate, endDate }) {
         <Box sx={boxStyle}>
             <Card sx={cardStyle}>
                 <CardContent sx={cardContentStyle}>
-                    <h2 style={cardHeaderStyle}>31/12/2222 - Day 11</h2>
-                    <h2 style={cardHeaderStyle}>Country</h2>
+                    <h3 style={cardHeaderStyle}>31/12/2222 - Day 11</h3>
+                    <h3 style={cardHeaderStyle}>Country</h3>
                     <div style={dayDescriptionBoxStyle}>
                         <p style={{ margin: '0' }}>
                             here will be description of the day and you can tell all you want about it, and
@@ -46,7 +44,7 @@ function BluredCard({ startDate, endDate }) {
                     </div>
                 </CardContent>
                 <CardActions style={cardActionsStyle}>
-                    <h3 style={cardHeaderStyle}>Expenses: 10000$</h3>
+                    <h3 style={{ fontWeight: '400', margin: '0' }}>Expenses: 10000$</h3>
                     <div style={{ display: 'flex', flexDirection: 'row', gap: '2vw' }}>
                         <Button
                             variant={'contained'}

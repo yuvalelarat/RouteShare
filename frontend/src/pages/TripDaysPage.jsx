@@ -6,8 +6,8 @@ import TripDetailsHeaders from '../components/trip-days/TripDetailsHeaders.jsx';
 import BluredCard from '../components/trip-days/BluredCard/BluredCard.jsx';
 import { useGetAllJourneysQuery } from '../redux/rtk/tripsDataApi.js';
 import { useParams } from 'react-router-dom';
-import './TripPage.css';
-import { calculateNumberOfDays } from '../utils/common.utils.js';
+import './TripDaysPage.css';
+import { calculateNumberOfDays, calculateJourneyDate } from '../utils/common.utils.js';
 
 const socket = io('http://localhost:10000');
 
@@ -68,6 +68,7 @@ function TripDaysPage() {
                         country={journey.country}
                         description={journey.description}
                         expenses={journey.expenses}
+                        date={calculateJourneyDate(startDate, journey.day_number)}
                     />
                 ))}
                 {numberOfJourneys === numberOfDays ? null : (
