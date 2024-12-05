@@ -50,6 +50,13 @@ export const tripsDataApi = createApi({
                 body: { trip_id, day_number, country, description },
             }),
         }),
+        deleteJourney: builder.mutation({
+            query: ({ journey_id, trip_id }) => ({
+                url: '/journeys/delete-journey',
+                method: 'DELETE',
+                body: { journey_id, trip_id },
+            }),
+        }),
     }),
 });
 
@@ -59,4 +66,5 @@ export const {
     useLazyGetTripQuery,
     useGetAllJourneysQuery,
     useCreateJourneyMutation,
+    useDeleteJourneyMutation,
 } = tripsDataApi;

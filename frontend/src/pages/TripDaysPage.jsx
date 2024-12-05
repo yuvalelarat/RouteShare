@@ -30,8 +30,15 @@ function TripDaysPage() {
             );
         });
 
+        socket.on('delete-journey', (deletedJourneyId) => {
+            setJourneys((prevJourneys) =>
+                prevJourneys.filter((journey) => journey.journey_id !== deletedJourneyId),
+            );
+        });
+
         return () => {
             socket.off('new-journey');
+            socket.off('delete-journey');
             socket.emit('leave-trip', trip_id);
         };
     }, [trip_id]);
@@ -69,6 +76,7 @@ function TripDaysPage() {
                         description={journey.description}
                         expenses={journey.expenses}
                         date={calculateJourneyDate(startDate, journey.day_number)}
+                        journeyId={journey.journey_id}
                     />
                 ))}
                 {numberOfJourneys === numberOfDays ? null : (

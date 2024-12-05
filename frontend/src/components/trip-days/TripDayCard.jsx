@@ -5,9 +5,22 @@ import CardActions from '@mui/material/CardActions';
 import { boxStyle, cardContentStyle, cardStyle } from './styles.js';
 import './TripDayCard.css';
 import Button from '@mui/material/Button';
+import { useDeleteJourneyMutation } from '../../redux/rtk/tripsDataApi.js';
+import { useParams } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
-function TripDayCard({ dayNumber, country, description, expenses, date }) {
+function TripDayCard({ dayNumber, country, description, expenses, date, journeyId }) {
+    const { trip_id } = useParams();
+    const [deleteJourney] = useDeleteJourneyMutation();
+
+    const handleDelete = async () => {
+        try {
+            await deleteJourney({ journey_id: journeyId, trip_id });
+        } catch (error) {
+            console.error('Error deleting journey:', error.message || error);
+        }
+    };
+
     return (
         <Box sx={boxStyle}>
             <Card sx={cardStyle}>
@@ -27,7 +40,11 @@ function TripDayCard({ dayNumber, country, description, expenses, date }) {
                         <Button variant={'contained'} disableElevation className={'more-info-button'}>
                             View
                         </Button>
-                        <Button variant={'contained'} disableElevation className={'delete-day-button'}>
+                        <Button
+                            variant={'contained'}
+                            disableElevation
+                            className={'delete-day-button'}
+                            onClick={handleDelete}>
                             Delete
                         </Button>
                     </div>
