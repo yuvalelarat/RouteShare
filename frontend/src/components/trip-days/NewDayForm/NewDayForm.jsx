@@ -5,11 +5,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useEffect, useState } from 'react';
 import { FormControl, Input, InputAdornment, InputLabel } from '@mui/material';
 import { formatDate, calculateDayNumber } from '../../../utils/common.utils.js';
 import { useCreateJourneyMutation } from '../../../redux/rtk/journeyDataApi.js';
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 
 // eslint-disable-next-line react/prop-types
 export default function NewDayForm({ open, onClose, startDate, endDate }) {
@@ -75,7 +75,9 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
         }
 
         const parsedDate = new Date(date.split('/').reverse().join('-'));
+        // eslint-disable-next-line react/prop-types
         const parsedStartDate = new Date(startDate.split('/').reverse().join('-'));
+        // eslint-disable-next-line react/prop-types
         const parsedEndDate = new Date(endDate.split('/').reverse().join('-'));
 
         if (parsedDate < parsedStartDate || parsedDate > parsedEndDate) {

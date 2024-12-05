@@ -7,6 +7,7 @@ import './TripDayCard.css';
 import Button from '@mui/material/Button';
 import { useDeleteJourneyMutation } from '../../redux/rtk/journeyDataApi.js';
 import { useParams } from 'react-router-dom';
+import DeleteDay from './DeleteDay/DeleteDay.jsx';
 
 // eslint-disable-next-line react/prop-types
 function TripDayCard({ dayNumber, country, description, expenses, date, journeyId, userRole }) {
@@ -42,13 +43,7 @@ function TripDayCard({ dayNumber, country, description, expenses, date, journeyI
                                 <Button variant={'contained'} disableElevation className={'edit-day-button'}>
                                     Edit
                                 </Button>
-                                <Button
-                                    variant={'contained'}
-                                    disableElevation
-                                    className={'delete-day-button'}
-                                    onClick={handleDelete}>
-                                    Delete
-                                </Button>
+                                <DeleteDay handleDelete={handleDelete} />
                             </>
                         )}
                     </div>
