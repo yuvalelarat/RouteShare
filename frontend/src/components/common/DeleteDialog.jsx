@@ -18,13 +18,13 @@ export default function DeleteDialog({ open, close, handleDelete, dialogTitle, d
                 <DialogContentText id="alert-dialog-description">{dialogContentText}</DialogContentText>
             </DialogContent>
             <DialogActions style={{ display: 'flex', justifyContent: 'center', gap: '2rem' }}>
-                <Button variant={'contained'} disableElevation onClick={close} className={'cancel-button'}>
+                <Button variant={'contained'} disableElevation onClick={close} className={'save-button'}>
                     Cancel
                 </Button>
                 <Button
                     variant={'contained'}
                     disableElevation
-                    className={'save-button'}
+                    className={'cancel-button'}
                     onClick={() => {
                         handleDelete();
                         close();
