@@ -29,7 +29,7 @@ function DeleteDay({ handleDelete }) {
                 handleDelete={handleDelete}
                 dialogTitle={'Delete day'}
                 dialogContentText={
-                    'Are you sure you want to delete this day? It will also delete all the activities in this day and cannot be undone.'
+                    'Are you sure you want to delete this day? This action will also delete all activities associated with this day and cannot be undone.'
                 }
             />
         </>
