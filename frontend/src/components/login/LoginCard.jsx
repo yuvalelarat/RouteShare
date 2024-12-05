@@ -9,7 +9,13 @@ import { useState } from 'react';
 import { CustomAlert } from '../common/CustomAlert.jsx';
 import { formFields } from './constants.js';
 import { useDispatch } from 'react-redux';
-import { setToken, setUserFirstName, setUserLastName } from '../../redux/slices/userDataSlice.js';
+import {
+    logoutUser,
+    setLoginTime,
+    setToken,
+    setUserFirstName,
+    setUserLastName,
+} from '../../redux/slices/userDataSlice.js';
 import { useLoginUserMutation } from '../../redux/rtk/userDataApi.js';
 import './LoginCard.css';
 
@@ -67,10 +73,15 @@ function LoginCard() {
             setAlertOpen(false);
             try {
                 const response = await loginUser(fields).unwrap();
-                console.log('Login successful:', response);
+                const loginTime = new Date().toISOString();
+                dispatch(setLoginTime(loginTime));
                 dispatch(setToken(response.token));
                 dispatch(setUserFirstName(response.user.first_name));
                 dispatch(setUserLastName(response.user.last_name));
+
+                setTimeout(() => {
+                    dispatch(logoutUser());
+                }, 7200000);
 
                 navigate('/my-trips');
             } catch (err) {
@@ -140,7 +151,7 @@ function LoginCard() {
                             onClick={handleSubmit}
                             className="login-button"
                             disabled={isLoading}>
-                            Login {/*TODO: Add loading spinner*/}
+                            Login
                         </Button>
                     )}
                 </CardActions>
