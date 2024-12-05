@@ -26,3 +26,7 @@ export const initializeSocket = (server) => {
 export const emitNewJourney = (tripId, newJourney) => {
     io.to(tripId).emit('new-journey', newJourney);
 };
+
+export const emitDeleteJourney = (tripId, deleteJourney) => {
+    io.to(tripId).emit('delete-journey', deleteJourney);
+};

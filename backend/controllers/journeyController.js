@@ -8,7 +8,7 @@ import {
   checkRequiredFields,
   getUserIdFromToken,
 } from "../utils/errorHelpers.js";
-import { emitNewJourney } from '../socket/socket.js';
+import { emitDeleteJourney, emitNewJourney } from '../socket/socket.js';
 
 export const createJourney = async (req, res) => {
   const { trip_id, day_number, country, description } = req.body;
@@ -48,7 +48,7 @@ export const createJourney = async (req, res) => {
 };
 
 export const deleteJourney = async (req, res) => {
-  const { journey_id } = req.body;
+  const { journey_id, trip_id } = req.body;
   try {
     const user_id = getUserIdFromToken(req, res);
     if (!user_id) {
@@ -56,7 +56,7 @@ export const deleteJourney = async (req, res) => {
       return;
     }
 
-    const requiredFields = { journey_id };
+    const requiredFields = { journey_id, trip_id };
     const fieldsNotFound = checkRequiredFields(requiredFields, res);
     if (fieldsNotFound) {
       console.log("missing required fields");
@@ -64,6 +64,8 @@ export const deleteJourney = async (req, res) => {
     }
 
     const message = await deleteJourneyService(journey_id, user_id);
+
+    emitDeleteJourney(trip_id, journey_id);
 
     res.status(200).json({
       success: true,
