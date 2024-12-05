@@ -5,7 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import { boxStyle, cardContentStyle, cardStyle } from './styles.js';
 import './TripDayCard.css';
 import Button from '@mui/material/Button';
-import { useDeleteJourneyMutation } from '../../redux/rtk/tripsDataApi.js';
+import { useDeleteJourneyMutation } from '../../redux/rtk/journeyDataApi.js';
 import { useParams } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types

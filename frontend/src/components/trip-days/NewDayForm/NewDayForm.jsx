@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useEffect, useState } from 'react';
 import { FormControl, Input, InputAdornment, InputLabel } from '@mui/material';
 import { formatDate, calculateDayNumber } from '../../../utils/common.utils.js';
-import { useCreateJourneyMutation } from '../../../redux/rtk/tripsDataApi.js';
+import { useCreateJourneyMutation } from '../../../redux/rtk/journeyDataApi.js';
 import { useParams } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types

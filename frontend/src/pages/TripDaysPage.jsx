@@ -4,7 +4,7 @@ import PageTitle from '../components/common/PageTitle';
 import TripDayCard from '../components/trip-days/TripDayCard.jsx';
 import TripDetailsHeaders from '../components/trip-days/TripDetailsHeaders.jsx';
 import BluredCard from '../components/trip-days/BluredCard/BluredCard.jsx';
-import { useGetAllJourneysQuery } from '../redux/rtk/tripsDataApi.js';
+import { useGetAllJourneysQuery } from '../redux/rtk/journeyDataApi.js';
 import { useParams } from 'react-router-dom';
 import './TripDaysPage.css';
 import { calculateNumberOfDays, calculateJourneyDate } from '../utils/common.utils.js';
