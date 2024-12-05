@@ -9,7 +9,7 @@ import { useDeleteJourneyMutation } from '../../redux/rtk/tripsDataApi.js';
 import { useParams } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
-function TripDayCard({ dayNumber, country, description, expenses, date, journeyId }) {
+function TripDayCard({ dayNumber, country, description, expenses, date, journeyId, userRole }) {
     const { trip_id } = useParams();
     const [deleteJourney] = useDeleteJourneyMutation();
 
@@ -34,19 +34,23 @@ function TripDayCard({ dayNumber, country, description, expenses, date, journeyI
                 <CardActions className={'card-action-style'}>
                     <h3 style={{ fontWeight: '400', margin: '0' }}>{`Expenses: ${expenses}$`}</h3>
                     <div className={'buttons-container'}>
-                        <Button variant={'contained'} disableElevation className={'edit-day-button'}>
-                            Edit
-                        </Button>
                         <Button variant={'contained'} disableElevation className={'more-info-button'}>
                             View
                         </Button>
-                        <Button
-                            variant={'contained'}
-                            disableElevation
-                            className={'delete-day-button'}
-                            onClick={handleDelete}>
-                            Delete
-                        </Button>
+                        {userRole !== 'view' && (
+                            <>
+                                <Button variant={'contained'} disableElevation className={'edit-day-button'}>
+                                    Edit
+                                </Button>
+                                <Button
+                                    variant={'contained'}
+                                    disableElevation
+                                    className={'delete-day-button'}
+                                    onClick={handleDelete}>
+                                    Delete
+                                </Button>
+                            </>
+                        )}
                     </div>
                 </CardActions>
             </Card>

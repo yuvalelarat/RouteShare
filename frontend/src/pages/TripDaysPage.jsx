@@ -77,9 +77,10 @@ function TripDaysPage() {
                         expenses={journey.expenses}
                         date={calculateJourneyDate(startDate, journey.day_number)}
                         journeyId={journey.journey_id}
+                        userRole={data.user_role}
                     />
                 ))}
-                {numberOfJourneys === numberOfDays ? null : (
+                {numberOfJourneys !== numberOfDays && data.user_role !== 'view' && (
                     <BluredCard
                         startDate={new Date(startDate).toLocaleDateString('en-GB')}
                         endDate={new Date(endDate).toLocaleDateString('en-GB')}

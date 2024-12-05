@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormControl, Input, InputAdornment, InputLabel } from '@mui/material';
 import { formatDate, calculateDayNumber } from '../../../utils/common.utils.js';
 import { useCreateJourneyMutation } from '../../../redux/rtk/tripsDataApi.js';
@@ -28,6 +28,7 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
         const { name, value } = e.target;
         if (name === 'date') {
             setDate(value);
+            setLocalError(false);
             setDateError(false);
         } else if (name === 'location') {
             if (value.length <= 30) {
@@ -43,13 +44,18 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
         }
     };
     const resetStates = () => {
-        setDate('');
+        setDate(formatDate(startDate));
         setLocation('');
         setDescription('');
         setDateError(false);
         setLocationError(false);
         setLocationHelperText('0/30 characters');
         setDescriptionHelperText('0/120 characters');
+        onClose();
+    };
+    const handleClose = () => {
+        resetStates();
+        setLocalError(false);
         onClose();
     };
 
@@ -93,11 +99,13 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
             console.log('journeyData:', journeyData);
             try {
                 await createJourney(journeyData).unwrap();
-                let dateObj = new Date(date);
+                /* let dateObj = new Date(date);
                 dateObj.setDate(dateObj.getDate() + 1);
                 let newDate = dateObj.toISOString().split('T')[0];
-                setDate(newDate);
+                console.log(newDate.split('-').reverse().join('/'));
+                setDate(newDate.split('-').reverse().join('/'));*/
                 resetStates();
+                setLocalError(false);
             } catch (err) {
                 console.error('Failed to create journey:', err.data.error);
                 setLocalError(err.data.error);
@@ -106,7 +114,7 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
     };
 
     return (
-        <Dialog open={open} onClose={onClose}>
+        <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Add Day</DialogTitle>
             <DialogContent>
                 <DialogContentText>Please provide the details for the day:</DialogContentText>
