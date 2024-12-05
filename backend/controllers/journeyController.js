@@ -8,7 +8,7 @@ import {
   checkRequiredFields,
   getUserIdFromToken,
 } from "../utils/errorHelpers.js";
-import { emitNewJourney } from '../index.js';
+import { emitNewJourney } from '../socket/socket.js';
 
 export const createJourney = async (req, res) => {
   const { trip_id, day_number, country, description } = req.body;
