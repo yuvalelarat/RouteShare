@@ -1,11 +1,11 @@
 import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import './DayActivitiesHeaders.css';
+import './DayActivitiesTop.css';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
-function DayActivitiesHeaders({ country }) {
+function DayActivitiesTop({ country }) {
     const { trip_id } = useParams();
     const navigate = useNavigate();
     console.log(trip_id);
@@ -22,4 +22,4 @@ function DayActivitiesHeaders({ country }) {
         </div>
     );
 }
-export default DayActivitiesHeaders;
+export default DayActivitiesTop;

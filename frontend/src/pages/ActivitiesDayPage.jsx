@@ -2,8 +2,9 @@ import PageTitle from '../components/common/PageTitle.jsx';
 import { useLazyGetActivitiesQuery } from '../redux/rtk/activityDataApi.js';
 import { useEffect } from 'react';
 import { calculateActivityDate } from '../utils/common.utils.js';
-import DayActivitiesHeaders from '../components/day-activities/DayActivitiesHeaders.jsx';
+import DayActivitiesTop from '../components/day-activities/DayActivitiesTop.jsx';
 import { useParams } from 'react-router-dom';
+import ActivityCard from '../components/day-activities/ActivityCard.jsx';
 
 function ActivitiesDayPage() {
     const { journey_id } = useParams();
@@ -30,7 +31,8 @@ function ActivitiesDayPage() {
     return (
         <>
             <PageTitle title={`${date} - day ${dayNumber}`} />
-            <DayActivitiesHeaders country={country} />
+            <DayActivitiesTop country={country} />
+            <ActivityCard></ActivityCard>
         </>
     );
 }

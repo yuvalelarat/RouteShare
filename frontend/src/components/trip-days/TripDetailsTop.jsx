@@ -1,7 +1,7 @@
-import './TripDetailsHeaders.css';
+import './TripDetailsTop.css';
 
 // eslint-disable-next-line react/prop-types
-function TripDetailsHeaders({ tripAdmin, startDate, endDate }) {
+function TripDetailsTop({ tripAdmin, startDate, endDate }) {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h3 style={{ margin: '0', fontWeight: '400' }}>{`Created by: ${tripAdmin}`}</h3>
@@ -16,4 +16,4 @@ function TripDetailsHeaders({ tripAdmin, startDate, endDate }) {
     );
 }
 
-export default TripDetailsHeaders;
+export default TripDetailsTop;
