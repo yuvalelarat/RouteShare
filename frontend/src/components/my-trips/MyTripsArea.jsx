@@ -3,7 +3,6 @@ import './MyTrips.css';
 import { cardContentStyle, cardStyle } from './styles.js';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { useNavigate } from 'react-router-dom';
 import { useGetMyTripsQuery, useLazyGetTripQuery } from '../../redux/rtk/tripsDataApi.js';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
@@ -13,7 +12,6 @@ function MyTripsArea() {
     const { data, error, isLoading } = useGetMyTripsQuery();
     const [getTrip, { data: tripData, error: tripError }] = useLazyGetTripQuery();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     useEffect(() => {
         if (data?.trips) {
@@ -24,7 +22,7 @@ function MyTripsArea() {
     const handleViewTripClick = async (tripId) => {
         const response = await getTrip(tripId);
         if (response?.data?.success) {
-            navigate(`/trip/${tripId}`);
+            window.location.href = `/trip/${tripId}`;
         } else {
             alert(response?.data?.error || 'Error fetching trip details.');
         }

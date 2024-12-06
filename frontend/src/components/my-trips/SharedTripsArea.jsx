@@ -7,13 +7,11 @@ import { useGetSharedTripsQuery, useLazyGetTripQuery } from '../../redux/rtk/tri
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setSharedTrips } from '../../redux/slices/tripsDataSlice.js';
-import { useNavigate } from 'react-router-dom';
 
 function SharedTripsArea() {
     const { data, error, isLoading } = useGetSharedTripsQuery();
     const [triggerGetSharedTrips, { data: sharedTripData, error: sharedTripError }] = useLazyGetTripQuery();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     useEffect(() => {
         if (data?.trips) {
@@ -22,10 +20,11 @@ function SharedTripsArea() {
     }, [data, dispatch]);
 
     const handleTripClick = (tripId) => {
-        triggerGetSharedTrips(tripId).unwrap()
+        triggerGetSharedTrips(tripId)
+            .unwrap()
             .then((response) => {
                 if (response.success) {
-                    navigate(`/trip/${tripId}`);
+                    window.location.href = `/trip/${tripId}`;
                 } else {
                     alert('Error: Unable to load shared trip details');
                 }
@@ -72,8 +71,7 @@ function SharedTripsArea() {
                                     variant="contained"
                                     disableElevation
                                     className={'view-edit-button'}
-                                    onClick={() => handleTripClick(trip.trip_id)}
-                                >
+                                    onClick={() => handleTripClick(trip.trip_id)}>
                                     {trip.participants[0].role === 'edit' ? 'View & Edit' : 'View only'}
                                 </Button>
                                 <Button variant="contained" disableElevation className={'expenses-button'}>

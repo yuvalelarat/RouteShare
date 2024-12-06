@@ -7,7 +7,6 @@ import './TripDayCard.css';
 import Button from '@mui/material/Button';
 import { useDeleteJourneyMutation } from '../../redux/rtk/journeyDataApi.js';
 import { useLazyGetActivitiesQuery } from '../../redux/rtk/activityDataApi.js';
-import { useNavigate } from 'react-router-dom';
 import DeleteDay from './DeleteDay/DeleteDay.jsx';
 import EditDayForm from './EditDayForm/EditDayForm.jsx';
 import { useContext, useState } from 'react';
@@ -16,9 +15,7 @@ import TripContext from '../../context/TripContext.js';
 // eslint-disable-next-line react/prop-types
 function TripDayCard({ dayNumber, country, description, expenses, date, journeyId, startDate, endDate }) {
     const { trip_id, userRole } = useContext(TripContext);
-    const navigate = useNavigate();
     const [deleteJourney] = useDeleteJourneyMutation();
-    const [getActivities, { data: ActivitiesData, error: ActivitiesError }] = useLazyGetActivitiesQuery();
     const [open, setOpen] = useState(false);
 
     const handleDelete = async () => {
@@ -29,13 +26,8 @@ function TripDayCard({ dayNumber, country, description, expenses, date, journeyI
         }
     };
 
-    const handleViewDayClick = async () => {
-        const response = await getActivities(journeyId);
-        if (response?.data?.success) {
-            navigate(`/trip/${trip_id}/${journeyId}`);
-        } else {
-            alert(response?.data?.error || 'Error fetching trip details.');
-        }
+    const handleViewDayClick = () => {
+        window.location.href = `/trip/${trip_id}/${journeyId}`;
     };
 
     const handleEditDayClick = () => {
