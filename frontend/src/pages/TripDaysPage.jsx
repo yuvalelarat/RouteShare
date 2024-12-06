@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 import PageTitle from '../components/common/PageTitle';
 import TripDayCard from '../components/trip-days/TripDayCard.jsx';
 import TripDetailsHeaders from '../components/trip-days/TripDetailsHeaders.jsx';
@@ -9,6 +10,8 @@ import './TripDaysPage.css';
 import { calculateNumberOfDays, calculateJourneyDate } from '../utils/common.utils.js';
 import useTripSocket from '../hooks/useTripSocket';
 import TripContext from '../context/TripContext';
+
+const socket = io('http://localhost:10000');
 
 function TripDaysPage() {
     const { trip_id } = useParams();
