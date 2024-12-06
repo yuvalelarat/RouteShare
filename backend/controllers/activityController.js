@@ -21,7 +21,7 @@ export const createActivity = async (req, res) => {
       return;
     }
 
-    const requiredFields = { activity_name, location };
+    const requiredFields = { activity_name, location, activity_type };
     const fieldsNotFound = checkRequiredFields(requiredFields, res);
     if (fieldsNotFound) {
       console.log("missing required fields");

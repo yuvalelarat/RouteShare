@@ -12,10 +12,8 @@ export const TripParticipant = new EntitySchema({
       generated: "uuid",
     },
     role: {
-      type: "enum",
+      type: "varchar",
       length: 10,
-      nullable: false,
-      enum: ["admin",  "edit", "view"],
     },
     expenses: {
       type: "integer",

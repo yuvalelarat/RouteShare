@@ -28,7 +28,6 @@ export const Activity = new EntitySchema({
     },
     activity_type: {
       type: "enum",
-      length: 50,
       enum: ["Sightseeing", "Adventure", "Culture", "Relaxation", "Culinary", "Entertainment"],
       nullable: false,
     },
