@@ -27,6 +27,10 @@ export const emitNewJourney = (tripId, newJourney) => {
     io.to(tripId).emit('new-journey', newJourney);
 };
 
+export const emitEditJourney = (tripId, updatedJourney) => {
+    io.to(tripId).emit('edit-journey', updatedJourney);
+};
+
 export const emitDeleteJourney = (tripId, deleteJourney) => {
     io.to(tripId).emit('delete-journey', deleteJourney);
 };

@@ -79,7 +79,7 @@ export const editJourneyService = async (
 ) => {
   const journey = await journeyRepository.findOne({
     where: { journey_id },
-    relations: ["trip", "trip.user", "trip.participants"],
+    relations: ["trip", "trip.user", "trip.participants", "trip.participants.user"],
   });
 
   const entitiesNotFound = await checkIfEntitiesExist([journey], ["Journey"]);
@@ -87,10 +87,10 @@ export const editJourneyService = async (
 
   if (journey.trip.user.user_id !== user_id) {
     const participant = journey.trip.participants.find(
-      (p) => p.user.user_id === user_id
+        (p) => p.user && p.user.user_id === user_id
     );
     if (!participant || participant.role !== "edit") {
-      throw new Error("You do not have permission to edit this journey");
+      throw new Error("You do not have permission to delete this journey");
     }
   }
 

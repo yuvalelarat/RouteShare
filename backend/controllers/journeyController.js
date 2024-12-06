@@ -8,7 +8,7 @@ import {
   checkRequiredFields,
   getUserIdFromToken,
 } from "../utils/errorHelpers.js";
-import { emitDeleteJourney, emitNewJourney } from '../socket/socket.js';
+import { emitDeleteJourney, emitEditJourney, emitNewJourney } from '../socket/socket.js';
 
 export const createJourney = async (req, res) => {
   const { trip_id, day_number, country, description } = req.body;
@@ -81,7 +81,7 @@ export const deleteJourney = async (req, res) => {
 };
 
 export const editJourney = async (req, res) => {
-  const { journey_id, day_number, country, description } = req.body;
+  const { trip_id, journey_id, day_number, country, description } = req.body;
   try {
     const user_id = getUserIdFromToken(req, res);
     if (!user_id) {
@@ -100,6 +100,8 @@ export const editJourney = async (req, res) => {
       { journey_id, day_number, country, description },
       user_id
     );
+
+    emitEditJourney(trip_id, updatedJourney);
 
     res.status(200).json({
       success: true,
