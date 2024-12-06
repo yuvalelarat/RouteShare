@@ -10,6 +10,7 @@ import TripDaysPage from './pages/TripDaysPage.jsx';
 import ActivitiesDayPage from './pages/ActivitiesDayPage.jsx';
 import UserRoutes from './private-routes/UserRoutes.jsx';
 import TripRoutes from './private-routes/TripRoutes.jsx';
+import JourneyRoutes from './private-routes/JourneyRoutes.jsx';
 
 function App() {
     return (
@@ -25,12 +26,12 @@ function App() {
                         <Route path="/new-trip" element={<NewTripPage />} />
                         <Route element={<TripRoutes />}>
                             <Route path="/trip/:trip_id" element={<TripDaysPage />} />
-                            <Route path="/trip/:trip_id/:journey_id" element={<ActivitiesDayPage />} />
-                            {/*TODO: Make error for random string in url*/}
+                            <Route element={<JourneyRoutes />}>
+                                <Route path="/trip/:trip_id/:journey_id" element={<ActivitiesDayPage />} />
+                            </Route>
                         </Route>
                     </Route>
                 </Routes>
-                {/*TODO: Add footer??*/}
             </BrowserRouter>
         </>
     );
