@@ -6,17 +6,18 @@ import { boxStyle, cardContentStyle, cardStyle } from './styles.js';
 import './TripDayCard.css';
 import Button from '@mui/material/Button';
 import { useDeleteJourneyMutation } from '../../redux/rtk/journeyDataApi.js';
-import { useLazyGetActivitiesQuery } from '../../redux/rtk/activityDataApi.js';
 import DeleteDay from './DeleteDay/DeleteDay.jsx';
 import EditDayForm from './EditDayForm/EditDayForm.jsx';
 import { useContext, useState } from 'react';
 import TripContext from '../../context/TripContext.js';
+import { useNavigate } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
 function TripDayCard({ dayNumber, country, description, expenses, date, journeyId, startDate, endDate }) {
     const { trip_id, userRole } = useContext(TripContext);
     const [deleteJourney] = useDeleteJourneyMutation();
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
 
     const handleDelete = async () => {
         try {
