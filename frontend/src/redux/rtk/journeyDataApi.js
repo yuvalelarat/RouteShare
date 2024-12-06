@@ -36,7 +36,19 @@ export const journeyDataApi = createApi({
                 body: { journey_id, trip_id },
             }),
         }),
+        editJourney: builder.mutation({
+            query: ({ trip_id, journey_id, day_number, country, description }) => ({
+                url: '/edit-journey',
+                method: 'PATCH',
+                body: { trip_id, journey_id, day_number, country, description },
+            }),
+        }),
     }),
 });
 
-export const { useGetAllJourneysQuery, useCreateJourneyMutation, useDeleteJourneyMutation } = journeyDataApi;
+export const {
+    useGetAllJourneysQuery,
+    useCreateJourneyMutation,
+    useDeleteJourneyMutation,
+    useEditJourneyMutation,
+} = journeyDataApi;
