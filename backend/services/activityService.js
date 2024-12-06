@@ -164,7 +164,12 @@ export const getActivitiesByJourneyIdService = async (journey_id, user_id) => {
       }
     }
 
-    return journey.activities;
+    return {
+      activities: journey.activities,
+      start_date: journey.trip.start_date,
+      day_number: journey.day_number,
+      country: journey.country,
+    };
   } catch (err) {
     throw new Error(err.message || "Error retrieving activities");
   }

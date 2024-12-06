@@ -151,7 +151,7 @@ export const getActivitiesByJourneyId = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      activities: result,
+      response: result,
     });
   } catch (err) {
     console.error("Unexpected error in getActivityByJourneyId:", err.message || err);
