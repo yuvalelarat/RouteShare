@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
 import PageTitle from '../components/common/PageTitle';
 import TripDayCard from '../components/trip-days/TripDayCard.jsx';
 import TripDetailsHeaders from '../components/trip-days/TripDetailsHeaders.jsx';
@@ -8,9 +7,8 @@ import { useGetAllJourneysQuery } from '../redux/rtk/journeyDataApi.js';
 import { useParams } from 'react-router-dom';
 import './TripDaysPage.css';
 import { calculateNumberOfDays, calculateJourneyDate } from '../utils/common.utils.js';
+import useTripSocket from '../hooks/useTripSocket';
 import TripContext from '../context/TripContext';
-
-const socket = io('http://localhost:10000');
 
 function TripDaysPage() {
     const { trip_id } = useParams();
@@ -23,37 +21,7 @@ function TripDaysPage() {
         }
     }, [data]);
 
-    useEffect(() => {
-        socket.emit('join-trip', trip_id);
-        socket.on('new-journey', (newJourney) => {
-            setJourneys((prevJourneys) =>
-                [...prevJourneys, newJourney].sort((a, b) => a.day_number - b.day_number),
-            );
-        });
-
-        socket.on('delete-journey', (deletedJourneyId) => {
-            setJourneys((prevJourneys) =>
-                prevJourneys.filter((journey) => journey.journey_id !== deletedJourneyId),
-            );
-        });
-
-        socket.on('edit-journey', (updatedJourney) => {
-            setJourneys((prevJourneys) =>
-                prevJourneys
-                    .map((journey) =>
-                        journey.journey_id === updatedJourney.journey_id ? updatedJourney : journey,
-                    )
-                    .sort((a, b) => a.day_number - b.day_number),
-            );
-        });
-
-        return () => {
-            socket.off('new-journey');
-            socket.off('delete-journey');
-            socket.off('edit-journey');
-            socket.emit('leave-trip', trip_id);
-        };
-    }, [trip_id]);
+    useTripSocket(trip_id, setJourneys);
 
     const tripName = data?.trip_name;
     const tripAdmin = data?.trip_admin.admin_name;
