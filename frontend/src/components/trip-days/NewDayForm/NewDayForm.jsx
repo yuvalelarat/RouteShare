@@ -19,10 +19,10 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
     const [description, setDescription] = useState('');
     const [dateError, setDateError] = useState(false);
     const [locationError, setLocationError] = useState(false);
+    const [localError, setLocalError] = useState(null);
     const [locationHelperText, setLocationHelperText] = useState('0/30 characters');
     const [descriptionHelperText, setDescriptionHelperText] = useState('0/120 characters');
     const [createJourney, { isLoading, error, data }] = useCreateJourneyMutation();
-    const [localError, setLocalError] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -64,12 +64,13 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
         let isValid = true;
 
         if (!date) {
-            console.log('Date is required');
+            setLocalError('Date is required');
             setDateError(true);
             isValid = false;
         }
 
         if (!location) {
+            setLocalError('Country/City is required');
             setLocationError(true);
             isValid = false;
         }
@@ -81,7 +82,7 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
         const parsedEndDate = new Date(endDate.split('/').reverse().join('-'));
 
         if (parsedDate < parsedStartDate || parsedDate > parsedEndDate) {
-            console.log('Date is not in the range');
+            setLocalError('Date is not in the range');
             setDateError(true);
             isValid = false;
         }

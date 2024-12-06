@@ -7,15 +7,19 @@ import './TripDayCard.css';
 import Button from '@mui/material/Button';
 import { useDeleteJourneyMutation } from '../../redux/rtk/journeyDataApi.js';
 import { useLazyGetActivitiesQuery } from '../../redux/rtk/activityDataApi.js';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import DeleteDay from './DeleteDay/DeleteDay.jsx';
+import EditDayForm from './EditDayForm/EditDayForm.jsx';
+import { useContext, useState } from 'react';
+import TripContext from '../../context/TripContext.js';
 
 // eslint-disable-next-line react/prop-types
-function TripDayCard({ dayNumber, country, description, expenses, date, journeyId, userRole }) {
+function TripDayCard({ dayNumber, country, description, expenses, date, journeyId, startDate, endDate }) {
+    const { trip_id, userRole } = useContext(TripContext);
     const navigate = useNavigate();
-    const { trip_id } = useParams();
     const [deleteJourney] = useDeleteJourneyMutation();
     const [getActivities, { data: ActivitiesData, error: ActivitiesError }] = useLazyGetActivitiesQuery();
+    const [open, setOpen] = useState(false);
 
     const handleDelete = async () => {
         try {
@@ -32,6 +36,14 @@ function TripDayCard({ dayNumber, country, description, expenses, date, journeyI
         } else {
             alert(response?.data?.error || 'Error fetching trip details.');
         }
+    };
+
+    const handleEditDayClick = () => {
+        setOpen(true);
+    };
+
+    const handleCloseEditDay = () => {
+        setOpen(false);
     };
 
     return (
@@ -56,7 +68,11 @@ function TripDayCard({ dayNumber, country, description, expenses, date, journeyI
                         </Button>
                         {userRole !== 'view' && (
                             <>
-                                <Button variant={'contained'} disableElevation className={'edit-day-button'}>
+                                <Button
+                                    variant={'contained'}
+                                    disableElevation
+                                    className={'edit-day-button'}
+                                    onClick={handleEditDayClick}>
                                     Edit
                                 </Button>
                                 <DeleteDay handleDelete={handleDelete} />
@@ -65,6 +81,17 @@ function TripDayCard({ dayNumber, country, description, expenses, date, journeyI
                     </div>
                 </CardActions>
             </Card>
+            <EditDayForm
+                open={open}
+                onClose={handleCloseEditDay}
+                dayNumber={dayNumber}
+                date={date}
+                country={country}
+                description={description}
+                startDate={startDate}
+                endDate={endDate}
+                journeyId={journeyId}
+            />
         </Box>
     );
 }

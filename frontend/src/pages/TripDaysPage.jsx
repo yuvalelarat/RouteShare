@@ -8,6 +8,7 @@ import { useGetAllJourneysQuery } from '../redux/rtk/journeyDataApi.js';
 import { useParams } from 'react-router-dom';
 import './TripDaysPage.css';
 import { calculateNumberOfDays, calculateJourneyDate } from '../utils/common.utils.js';
+import TripContext from '../context/TripContext';
 
 const socket = io('http://localhost:10000');
 
@@ -36,9 +37,20 @@ function TripDaysPage() {
             );
         });
 
+        socket.on('edit-journey', (updatedJourney) => {
+            setJourneys((prevJourneys) =>
+                prevJourneys
+                    .map((journey) =>
+                        journey.journey_id === updatedJourney.journey_id ? updatedJourney : journey,
+                    )
+                    .sort((a, b) => a.day_number - b.day_number),
+            );
+        });
+
         return () => {
             socket.off('new-journey');
             socket.off('delete-journey');
+            socket.off('edit-journey');
             socket.emit('leave-trip', trip_id);
         };
     }, [trip_id]);
@@ -50,6 +62,29 @@ function TripDaysPage() {
     const numberOfJourneys = journeys.length;
     const numberOfDays = calculateNumberOfDays(startDate, endDate);
 
+    const newJourneyDetails = (journeyId, newDate, newDayNumber, newLocation, newDescription) => {
+        setJourneys((prevJourneys) =>
+            prevJourneys.map((journey) =>
+                journey.journey_id === journeyId
+                    ? {
+                          ...journey,
+                          day_number: newDayNumber,
+                          date: newDate,
+                          country: newLocation,
+                          description: newDescription,
+                      }
+                    : journey,
+            ),
+        );
+        socket.emit('edit-journey', {
+            journey_id: journeyId,
+            day_number: newDayNumber,
+            date: newDate,
+            country: newLocation,
+            description: newDescription,
+        });
+    };
+
     if (isLoading) {
         return <div>Loading journeys...</div>;
     }
@@ -58,7 +93,17 @@ function TripDaysPage() {
         return <div>Error loading journeys: {error.message}</div>;
     }
     return (
-        <>
+        <TripContext.Provider
+            value={{
+                trip_id,
+                tripName,
+                tripAdmin,
+                startDate,
+                endDate,
+                journeys,
+                userRole: data.user_role,
+                newJourneyDetails,
+            }}>
             <div className={'titleDiv '}>
                 <PageTitle title={tripName} />
             </div>
@@ -77,7 +122,8 @@ function TripDaysPage() {
                         expenses={journey.expenses}
                         date={calculateJourneyDate(startDate, journey.day_number)}
                         journeyId={journey.journey_id}
-                        userRole={data.user_role}
+                        startDate={new Date(startDate).toLocaleDateString('en-GB')}
+                        endDate={new Date(endDate).toLocaleDateString('en-GB')}
                     />
                 ))}
                 {numberOfJourneys !== numberOfDays && data.user_role !== 'view' && (
@@ -87,7 +133,7 @@ function TripDaysPage() {
                     />
                 )}
             </div>
-        </>
+        </TripContext.Provider>
     );
 }
 
