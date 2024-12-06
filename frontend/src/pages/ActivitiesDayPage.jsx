@@ -1,12 +1,17 @@
 import PageTitle from '../components/common/PageTitle.jsx';
 import { useLazyGetActivitiesQuery } from '../redux/rtk/activityDataApi.js';
-import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { calculateActivityDate } from '../utils/common.utils.js';
+import DayActivitiesHeaders from '../components/day-activities/DayActivitiesHeaders.jsx';
+import { useParams } from 'react-router-dom';
 
 function ActivitiesDayPage() {
     const { journey_id } = useParams();
-    const [getActivities, { data: ActivitiesData, error: ActivitiesError }] = useLazyGetActivitiesQuery();
+    const [getActivities, { data: ActivitiesData, error: ActivitiesError, isLoading }] =
+        useLazyGetActivitiesQuery();
+    const dayNumber = ActivitiesData?.response.day_number;
+    const date = calculateActivityDate(ActivitiesData?.response.start_date, dayNumber);
+    const country = ActivitiesData?.response.country;
 
     useEffect(() => {
         if (journey_id) {
@@ -14,16 +19,19 @@ function ActivitiesDayPage() {
         }
     }, [journey_id, getActivities]);
 
-    console.log(ActivitiesData?.response);
+    if (isLoading) {
+        return <div>Loading journeys...</div>;
+    }
+
+    if (ActivitiesError) {
+        return <div>Error loading journeys: {ActivitiesError}</div>;
+    }
 
     return (
-        <div>
-            <PageTitle
-                title={`Date: ${calculateActivityDate(ActivitiesData?.response.date, ActivitiesData?.response.day_number)}, Day: ${ActivitiesData?.response.day_number}, Country: ${ActivitiesData?.response.country}`}
-            />
-            {ActivitiesError && <div>Error loading activities</div>}
-            {ActivitiesData && <div></div>}
-        </div>
+        <>
+            <PageTitle title={`${date} - day ${dayNumber}`} />
+            <DayActivitiesHeaders country={country} />
+        </>
     );
 }
 
