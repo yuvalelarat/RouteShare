@@ -23,7 +23,12 @@ function ActivityCard({ activity }) {
                     <h3 style={{ fontWeight: '400', margin: '0', textAlign: 'left' }}>
                         Cost: {activity.cost}$
                     </h3>
-                    <h3 style={{ fontWeight: '400', margin: '0', textAlign: 'left' }}>Who pays: DB</h3>
+                    <h3
+                        style={{
+                            fontWeight: '400',
+                            margin: '0',
+                            textAlign: 'left',
+                        }}>{`Who pays: ${activity.paid_by.first_name} ${activity.paid_by.last_name}`}</h3>
                 </CardContent>
                 <CardActions className={'activity-action-style'}>
                     <Button className={'edit-day-button'}>Edit</Button>

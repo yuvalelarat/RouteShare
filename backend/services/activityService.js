@@ -142,6 +142,7 @@ export const getActivitiesByJourneyIdService = async (journey_id, user_id) => {
         "trip.participants",
         "trip.participants.user",
         "activities",
+        "activities.paid_by",
       ],
     });
 

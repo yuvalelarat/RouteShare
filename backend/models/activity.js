@@ -53,5 +53,13 @@ export const Activity = new EntitySchema({
       },
       onDelete: "CASCADE",
     },
+    paid_by: {
+      target: "User",
+      type: "many-to-one",
+      joinColumn: {
+        name: "paid_by",
+      },
+      nullable: false,
+    },
   },
 });
