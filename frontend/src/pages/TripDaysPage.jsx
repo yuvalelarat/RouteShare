@@ -97,6 +97,7 @@ function TripDaysPage() {
                         endDate={new Date(endDate).toLocaleDateString('en-GB')}
                     />
                 ))}
+                {/*TODO: make the TripDayCard better like ActivityDayPage*/}
                 {numberOfJourneys !== numberOfDays && data.user_role !== 'view' && (
                     <BluredCard
                         startDate={new Date(startDate).toLocaleDateString('en-GB')}

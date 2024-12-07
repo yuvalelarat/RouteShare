@@ -5,6 +5,7 @@ import { calculateActivityDate } from '../utils/common.utils.js';
 import DayActivitiesTop from '../components/day-activities/DayActivitiesTop.jsx';
 import { useParams } from 'react-router-dom';
 import ActivityCard from '../components/day-activities/ActivityCard.jsx';
+import BluredCard from '../components/day-activities/BluredCard/BluredCard.jsx';
 
 function ActivitiesDayPage() {
     const { journey_id } = useParams();
@@ -32,7 +33,12 @@ function ActivitiesDayPage() {
         <>
             <PageTitle title={`${date} - day ${dayNumber}`} />
             <DayActivitiesTop country={country} />
-            <ActivityCard></ActivityCard>
+            <div className={'cardDiv'}>
+                {ActivitiesData?.response.activities?.map((activity, index) => (
+                    <ActivityCard key={index} activity={activity} />
+                ))}
+                <BluredCard />
+            </div>
         </>
     );
 }

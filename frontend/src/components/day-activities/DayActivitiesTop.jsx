@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 function DayActivitiesTop({ country }) {
     const { trip_id } = useParams();
     const navigate = useNavigate();
-    console.log(trip_id);
+
     const handleBack = () => {
         navigate(`/trip/${trip_id}`);
     };

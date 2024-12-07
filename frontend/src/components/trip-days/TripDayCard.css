@@ -8,8 +8,8 @@
 
 .card-action-style{
     display: flex;
-    justify-content: center;
-    flex-direction: column;
+    justify-content: center!important;
+    flex-direction: column !important;
     gap: 1rem;
 }
 

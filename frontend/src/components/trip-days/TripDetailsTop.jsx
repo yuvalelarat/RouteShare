@@ -1,5 +1,3 @@
-import './TripDetailsTop.css';
-
 // eslint-disable-next-line react/prop-types
 function TripDetailsTop({ tripAdmin, startDate, endDate }) {
     return (

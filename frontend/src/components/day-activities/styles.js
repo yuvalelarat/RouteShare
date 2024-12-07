@@ -18,7 +18,6 @@ export const cardStyle = {
     borderRadius: '8px',
     backgroundColor: 'var(--color-lightgray)',
     padding: 3,
-    '@media (max-width: 600px)': {},
 };
 
 export const cardContentStyle = {
