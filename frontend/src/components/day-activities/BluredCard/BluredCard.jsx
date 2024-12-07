@@ -8,13 +8,12 @@ import {
     circleStyle,
     headerStyle,
     boxStyle,
-    dayDescriptionBoxStyle,
     cardActionsStyle,
     circleContainerStyle,
-    cardHeaderStyle,
 } from './styles.js';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
+import NewActivityForm from '../NewActivityForm/NewActivityForm.jsx';
 
 // eslint-disable-next-line react/prop-types
 function BluredCard() {
@@ -77,6 +76,7 @@ function BluredCard() {
                 </div>
             </div>
             {/*TODO: add AddDayForm*/}
+            <NewActivityForm open={open} onClose={handleClose} />
         </Box>
     );
 }
