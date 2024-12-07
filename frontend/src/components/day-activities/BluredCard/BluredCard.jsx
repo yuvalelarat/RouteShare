@@ -16,7 +16,7 @@ import { useState } from 'react';
 import NewActivityForm from '../NewActivityForm/NewActivityForm.jsx';
 
 // eslint-disable-next-line react/prop-types
-function BluredCard() {
+function BluredCard({ date, country }) {
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -76,7 +76,7 @@ function BluredCard() {
                 </div>
             </div>
             {/*TODO: add AddDayForm*/}
-            <NewActivityForm open={open} onClose={handleClose} />
+            <NewActivityForm open={open} onClose={handleClose} date={date} country={country} />
         </Box>
     );
 }

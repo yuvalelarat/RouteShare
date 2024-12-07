@@ -37,7 +37,7 @@ function ActivitiesDayPage() {
                 {ActivitiesData?.response.activities?.map((activity, index) => (
                     <ActivityCard key={index} activity={activity} />
                 ))}
-                <BluredCard />
+                <BluredCard date={date} country={country} />
             </div>
         </>
     );
