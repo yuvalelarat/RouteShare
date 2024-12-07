@@ -11,7 +11,7 @@ import {
 
 export const createActivity = async (req, res) => {
   const { journey_id } = req.params;
-  const { activity_name, location, cost, activity_type, description } =
+  const { activity_name, location, cost, activity_type, description, paid_by } =
     req.body;
 
   try {
@@ -35,7 +35,8 @@ export const createActivity = async (req, res) => {
       cost,
       activity_type,
       description,
-      user_id
+      user_id,
+        paid_by
     );
 
     res.status(201).json({

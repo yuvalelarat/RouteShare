@@ -12,7 +12,8 @@ export const createActivityService = async (
   cost,
   activity_type,
   description,
-  user_id
+  user_id,
+  paid_by
 ) => {
   try {
     const journey = await journeyRepository.findOne({
@@ -40,6 +41,13 @@ export const createActivityService = async (
       }
     }
 
+    const isPaidByValid = journey.trip.user.user_id === paid_by ||
+        journey.trip.participants.some((p) => p.user.user_id === paid_by);
+
+    if (!isPaidByValid) {
+      throw new Error("The user who paid for the activity must be the trip creator or a participant.");
+    }
+
     const newActivity = activityRepository.create({
       journey: { journey_id },
       activity_name,
@@ -47,6 +55,7 @@ export const createActivityService = async (
       cost,
       activity_type,
       description,
+      paid_by: { user_id: paid_by },
     });
 
     if (cost) {
