@@ -102,11 +102,6 @@ export default function NewDayForm({ open, onClose, startDate, endDate }) {
             console.log('journeyData:', journeyData);
             try {
                 await createJourney(journeyData).unwrap();
-                /* let dateObj = new Date(date);
-                dateObj.setDate(dateObj.getDate() + 1);
-                let newDate = dateObj.toISOString().split('T')[0];
-                console.log(newDate.split('-').reverse().join('/'));
-                setDate(newDate.split('-').reverse().join('/'));*/
                 resetStates();
                 setLocalError(false);
             } catch (err) {

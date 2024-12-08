@@ -7,6 +7,7 @@ import tripsDataSlice from './slices/tripsDataSlice.js';
 import { tripsDataApi } from './rtk/tripsDataApi.js';
 import { journeyDataApi } from './rtk/journeyDataApi.js';
 import { activityDataApi } from './rtk/activityDataApi.js';
+import { participantsDataApi } from './rtk/participantsDataApi.js';
 
 const persistConfig = {
     key: 'userData',
@@ -23,6 +24,7 @@ const store = configureStore({
         [tripsDataApi.reducerPath]: tripsDataApi.reducer,
         [journeyDataApi.reducerPath]: journeyDataApi.reducer,
         [activityDataApi.reducerPath]: activityDataApi.reducer,
+        [participantsDataApi.reducerPath]: participantsDataApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
@@ -34,6 +36,7 @@ const store = configureStore({
             tripsDataApi.middleware,
             journeyDataApi.middleware,
             activityDataApi.middleware,
+            participantsDataApi.middleware,
         ),
 });
 

@@ -22,7 +22,14 @@ export const activityDataApi = createApi({
             }),
             transformResponse: (response) => response,
         }),
+        createActivity: builder.mutation({
+            query: ({ journey_id, activity_name, location, activity_type, cost, paid_by }) => ({
+                url: `/new-activity/${journey_id}`,
+                method: 'POST',
+                body: { activity_name, location, activity_type, cost, paid_by },
+            }),
+        }),
     }),
 });
 
-export const { useLazyGetActivitiesQuery } = activityDataApi;
+export const { useLazyGetActivitiesQuery, useCreateActivityMutation } = activityDataApi;
