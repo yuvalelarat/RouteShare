@@ -171,6 +171,8 @@ export const getAllParticipantsService = async (trip_id, currentUserId) => {
 
   const participants = trip.participants.map((participant) => ({
     user_id: participant.user.user_id,
+    first_name: participant.user.first_name,
+    last_name: participant.user.last_name,
     email: participant.user.email,
     role: participant.role,
     expenses: participant.expenses,
