@@ -29,7 +29,15 @@ export const activityDataApi = createApi({
                 body: { activity_name, location, activity_type, cost, paid_by },
             }),
         }),
+        deleteActivity: builder.mutation({
+            query: ({ activity_id }) => ({
+                url: `/delete-activity/${activity_id}`,
+                method: 'DELETE',
+                body: { activity_id },
+            }),
+        }),
     }),
 });
 
-export const { useLazyGetActivitiesQuery, useCreateActivityMutation } = activityDataApi;
+export const { useLazyGetActivitiesQuery, useCreateActivityMutation, useDeleteJActivityMutation } =
+    activityDataApi;
