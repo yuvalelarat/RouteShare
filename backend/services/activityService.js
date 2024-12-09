@@ -47,20 +47,26 @@ export const createActivityService = async (
     if (!isPaidByValid) {
       throw new Error("The user who paid for the activity must be the trip creator or a participant.");
     }
+    console.log("Cost value:", cost, "Type:", typeof cost);
+
+    if (cost && isNaN(parseFloat(cost))) {
+      throw new Error("Invalid cost value");
+    }
+    const numericCost = parseFloat(cost);
+    console.log("Numeric cost:", numericCost, typeof numericCost);
 
     const newActivity = activityRepository.create({
       journey: { journey_id },
       activity_name,
       location,
-      cost,
+      cost: numericCost,
       activity_type,
       description,
       paid_by: { user_id: paid_by },
     });
 
-    if (cost) {
-      //ensure expenses is initialized to 0 if it's null or undefined
-      journey.expenses = (journey.expenses || 0) + cost;
+    if (numericCost) {
+      journey.expenses = (journey.expenses || 0) + numericCost;
       await journeyRepository.save(journey);
     }
 
@@ -94,6 +100,11 @@ export const deleteActivityService = async (activity_id, user_id) => {
       if (!participant || participant.role !== "edit") {
         throw new Error("You do not have permission to delete this activity.");
       }
+    }
+
+    if (activity.cost) {
+      activity.journey.expenses = (activity.journey.expenses || 0) - activity.cost;
+      await journeyRepository.save(activity.journey);
     }
 
     await activityRepository.remove(activity);
