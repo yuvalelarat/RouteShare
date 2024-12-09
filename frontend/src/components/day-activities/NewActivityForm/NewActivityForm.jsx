@@ -17,8 +17,7 @@ export default function NewActivityForm({ open, onClose, date, country }) {
     const [getParticipants, { data: ParticipantsData, error: ParticipantsError, isLoading }] =
         useLazyGetParticipantsQuery();
     const [createActivity, { isLoading: isCreating, error: createError }] = useCreateActivityMutation();
-    const { trip_id } = useParams();
-    const { journey_id } = useParams();
+    const { trip_id, journey_id } = useParams();
     const [activityType, setActivityType] = useState('');
     const [activityName, setActivityName] = useState('');
     const [location, setLocation] = useState('');
@@ -51,7 +50,7 @@ export default function NewActivityForm({ open, onClose, date, country }) {
                 setLocationHelperText(`${value.length}/20 characters`);
             }
         } else if (name === 'cost') {
-            const regex = /^\d{0,10}(\.\d{0,2})?$/;
+            const regex = /^\d{0,7}(\.\d{0,2})?$/;
             if (regex.test(value)) {
                 const parsedValue = parseFloat(value).toFixed(2);
                 setCost(Number(parsedValue));
@@ -135,7 +134,7 @@ export default function NewActivityForm({ open, onClose, date, country }) {
             resetStates();
             onClose();
         } catch (err) {
-            console.error('Failed to create activity:', err);
+            console.error('Failed to create activity:', err.message || err);
             setLocalError('Failed to create activity');
         }
     };
@@ -145,8 +144,6 @@ export default function NewActivityForm({ open, onClose, date, country }) {
             getParticipants(trip_id);
         }
     }, [trip_id, getParticipants]);
-
-    console.log(ParticipantsData?.participants);
 
     return (
         <Dialog open={open} onClose={handleClose}>
@@ -201,7 +198,7 @@ export default function NewActivityForm({ open, onClose, date, country }) {
                     required
                     id="cost"
                     name="cost"
-                    label="cost"
+                    label="cost ($)"
                     type={'number'}
                     value={cost}
                     error={costError}

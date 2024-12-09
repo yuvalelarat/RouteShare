@@ -5,5 +5,6 @@ export const activityTypeList = [
     'Relaxation',
     'Culinary',
     'Entertainment',
+    'Sports',
     'Other',
 ];
