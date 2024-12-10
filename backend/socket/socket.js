@@ -17,6 +17,11 @@ export const initializeSocket = (server) => {
             console.log(`User joined trip: ${tripId}`);
         });
 
+        socket.on('join-journey', (journeyId) => {
+            socket.join(journeyId);
+            console.log(`User joined journey: ${journeyId}`);
+        });
+
         socket.on("disconnect", () => {
             console.log("user disconnected");
         });
@@ -33,4 +38,8 @@ export const emitEditJourney = (tripId, updatedJourney) => {
 
 export const emitDeleteJourney = (tripId, deleteJourney) => {
     io.to(tripId).emit('delete-journey', deleteJourney);
+};
+
+export const emitNewActivity = (journeyId, newActivity) => {
+    io.to(journeyId).emit('new-activity', newActivity);
 };

@@ -8,6 +8,7 @@ import {
   updateActivityService,
   getActivitiesByJourneyIdService
 } from "../services/activityService.js";
+import { emitNewActivity } from '../socket/socket.js';
 
 export const createActivity = async (req, res) => {
   const { journey_id } = req.params;
@@ -38,6 +39,8 @@ export const createActivity = async (req, res) => {
       user_id,
         paid_by
     );
+
+    emitNewActivity(journey_id, newActivity);
 
     res.status(201).json({
       success: true,
