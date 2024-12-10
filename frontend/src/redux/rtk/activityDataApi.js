@@ -39,5 +39,9 @@ export const activityDataApi = createApi({
     }),
 });
 
-export const { useLazyGetActivitiesQuery, useCreateActivityMutation, useDeleteJActivityMutation } =
-    activityDataApi;
+export const {
+    useGetActivitiesQuery,
+    useLazyGetActivitiesQuery,
+    useCreateActivityMutation,
+    useDeleteJActivityMutation,
+} = activityDataApi;

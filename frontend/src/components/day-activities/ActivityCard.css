@@ -11,3 +11,12 @@
     text-align: left;
     padding: 0.5rem;
 }
+
+.activity-headers {
+    font-weight: 400;
+    margin: 0;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

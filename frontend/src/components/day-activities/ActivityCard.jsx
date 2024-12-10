@@ -17,18 +17,14 @@ function ActivityCard({ activity }) {
                     <div className={'activity-description-div'}>
                         <p style={{ margin: '0' }}>{activity.description}</p>
                     </div>
-                    <h3 style={{ fontWeight: '400', margin: '0', textAlign: 'left' }}>
-                        {`Atcivity type: ${activity.activity_type}`}
-                    </h3>
+                    <h3 className={'activity-headers'}>{`Atcivity type: ${activity.activity_type}`}</h3>
                     <h3 style={{ fontWeight: '400', margin: '0', textAlign: 'left' }}>
                         Cost: {activity.cost}$
                     </h3>
                     <h3
-                        style={{
-                            fontWeight: '400',
-                            margin: '0',
-                            textAlign: 'left',
-                        }}>{`Who pays: ${activity.paid_by.first_name} ${activity.paid_by.last_name}`}</h3>
+                        className={
+                            'activity-headers'
+                        }>{`Who pays: ${activity.paid_by.first_name} ${activity.paid_by.last_name}`}</h3>
                 </CardContent>
                 <CardActions className={'activity-action-style'}>
                     <Button className={'edit-day-button'}>Edit</Button>

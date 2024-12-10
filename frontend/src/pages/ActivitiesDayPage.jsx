@@ -1,32 +1,35 @@
 import PageTitle from '../components/common/PageTitle.jsx';
-import { useLazyGetActivitiesQuery } from '../redux/rtk/activityDataApi.js';
-import { useEffect } from 'react';
+import { useGetActivitiesQuery } from '../redux/rtk/activityDataApi.js';
+import { useEffect, useState } from 'react';
 import { calculateActivityDate } from '../utils/common.utils.js';
 import DayActivitiesTop from '../components/day-activities/DayActivitiesTop.jsx';
 import { useParams } from 'react-router-dom';
 import ActivityCard from '../components/day-activities/ActivityCard.jsx';
 import BluredCard from '../components/day-activities/BluredCard/BluredCard.jsx';
+import useJourneySocket from '../hooks/useJourneySocket.js';
 
 function ActivitiesDayPage() {
     const { journey_id } = useParams();
-    const [getActivities, { data: ActivitiesData, error: ActivitiesError, isLoading }] =
-        useLazyGetActivitiesQuery();
-    const dayNumber = ActivitiesData?.response.day_number;
-    const date = calculateActivityDate(ActivitiesData?.response.start_date, dayNumber);
-    const country = ActivitiesData?.response.country;
+    const { data, error, isLoading } = useGetActivitiesQuery(journey_id);
+    const [activities, setActivities] = useState([]);
+    const dayNumber = data?.response.day_number;
+    const date = calculateActivityDate(data?.response.start_date, dayNumber);
+    const country = data?.response.country;
 
     useEffect(() => {
-        if (journey_id) {
-            getActivities(journey_id);
+        if (data) {
+            setActivities(data?.response.activities);
         }
-    }, [journey_id, getActivities]);
+    }, [data]);
+
+    useJourneySocket(journey_id, setActivities);
 
     if (isLoading) {
         return <div>Loading journeys...</div>;
     }
 
-    if (ActivitiesError) {
-        return <div>Error loading journeys: {ActivitiesError}</div>;
+    if (error) {
+        return <div>Error loading journeys: {error}</div>;
     }
 
     return (
@@ -34,7 +37,7 @@ function ActivitiesDayPage() {
             <PageTitle title={`${date} - day ${dayNumber}`} />
             <DayActivitiesTop country={country} />
             <div className={'cardDiv'}>
-                {ActivitiesData?.response.activities?.map((activity, index) => (
+                {activities.map((activity, index) => (
                     <ActivityCard key={index} activity={activity} />
                 ))}
                 <BluredCard date={date} country={country} />
