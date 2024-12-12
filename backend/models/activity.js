@@ -43,6 +43,11 @@ export const Activity = new EntitySchema({
       type: "timestamp",
       updateDate: true,
     },
+    payment_method: {
+      type: "enum",
+      enum: ["Equal Payment", "Equal Division", "No Payment", "Single payment"],
+      nullable: false,
+    },
   },
   relations: {
     journey: {
