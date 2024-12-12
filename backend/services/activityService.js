@@ -97,7 +97,7 @@ export const createActivityService = async (
     if (payment_method === "Equal Payment") {
       // Add full cost to each participant
       const updatePromises = journey.trip.participants.map(async (participant) => {
-        participant.expenses = parseFloat(participant.expenses) + numericCost;
+        participant.expenses = parseFloat( parseFloat(participant.expenses) + numericCost).toFixed(2);
         return tripParticipantRepository.save(participant);
       });
       await Promise.all(updatePromises);
@@ -108,7 +108,7 @@ export const createActivityService = async (
       console.log(costPerParticipant);
 
       const updatePromises = journey.trip.participants.map(async (participant) => {
-        participant.expenses = parseFloat(participant.expenses) + costPerParticipant;
+        participant.expenses = parseFloat(parseFloat(participant.expenses) + costPerParticipant).toFixed(2);
         return tripParticipantRepository.save(participant);
       });
       await Promise.all(updatePromises);
