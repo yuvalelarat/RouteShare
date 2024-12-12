@@ -26,7 +26,7 @@ export const createActivity = async (req, res) => {
       return;
     }
 
-    const requiredFields = { activity_name, location, activity_type };
+    const requiredFields = { activity_name, location, activity_type, payment_method };
     const fieldsNotFound = checkRequiredFields(requiredFields, res);
     if (fieldsNotFound) {
       console.log("missing required fields");
@@ -35,9 +35,9 @@ export const createActivity = async (req, res) => {
 
     let normalizedPaidBy = paid_by;
     if (
-        paid_by === 'Equal payment' ||
-        paid_by === 'Equal division' ||
-        paid_by === 'No payment'
+        payment_method === 'Equal payment' ||
+        payment_method === 'Equal division' ||
+        payment_method === 'No payment'
     ) {
       normalizedPaidBy = null;
     }
@@ -50,12 +50,16 @@ export const createActivity = async (req, res) => {
         activity_type,
         description,
         user_id,
-        paid_by,
+        normalizedPaidBy,
         payment_method
     );
 
-    const paidByUser = await userRepository.findOne({ where: { user_id: paid_by } });
-    newActivity.paid_by = paidByUser;
+    if (normalizedPaidBy !== null) {
+      const paidByUser = await userRepository.findOne({ where: { user_id: paid_by } });
+      newActivity.paid_by = paidByUser;
+    }else {
+        newActivity.paid_by = null;
+    }
 
     emitNewActivity(journey_id, newActivity);
 

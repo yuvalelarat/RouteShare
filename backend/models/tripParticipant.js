@@ -16,7 +16,7 @@ export const TripParticipant = new EntitySchema({
       length: 10,
     },
     expenses: {
-      type: "integer",
+      type: "numeric",
       default: 0,
     },
     joined_at: {

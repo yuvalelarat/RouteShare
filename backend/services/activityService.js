@@ -1,20 +1,22 @@
 import { Activity } from "../models/activity.js";
 import { Journey } from "../models/journey.js";
+import { TripParticipant } from "../models/tripParticipant.js";
 import dataSource from "../db/connection.js";
 
 const activityRepository = dataSource.getRepository(Activity);
 const journeyRepository = dataSource.getRepository(Journey);
+const tripParticipantRepository = dataSource.getRepository(TripParticipant);
 
 export const createActivityService = async (
-  journey_id,
-  activity_name,
-  location,
-  cost,
-  activity_type,
-  description,
-  user_id,
-  paid_by,
-  payment_method
+    journey_id,
+    activity_name,
+    location,
+    cost,
+    activity_type,
+    description,
+    user_id,
+    normalizedPaidBy,
+    payment_method
 ) => {
   try {
     const journey = await journeyRepository.findOne({
@@ -27,26 +29,39 @@ export const createActivityService = async (
       ],
     });
 
+    if (cost < 0) {
+        throw new Error("Cost cannot be negative");
+    }
+
     if (!journey) {
       throw new Error("Journey not found");
     }
 
+    if (payment_method === "Single payment" && normalizedPaidBy === null) {
+      throw new Error("Single payment requires a user to be selected.");
+    }
+
+    if(payment_method === "No Payment" && cost > 0) {
+        throw new Error("No Payment does require 0 cost.");
+    }
+
     if (journey.trip.user.user_id !== user_id) {
       const participant = journey.trip.participants.find(
-        (p) => p.user.user_id === user_id
+          (p) => p.user.user_id === user_id
       );
       if (!participant || participant.role !== "edit") {
         throw new Error(
-          "You do not have permission to add an activity to this journey."
+            "You do not have permission to add an activity to this journey."
         );
       }
     }
 
-    const isPaidByValid = journey.trip.user.user_id === paid_by ||
-        journey.trip.participants.some((p) => p.user.user_id === paid_by);
-
-    if (!isPaidByValid) {
-      throw new Error("The user who paid for the activity must be the trip creator or a participant.");
+    if (normalizedPaidBy !== null) {
+      const isPaidByValid = journey.trip.user.user_id === normalizedPaidBy ||
+          journey.trip.participants.some((p) => p.user.user_id === normalizedPaidBy);
+      if (!isPaidByValid) {
+        throw new Error("The user who paid for the activity must be the trip creator or a participant.");
+      }
     }
 
     if (cost && isNaN(parseFloat(cost))) {
@@ -57,26 +72,59 @@ export const createActivityService = async (
       throw new Error("Invalid cost value");
     }
 
-    console.log("Cost value:", cost, "Type:", typeof cost);
-    console.log("Numeric cost:", numericCost, "Type:", typeof numericCost);
-
-    const newActivity = activityRepository.create({
+    // Create activity
+    const activityData = {
       journey: { journey_id },
       activity_name,
       location,
       cost: numericCost,
       activity_type,
       description,
-      paid_by: { user_id: paid_by },
+      paid_by: normalizedPaidBy !== null ? { user_id: normalizedPaidBy } : null,
       payment_method
-    });
+    };
 
+    const newActivity = activityRepository.create(activityData);
+    const savedActivity = await activityRepository.save(newActivity);
+
+    // Update journey expenses
     if (numericCost) {
       journey.expenses = parseFloat((parseFloat(journey.expenses) + numericCost).toFixed(2));
       await journeyRepository.save(journey);
     }
 
-    const savedActivity = await activityRepository.save(newActivity);
+    // Handle participant expenses based on payment method
+    if (payment_method === "Equal Payment") {
+      // Add full cost to each participant
+      const updatePromises = journey.trip.participants.map(async (participant) => {
+        participant.expenses = parseFloat(participant.expenses) + numericCost;
+        return tripParticipantRepository.save(participant);
+      });
+      await Promise.all(updatePromises);
+    } else if (payment_method === "Equal Division") {
+      // Divide cost equally among participants
+      const participantCount = journey.trip.participants.length;
+      const costPerParticipant = parseFloat((numericCost / participantCount).toFixed(2));
+      console.log(costPerParticipant);
+
+      const updatePromises = journey.trip.participants.map(async (participant) => {
+        participant.expenses = parseFloat(participant.expenses) + costPerParticipant;
+        return tripParticipantRepository.save(participant);
+      });
+      await Promise.all(updatePromises);
+    } else if (payment_method === "Single payment") {
+      // Add cost only to the user who paid
+      const participantToPay = journey.trip.participants.find(
+          (participant) => participant.user.user_id === normalizedPaidBy
+      );
+
+      if (participantToPay) {
+        participantToPay.expenses = parseFloat(participantToPay.expenses) + numericCost;
+        await tripParticipantRepository.save(participantToPay);
+      }
+    }
+    // For "No Payment", do nothing to expenses
+
     return savedActivity;
   } catch (err) {
     throw new Error(err.message || "Error creating activity");
