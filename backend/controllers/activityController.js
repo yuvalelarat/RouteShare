@@ -9,6 +9,10 @@ import {
   getActivitiesByJourneyIdService
 } from "../services/activityService.js";
 import { emitNewActivity } from '../socket/socket.js';
+import dataSource from '../db/connection.js';
+import { User } from '../models/user.js';
+
+const userRepository = dataSource.getRepository(User);
 
 export const createActivity = async (req, res) => {
   const { journey_id } = req.params;
@@ -29,16 +33,28 @@ export const createActivity = async (req, res) => {
       return fieldsNotFound;
     }
 
+    let normalizedPaidBy = paid_by;
+    if (
+        paid_by === 'Equal payment' ||
+        paid_by === 'Equal division' ||
+        paid_by === 'No payment'
+    ) {
+      normalizedPaidBy = null;
+    }
+
     const newActivity = await createActivityService(
-      journey_id,
-      activity_name,
-      location,
-      cost,
-      activity_type,
-      description,
-      user_id,
+        journey_id,
+        activity_name,
+        location,
+        cost,
+        activity_type,
+        description,
+        user_id,
         paid_by
     );
+
+    const paidByUser = await userRepository.findOne({ where: { user_id: paid_by } });
+    newActivity.paid_by = paidByUser;
 
     emitNewActivity(journey_id, newActivity);
 

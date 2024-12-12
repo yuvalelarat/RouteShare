@@ -34,8 +34,6 @@ export const Journey = new EntitySchema({
     },
     expenses: {
       type: "numeric",
-      precision: 10,
-      scale: 2,
       default: 0,
     }
   },

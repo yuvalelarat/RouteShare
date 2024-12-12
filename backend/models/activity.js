@@ -59,7 +59,7 @@ export const Activity = new EntitySchema({
       joinColumn: {
         name: "paid_by",
       },
-      nullable: false,
+      nullable: true,
     },
   },
 });

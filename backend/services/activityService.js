@@ -47,13 +47,17 @@ export const createActivityService = async (
     if (!isPaidByValid) {
       throw new Error("The user who paid for the activity must be the trip creator or a participant.");
     }
-    console.log("Cost value:", cost, "Type:", typeof cost);
 
     if (cost && isNaN(parseFloat(cost))) {
       throw new Error("Invalid cost value");
     }
     const numericCost = parseFloat(cost);
-    console.log("Numeric cost:", numericCost, typeof numericCost);
+    if (isNaN(numericCost)) {
+      throw new Error("Invalid cost value");
+    }
+
+    console.log("Cost value:", cost, "Type:", typeof cost);
+    console.log("Numeric cost:", numericCost, "Type:", typeof numericCost);
 
     const newActivity = activityRepository.create({
       journey: { journey_id },
@@ -66,7 +70,7 @@ export const createActivityService = async (
     });
 
     if (numericCost) {
-      journey.expenses = (journey.expenses || 0) + numericCost;
+      journey.expenses = parseFloat((parseFloat(journey.expenses) + numericCost).toFixed(2));
       await journeyRepository.save(journey);
     }
 
