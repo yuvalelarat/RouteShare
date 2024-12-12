@@ -107,7 +107,10 @@ export default function NewActivityForm({ open, onClose, date, country }) {
             cost <= 0 ||
             description.length > 100 ||
             !activityTypeList.includes(activityType) ||
-            !ParticipantsData?.participants.some((participant) => participant.user_id === paidBy)
+            (!ParticipantsData?.participants.some((participant) => participant.user_id === paidBy) &&
+                paidBy !== 'Equal payment' &&
+                paidBy !== 'Equal division' &&
+                paidBy !== 'No payment')
         ) {
             setActivityNameError(activityName.length > 20 || !activityName);
             setLocationError(location.length > 20 || !location);
@@ -115,7 +118,10 @@ export default function NewActivityForm({ open, onClose, date, country }) {
             setDescriptionError(description.length > 100);
             setActivityTypeError(!activityTypeList.includes(activityType));
             setPaidByError(
-                !ParticipantsData?.participants.some((participant) => participant.user_id === paidBy),
+                !ParticipantsData?.participants.some((participant) => participant.user_id === paidBy) &&
+                    paidBy !== 'Equal payment' &&
+                    paidBy !== 'Equal division' &&
+                    paidBy !== 'No payment',
             );
             setLocalError('Please notice the red required fields');
             isValid = false;
@@ -218,8 +224,14 @@ export default function NewActivityForm({ open, onClose, date, country }) {
                         name="paidBy"
                         onChange={handleOnChange}
                         label="Who pays?">
-                        <MenuItem value="">
+                        <MenuItem value="Equal payment">
                             <em>Equal payment</em>
+                        </MenuItem>
+                        <MenuItem value="Equal division">
+                            <em>Equal division</em>
+                        </MenuItem>
+                        <MenuItem value="No payment">
+                            <em>No payment</em>
                         </MenuItem>
                         {ParticipantsData?.participants.map((participant, index) => (
                             <MenuItem key={index} value={participant.user_id}>

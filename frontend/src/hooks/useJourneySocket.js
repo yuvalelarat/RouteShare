@@ -8,7 +8,9 @@ const useJourneySocket = (journey_id, setActivities) => {
         socket.emit('join-journey', journey_id);
 
         socket.on('new-activity', (newActivity) => {
-            setActivities((prevActivities) => [...prevActivities, newActivity]);
+            if (newActivity && newActivity.paid_by) {
+                setActivities((prevActivities) => [...prevActivities, newActivity]);
+            }
         });
 
         return () => {
