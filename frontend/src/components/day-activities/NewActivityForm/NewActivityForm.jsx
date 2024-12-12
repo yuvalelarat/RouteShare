@@ -127,6 +127,12 @@ export default function NewActivityForm({ open, onClose, date, country }) {
             isValid = false;
         }
 
+        let paymentMethod = 'Single payment';
+        if (paidBy === 'Equal payment' || paidBy === 'Equal division' || paidBy === 'No payment') {
+            paymentMethod = paidBy;
+            setPaidBy(null);
+        }
+
         if (!isValid) return;
         try {
             await createActivity({
@@ -136,6 +142,7 @@ export default function NewActivityForm({ open, onClose, date, country }) {
                 activity_type: activityType,
                 cost,
                 paid_by: paidBy,
+                payment_method: paymentMethod,
             }).unwrap();
             resetStates();
             onClose();

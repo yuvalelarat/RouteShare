@@ -13,7 +13,8 @@ export const createActivityService = async (
   activity_type,
   description,
   user_id,
-  paid_by
+  paid_by,
+  payment_method
 ) => {
   try {
     const journey = await journeyRepository.findOne({
@@ -67,6 +68,7 @@ export const createActivityService = async (
       activity_type,
       description,
       paid_by: { user_id: paid_by },
+      payment_method
     });
 
     if (numericCost) {

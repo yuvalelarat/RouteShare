@@ -16,7 +16,7 @@ const userRepository = dataSource.getRepository(User);
 
 export const createActivity = async (req, res) => {
   const { journey_id } = req.params;
-  const { activity_name, location, cost, activity_type, description, paid_by } =
+  const { activity_name, location, cost, activity_type, description, paid_by, payment_method } =
     req.body;
 
   try {
@@ -50,7 +50,8 @@ export const createActivity = async (req, res) => {
         activity_type,
         description,
         user_id,
-        paid_by
+        paid_by,
+        payment_method
     );
 
     const paidByUser = await userRepository.findOne({ where: { user_id: paid_by } });
