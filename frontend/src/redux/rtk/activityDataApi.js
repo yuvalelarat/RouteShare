@@ -23,10 +23,18 @@ export const activityDataApi = createApi({
             transformResponse: (response) => response,
         }),
         createActivity: builder.mutation({
-            query: ({ journey_id, activity_name, location, activity_type, cost, paid_by }) => ({
+            query: ({
+                journey_id,
+                activity_name,
+                location,
+                activity_type,
+                cost,
+                paid_by,
+                payment_method,
+            }) => ({
                 url: `/new-activity/${journey_id}`,
                 method: 'POST',
-                body: { activity_name, location, activity_type, cost, paid_by },
+                body: { activity_name, location, activity_type, cost, paid_by, payment_method },
             }),
         }),
         deleteActivity: builder.mutation({

@@ -103,34 +103,34 @@ export default function NewActivityForm({ open, onClose, date, country }) {
             !activityName ||
             location.length > 20 ||
             !location ||
-            !cost ||
-            cost <= 0 ||
+            cost === '' ||
+            cost === null ||
+            cost < 0 ||
             description.length > 100 ||
             !activityTypeList.includes(activityType) ||
             (!ParticipantsData?.participants.some((participant) => participant.user_id === paidBy) &&
-                paidBy !== 'Equal payment' &&
-                paidBy !== 'Equal division' &&
-                paidBy !== 'No payment')
+                paidBy !== 'Equal Payment' &&
+                paidBy !== 'Equal Division' &&
+                paidBy !== 'No Payment')
         ) {
             setActivityNameError(activityName.length > 20 || !activityName);
             setLocationError(location.length > 20 || !location);
-            setCostError(!cost || cost <= 0);
+            setCostError(cost === '' || cost === null || cost < 0);
             setDescriptionError(description.length > 100);
             setActivityTypeError(!activityTypeList.includes(activityType));
             setPaidByError(
                 !ParticipantsData?.participants.some((participant) => participant.user_id === paidBy) &&
-                    paidBy !== 'Equal payment' &&
-                    paidBy !== 'Equal division' &&
-                    paidBy !== 'No payment',
+                    paidBy !== 'Equal Payment' &&
+                    paidBy !== 'Equal Division' &&
+                    paidBy !== 'No Payment',
             );
             setLocalError('Please notice the red required fields');
             isValid = false;
         }
 
         let paymentMethod = 'Single payment';
-        if (paidBy === 'Equal payment' || paidBy === 'Equal division' || paidBy === 'No payment') {
+        if (paidBy === 'Equal Payment' || paidBy === 'Equal Division' || paidBy === 'No Payment') {
             paymentMethod = paidBy;
-            setPaidBy(null);
         }
 
         if (!isValid) return;
@@ -141,7 +141,7 @@ export default function NewActivityForm({ open, onClose, date, country }) {
                 location,
                 activity_type: activityType,
                 cost,
-                paid_by: paidBy,
+                paid_by: paymentMethod === 'Single payment' ? paidBy : null,
                 payment_method: paymentMethod,
             }).unwrap();
             resetStates();
@@ -231,13 +231,13 @@ export default function NewActivityForm({ open, onClose, date, country }) {
                         name="paidBy"
                         onChange={handleOnChange}
                         label="Who pays?">
-                        <MenuItem value="Equal payment">
+                        <MenuItem value="Equal Payment">
                             <em>Equal payment</em>
                         </MenuItem>
-                        <MenuItem value="Equal division">
+                        <MenuItem value="Equal Division">
                             <em>Equal division</em>
                         </MenuItem>
-                        <MenuItem value="No payment">
+                        <MenuItem value="No Payment">
                             <em>No payment</em>
                         </MenuItem>
                         {ParticipantsData?.participants.map((participant, index) => (
