@@ -207,19 +207,6 @@ export default function NewActivityForm({ open, onClose, date, country }) {
                     variant="standard"
                     helperText={locationHelperText}
                 />
-                <TextField
-                    required
-                    id="cost"
-                    name="cost"
-                    label="cost ($)"
-                    type={'number'}
-                    value={cost}
-                    error={costError}
-                    onChange={handleOnChange}
-                    fullWidth
-                    variant="standard"
-                    margin={'dense'}
-                />
                 <FormControl sx={{ minWidth: 150 }} size="small" margin={'dense'} variant={'standard'}>
                     <InputLabel id="demo-select-small-label">Who pays?</InputLabel>
                     <Select
@@ -247,6 +234,19 @@ export default function NewActivityForm({ open, onClose, date, country }) {
                         ))}
                     </Select>
                 </FormControl>
+                <TextField
+                    required
+                    id="cost"
+                    name="cost"
+                    label="cost ($)"
+                    type={'number'}
+                    value={paidBy === 'No Payment' ? 0 : cost}
+                    error={costError}
+                    onChange={handleOnChange}
+                    fullWidth
+                    variant="standard"
+                    margin={'dense'}
+                />
                 <TextField
                     id="description"
                     name="description"
