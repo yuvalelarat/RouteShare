@@ -149,6 +149,7 @@ export const getAllJourneysService = async (trip_id, user_id) => {
     trip_name: trip.trip_name,
     start_date: trip.start_date,
     end_date: trip.end_date,
+    description: trip.description,
     trip_admin: {
       admin_id: tripAdmin.user.user_id,
       admin_name: `${tripAdmin.user.first_name} ${tripAdmin.user.last_name}`,
