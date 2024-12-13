@@ -1,5 +1,5 @@
 // eslint-disable-next-line react/prop-types
-function TripDetailsTop({ tripAdmin, startDate, endDate }) {
+function TripDetailsTop({ tripAdmin, startDate, endDate, description }) {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h3 style={{ margin: '0', fontWeight: '400' }}>{`Created by: ${tripAdmin}`}</h3>
@@ -10,6 +10,7 @@ function TripDetailsTop({ tripAdmin, startDate, endDate }) {
                 </Button>
             </div>*/}{' '}
             {/*TODO: Implement edit trip details????? it will be bad dates for days cards!!!*/}
+            <p style={{ margin: '0', maxWidth: '80%' }}>{description}</p>
         </div>
     );
 }

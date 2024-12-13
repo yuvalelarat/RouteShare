@@ -32,6 +32,9 @@ function TripDaysPage() {
     const endDate = data?.end_date;
     const numberOfJourneys = journeys.length;
     const numberOfDays = calculateNumberOfDays(startDate, endDate);
+    const description = data?.description;
+
+    console.log(description);
 
     const newJourneyDetails = (journeyId, newDate, newDayNumber, newLocation, newDescription) => {
         setJourneys((prevJourneys) =>
@@ -82,6 +85,7 @@ function TripDaysPage() {
                 tripAdmin={tripAdmin}
                 startDate={new Date(startDate).toLocaleDateString('en-GB')}
                 endDate={new Date(endDate).toLocaleDateString('en-GB')}
+                description={description}
             />
             <div className={'cardDiv'}>
                 {journeys.map((journey) => (
