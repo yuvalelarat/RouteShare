@@ -15,6 +15,7 @@ function ActivitiesDayPage() {
     const dayNumber = data?.response.day_number;
     const date = calculateActivityDate(data?.response.start_date, dayNumber);
     const country = data?.response.country;
+    const role = data?.response.role;
 
     useEffect(() => {
         if (data) {
@@ -38,9 +39,9 @@ function ActivitiesDayPage() {
             <DayActivitiesTop country={country} />
             <div className={'cardDiv'}>
                 {activities.map((activity, index) => (
-                    <ActivityCard key={index} activity={activity} />
+                    <ActivityCard key={index} activity={activity} role={role} />
                 ))}
-                <BluredCard date={date} country={country} />
+                {role !== 'view' ? <BluredCard journey_id={journey_id} /> : null}
             </div>
         </>
     );

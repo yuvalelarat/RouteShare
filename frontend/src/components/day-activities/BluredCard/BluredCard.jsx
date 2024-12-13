@@ -47,13 +47,13 @@ function BluredCard({ date, country }) {
                 </CardContent>
                 <CardActions style={cardActionsStyle}>
                     <div className={'activity-action-style'}>
-                        <Button
+                        {/* TODO: EDIT??? <Button
                             variant={'contained'}
                             disableElevation
                             disabled={true}
                             className={'edit-day-button'}>
                             Edit
-                        </Button>
+                        </Button>*/}
                         <Button
                             variant={'contained'}
                             disableElevation

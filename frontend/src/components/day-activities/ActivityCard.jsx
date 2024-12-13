@@ -10,7 +10,7 @@ import { useDeleteActivityMutation } from '../../redux/rtk/activityDataApi.js';
 import { useParams } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
-function ActivityCard({ activity }) {
+function ActivityCard({ activity, role }) {
     const activity_id = activity.activity_id;
     const { journey_id } = useParams();
     const [deleteActivity] = useDeleteActivityMutation();
@@ -45,7 +45,7 @@ function ActivityCard({ activity }) {
                 </CardContent>
                 <CardActions className={'activity-action-style'}>
                     {/*TODO: edit button!!!!  <Button className={'edit-day-button'}>Edit</Button>*/}
-                    <DeleteActivity handleDelete={handleDelete} />
+                    {role !== 'view' ? <DeleteActivity handleDelete={handleDelete} /> : null}
                 </CardActions>
             </Card>
         </Box>
