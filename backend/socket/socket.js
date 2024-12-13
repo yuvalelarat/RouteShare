@@ -43,3 +43,7 @@ export const emitDeleteJourney = (tripId, deleteJourney) => {
 export const emitNewActivity = (journeyId, newActivity) => {
     io.to(journeyId).emit('new-activity', newActivity);
 };
+
+export const emitDeleteActivity = (journeyId, deleteActivity) => {
+    io.to(journeyId).emit('delete-activity', deleteActivity);
+};

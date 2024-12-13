@@ -8,7 +8,7 @@ import {
   updateActivityService,
   getActivitiesByJourneyIdService
 } from "../services/activityService.js";
-import { emitNewActivity } from '../socket/socket.js';
+import { emitDeleteActivity, emitNewActivity } from '../socket/socket.js';
 import dataSource from '../db/connection.js';
 import { User } from '../models/user.js';
 
@@ -78,6 +78,7 @@ export const createActivity = async (req, res) => {
 
 export const deleteActivity = async (req, res) => {
   const { activity_id } = req.params;
+  const { journey_id } = req.body;
 
   try {
     const user_id = getUserIdFromToken(req, res);
@@ -89,6 +90,8 @@ export const deleteActivity = async (req, res) => {
     console.log("User ID:", user_id);
 
     const success = await deleteActivityService(activity_id, user_id);
+
+    emitDeleteActivity(journey_id, activity_id);
 
     if (success) {
       res.status(200).json({
