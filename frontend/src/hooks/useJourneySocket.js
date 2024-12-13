@@ -13,6 +13,14 @@ const useJourneySocket = (journey_id, setActivities) => {
             }
         });
 
+        socket.on('delete-activity', (deletedActivityId) => {
+            if (deletedActivityId) {
+                setActivities((prevActivities) =>
+                    prevActivities.filter((activity) => activity.activity_id !== deletedActivityId),
+                );
+            }
+        });
+
         return () => {
             socket.off('new-activity');
             socket.emit('leave-journey', journey_id);

@@ -59,6 +59,9 @@ export default function NewActivityForm({ open, onClose, date, country }) {
         } else if (name === 'paidBy') {
             setPaidBy(value);
             setPaidByError(false);
+            if (value === 'No Payment') {
+                setCost(0);
+            }
         } else if (name === 'description') {
             if (value.length <= 100) {
                 setDescription(value);
@@ -97,14 +100,12 @@ export default function NewActivityForm({ open, onClose, date, country }) {
     const handleSave = async (e) => {
         e.preventDefault();
         let isValid = true;
-
         if (
             activityName.length > 20 ||
             !activityName ||
             location.length > 20 ||
             !location ||
             cost === '' ||
-            cost === null ||
             cost < 0 ||
             description.length > 100 ||
             !activityTypeList.includes(activityType) ||
@@ -115,7 +116,7 @@ export default function NewActivityForm({ open, onClose, date, country }) {
         ) {
             setActivityNameError(activityName.length > 20 || !activityName);
             setLocationError(location.length > 20 || !location);
-            setCostError(cost === '' || cost === null || cost < 0);
+            setCostError(cost === '' || cost < 0);
             setDescriptionError(description.length > 100);
             setActivityTypeError(!activityTypeList.includes(activityType));
             setPaidByError(
@@ -134,13 +135,14 @@ export default function NewActivityForm({ open, onClose, date, country }) {
         }
 
         if (!isValid) return;
+        setCost(Number(cost));
         try {
             await createActivity({
                 journey_id: journey_id,
                 activity_name: activityName,
                 location,
                 activity_type: activityType,
-                cost,
+                cost: paymentMethod === 'No Payment' ? 0 : cost,
                 paid_by: paymentMethod === 'Single payment' ? paidBy : null,
                 payment_method: paymentMethod,
             }).unwrap();
@@ -246,6 +248,7 @@ export default function NewActivityForm({ open, onClose, date, country }) {
                     fullWidth
                     variant="standard"
                     margin={'dense'}
+                    disabled={paidBy === 'No Payment'}
                 />
                 <TextField
                     id="description"

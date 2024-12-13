@@ -5,9 +5,25 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 import './ActivityCard.css';
+import DeleteActivity from './DeleteActivity/DeleteActivity.jsx';
+import { useDeleteActivityMutation } from '../../redux/rtk/activityDataApi.js';
+import { useParams } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
 function ActivityCard({ activity }) {
+    const activity_id = activity.activity_id;
+    const { journey_id } = useParams();
+    const [deleteActivity] = useDeleteActivityMutation();
+
+    const handleDelete = async () => {
+        try {
+            await deleteActivity({ activity_id, journey_id }).unwrap();
+            console.log('Activity deleted successfully');
+        } catch (error) {
+            console.error('Failed to delete the activity:', error);
+        }
+    };
+
     return (
         <Box sx={boxStyle}>
             <Card sx={cardStyle}>
@@ -29,7 +45,7 @@ function ActivityCard({ activity }) {
                 </CardContent>
                 <CardActions className={'activity-action-style'}>
                     <Button className={'edit-day-button'}>Edit</Button>
-                    <Button className={'delete-day-button'}>Delete</Button>
+                    <DeleteActivity handleDelete={handleDelete} />
                 </CardActions>
             </Card>
         </Box>
