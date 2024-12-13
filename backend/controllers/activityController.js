@@ -86,6 +86,8 @@ export const deleteActivity = async (req, res) => {
       return;
     }
 
+    console.log("User ID:", user_id);
+
     const success = await deleteActivityService(activity_id, user_id);
 
     if (success) {
