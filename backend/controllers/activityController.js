@@ -36,7 +36,6 @@ export const createActivity = async (req, res) => {
     let normalizedPaidBy = paid_by;
     if (
         payment_method === 'Equal payment' ||
-        payment_method === 'Equal division' ||
         payment_method === 'No payment'
     ) {
       normalizedPaidBy = null;
@@ -115,7 +114,7 @@ export const deleteActivity = async (req, res) => {
 
 export const updateActivity = async (req, res) => {
   const { activity_id } = req.params;
-  const { activity_name, location, cost, activity_type, description } =
+  const { activity_name, location, cost, activity_type, description, paid_by, payment_method  } =
     req.body;
 
   try {
@@ -125,11 +124,12 @@ export const updateActivity = async (req, res) => {
       return;
     }
 
-    const requiredFields = { activity_name, location };
-    const fieldsNotFound = checkRequiredFields(requiredFields, res);
-    if (fieldsNotFound) {
-      console.log("missing required fields");
-      return fieldsNotFound;
+    let normalizedPaidBy = paid_by;
+    if (
+        payment_method === 'Equal payment' ||
+        payment_method === 'No payment'
+    ) {
+      normalizedPaidBy = null;
     }
 
     const activityData = {
@@ -138,6 +138,8 @@ export const updateActivity = async (req, res) => {
       cost,
       activity_type,
       description,
+      normalizedPaidBy,
+      payment_method
     };
 
     const updatedActivity = await updateActivityService(

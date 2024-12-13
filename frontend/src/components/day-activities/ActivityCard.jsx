@@ -28,8 +28,8 @@ function ActivityCard({ activity }) {
         <Box sx={boxStyle}>
             <Card sx={cardStyle}>
                 <CardContent sx={cardContentStyle}>
-                    <h3 style={{ fontWeight: '600', margin: '0' }}>{activity.activity_name}</h3>
-                    <h3 style={{ fontWeight: '400', margin: '0' }}>{activity.location}</h3>
+                    <h3 className={'activity-name'}>{activity.activity_name}</h3>
+                    <h3 className={'activity-location'}>{activity.location}</h3>
                     <div className={'activity-description-div'}>
                         <p style={{ margin: '0' }}>{activity.description}</p>
                     </div>

@@ -111,7 +111,6 @@ export default function NewActivityForm({ open, onClose, date, country }) {
             !activityTypeList.includes(activityType) ||
             (!ParticipantsData?.participants.some((participant) => participant.user_id === paidBy) &&
                 paidBy !== 'Equal Payment' &&
-                paidBy !== 'Equal Division' &&
                 paidBy !== 'No Payment')
         ) {
             setActivityNameError(activityName.length > 20 || !activityName);
@@ -122,7 +121,6 @@ export default function NewActivityForm({ open, onClose, date, country }) {
             setPaidByError(
                 !ParticipantsData?.participants.some((participant) => participant.user_id === paidBy) &&
                     paidBy !== 'Equal Payment' &&
-                    paidBy !== 'Equal Division' &&
                     paidBy !== 'No Payment',
             );
             setLocalError('Please notice the red required fields');
@@ -130,7 +128,7 @@ export default function NewActivityForm({ open, onClose, date, country }) {
         }
 
         let paymentMethod = 'Single payment';
-        if (paidBy === 'Equal Payment' || paidBy === 'Equal Division' || paidBy === 'No Payment') {
+        if (paidBy === 'Equal Payment' || paidBy === 'No Payment') {
             paymentMethod = paidBy;
         }
 
@@ -222,9 +220,6 @@ export default function NewActivityForm({ open, onClose, date, country }) {
                         label="Who pays?">
                         <MenuItem value="Equal Payment">
                             <em>Equal payment</em>
-                        </MenuItem>
-                        <MenuItem value="Equal Division">
-                            <em>Equal division</em>
                         </MenuItem>
                         <MenuItem value="No Payment">
                             <em>No payment</em>

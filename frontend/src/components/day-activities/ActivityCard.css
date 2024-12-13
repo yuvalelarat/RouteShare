@@ -20,3 +20,21 @@
     white-space: nowrap;
     overflow: hidden;
 }
+
+.activity-location {
+    font-weight: 400;
+    margin: 0;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.activity-name {
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
