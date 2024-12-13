@@ -44,7 +44,7 @@ function ActivityCard({ activity }) {
                     </h3>
                 </CardContent>
                 <CardActions className={'activity-action-style'}>
-                    <Button className={'edit-day-button'}>Edit</Button>
+                    {/*TODO: edit button!!!!  <Button className={'edit-day-button'}>Edit</Button>*/}
                     <DeleteActivity handleDelete={handleDelete} />
                 </CardActions>
             </Card>

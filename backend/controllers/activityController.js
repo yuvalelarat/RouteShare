@@ -5,7 +5,6 @@ import {
 import {
   createActivityService,
   deleteActivityService,
-  updateActivityService,
   getActivitiesByJourneyIdService
 } from "../services/activityService.js";
 import { emitDeleteActivity, emitNewActivity } from '../socket/socket.js';
@@ -112,7 +111,7 @@ export const deleteActivity = async (req, res) => {
   }
 };
 
-export const updateActivity = async (req, res) => {
+/*export const updateActivity = async (req, res) => {
   const { activity_id } = req.params;
   const { activity_name, location, cost, activity_type, description, paid_by, payment_method  } =
     req.body;
@@ -160,7 +159,7 @@ export const updateActivity = async (req, res) => {
       error: err.message || "Something went wrong",
     });
   }
-};
+};*/
 
 export const getActivitiesByJourneyId = async (req, res) => {
   const { journey_id } = req.params;

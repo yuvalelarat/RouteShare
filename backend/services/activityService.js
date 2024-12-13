@@ -179,7 +179,6 @@ export const deleteActivityService = async (activity_id, user_id) => {
       );
       await journeyRepository.save(activity.journey);
     } else if (activity.payment_method === "Single payment") {
-      console.log(activity.paid_by?.user_id);
       const participantToPay = activity.journey.trip.participants.find(
           (participant) => participant.user?.user_id === activity.paid_by?.user_id
       );
@@ -209,7 +208,7 @@ export const deleteActivityService = async (activity_id, user_id) => {
   }
 };
 
-export const updateActivityService = async (
+/*export const updateActivityService = async (
     activity_id,
     activityData,
     user_id
@@ -232,7 +231,7 @@ export const updateActivityService = async (
 
     if (activity.journey.trip.user?.user_id !== user_id) {
       const participant = activity.journey.trip.participants.find(
-          (p) => p.user?.user_id === user_id
+          (p) => p.user.user_id === user_id
       );
       if (!participant || participant.role !== "edit") {
         throw new Error("You do not have permission to edit this activity.");
@@ -247,19 +246,17 @@ export const updateActivityService = async (
       throw new Error("Single payment requires a user to be selected.");
     }
 
-    if (activityData.payment_method === "No payment" && parseFloat(activityData.cost) > 0) {
-      throw new Error("No payment method requires 0 cost.");
+    if (activityData.payment_method === "No Payment" && parseFloat(activityData.cost) > 0) {
+      throw new Error("No Payment method requires 0 cost.");
     }
 
-    if (activityData.normalizedPaidBy) {
-      const isPaidByValid =
-          activity.journey.trip.user?.user_id === activityData.normalizedPaidBy ||
-          activity.journey.trip.participants.some((p) => p.trip_participant_id === activityData.normalizedPaidBy);
-
+    if (activityData.normalizedPaidBy !== null) {
+      const isPaidByValid = activity.journey.trip.user.user_id === activityData.normalizedPaidBy ||
+          activity.journey.trip.participants.some((p) => p.user.user_id === activityData.normalizedPaidBy);
       if (!isPaidByValid) {
         throw new Error("The user who paid for the activity must be the trip creator or a participant.");
       }
-    }
+    }s
 
     const numericCost = parseFloat(activityData.cost);
     if (isNaN(numericCost)) {
@@ -270,23 +267,62 @@ export const updateActivityService = async (
     const newCost = numericCost;
     const costDifference = newCost - oldCost;
 
-    Object.assign(activity, {
-      activity_name: activityData.activity_name,
-      location: activityData.location,
-      cost: newCost,
-      activity_type: activityData.activity_type,
-      description: activityData.description,
-      payment_method: activityData.payment_method,
-      paid_by: activityData.normalizedPaidBy
-    });
+    // Handle expense updates based on payment method
+    if (activity.payment_method === "Equal Payment") {
+      const participantCount = activity.journey.trip.participants.length;
+      const perParticipantCost = costDifference;
+
+      // Update each participant's expenses
+      const updatePromises = activity.journey.trip.participants.map(async (participant) => {
+        participant.expenses = parseFloat(
+            (parseFloat(participant.expenses) + perParticipantCost).toFixed(2)
+        );
+        return tripParticipantRepository.save(participant);
+      });
+      await Promise.all(updatePromises);
+
+      // Update journey expenses
+      activity.journey.expenses = parseFloat(
+          (parseFloat(activity.journey.expenses) + (perParticipantCost * participantCount)).toFixed(2)
+      );
+      await journeyRepository.save(activity.journey);
+
+    } else if (activity.payment_method === "Single payment") {
+      // Find the participant who paid
+      const participantToPay = activity.journey.trip.participants.find(
+          (participant) => participant.user?.user_id === activityData.normalizedPaidBy
+      );
+
+      if (participantToPay) {
+        participantToPay.expenses = parseFloat(
+            (parseFloat(participantToPay.expenses) + costDifference).toFixed(2)
+        );
+        await tripParticipantRepository.save(participantToPay);
+      }
+
+      activity.journey.expenses = parseFloat(
+          (parseFloat(activity.journey.expenses) + costDifference).toFixed(2)
+      );
+      await journeyRepository.save(activity.journey);
+    }
+
+    // Update activity fields
+    activity.activity_name = activityData.activity_name;
+    activity.location = activityData.location;
+    activity.cost = newCost;
+    activity.activity_type = activityData.activity_type;
+    activity.description = activityData.description;
+    activity.paid_by = activityData.normalizedPaidBy
+        ? { user_id: activityData.normalizedPaidBy }
+        : null;
+    activity.payment_method = activityData.payment_method;
 
     const updatedActivity = await activityRepository.save(activity);
-
     return updatedActivity;
   } catch (err) {
     throw new Error(err.message || "Error updating activity");
   }
-};
+};*/
 
 export const getActivitiesByJourneyIdService = async (journey_id, user_id) => {
   try {
