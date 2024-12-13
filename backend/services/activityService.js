@@ -343,7 +343,7 @@ export const getActivitiesByJourneyIdService = async (journey_id, user_id) => {
     }
 
     if (journey.trip.user.user_id !== user_id) {
-      const participant = journey.trip.participants.find(
+      var participant = journey.trip.participants.find(
         (p) => p.user.user_id === user_id
       );
       
@@ -362,6 +362,7 @@ export const getActivitiesByJourneyIdService = async (journey_id, user_id) => {
       start_date: journey.trip.start_date,
       day_number: journey.day_number,
       country: journey.country,
+      role: participant.role,
     };
   } catch (err) {
     throw new Error(err.message || "Error retrieving activities");
