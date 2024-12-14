@@ -362,7 +362,7 @@ export const getActivitiesByJourneyIdService = async (journey_id, user_id) => {
       start_date: journey.trip.start_date,
       day_number: journey.day_number,
       country: journey.country,
-      role: participant.role,
+      role: participant ? participant.role : "admin",
     };
   } catch (err) {
     throw new Error(err.message || "Error retrieving activities");
