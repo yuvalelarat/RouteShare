@@ -9,28 +9,31 @@ import { fields } from './constants.js';
 import { Box, FormControl, Input, InputAdornment, InputLabel, TextField } from '@mui/material';
 import { boxStyle, cardStyle, cardContentStyle } from './styles';
 import './NewTripCard.css';
+import { formatDateToApi } from '../../utils/common.utils.js';
+import { useCreateTripMutation } from '../../redux/rtk/tripsDataApi.js';
 
 function NewTripCard() {
     const [formValues, setFormValues] = useState({
         tripName: '',
         startDate: '',
         endDate: '',
-        description: ''
+        description: '',
     });
 
     const [errors, setErrors] = useState({
         tripName: false,
         startDate: false,
-        endDate: false
+        endDate: false,
     });
 
     const [alertOpen, setAlertOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('error');
 
     const navigate = useNavigate();
+    const [createTrip, { isLoading, isError, error }] = useCreateTripMutation();
 
     const handleFieldChange = (key, value) => {
-
         setErrors((prev) => ({ ...prev, [key]: false }));
 
         if (key === 'tripName') {
@@ -55,11 +58,13 @@ function NewTripCard() {
         navigate('/my-trips');
     };
 
-    const handleSave = () => {
+    const handleSave = async (e) => {
+        e.preventDefault();
+
         const newErrors = {
             tripName: !formValues.tripName,
             startDate: !formValues.startDate,
-            endDate: !formValues.endDate
+            endDate: !formValues.endDate,
         };
         if (newErrors.tripName || newErrors.startDate || newErrors.endDate) {
             setErrors(newErrors);
@@ -67,13 +72,31 @@ function NewTripCard() {
             setAlertOpen(true);
         } else {
             console.log('Save clicked');
-            //TODO: Save the form data
             setErrors({
                 tripName: false,
                 startDate: false,
-                endDate: false
+                endDate: false,
             });
             setAlertOpen(false);
+            try {
+                const response = await createTrip({
+                    trip_name: formValues.tripName,
+                    start_date: formatDateToApi(formValues.startDate),
+                    end_date: formatDateToApi(formValues.endDate),
+                    description: formValues.description,
+                }).unwrap();
+                setAlertType('success');
+                setAlertMessage('Trip created successfully.');
+                setAlertOpen(true);
+
+                setTimeout(() => {
+                    window.location.href = `/my-trips`;
+                }, 1000);
+            } catch (error) {
+                console.error('Error creating trip:', error);
+                setAlertMessage(error.data.error);
+                setAlertOpen(true);
+            }
         }
     };
 
@@ -84,7 +107,7 @@ function NewTripCard() {
     return (
         <Box sx={boxStyle}>
             <CustomAlert
-                type="error"
+                type={alertType}
                 message={alertMessage}
                 open={alertOpen}
                 handleClose={handleAlertClose}
@@ -102,7 +125,10 @@ function NewTripCard() {
                                 id={field.id}
                                 label={field.label}
                                 variant="outlined"
-                                error={field.id !== 'description' && (field.errorKey ? errors[field.errorKey] : false)}
+                                error={
+                                    field.id !== 'description' &&
+                                    (field.errorKey ? errors[field.errorKey] : false)
+                                }
                                 multiline={field.multiline || false}
                                 rows={field.rows || undefined}
                                 value={formValues[field.valueKey]}
@@ -138,11 +164,14 @@ function NewTripCard() {
                         variant="contained"
                         disableElevation
                         className={'cancel-button'}
-                        onClick={handleNavigate}
-                    >
+                        onClick={handleNavigate}>
                         Cancel
                     </Button>
-                    <Button variant="contained" disableElevation className={'save-button'} onClick={handleSave}>
+                    <Button
+                        variant="contained"
+                        disableElevation
+                        className={'save-button'}
+                        onClick={handleSave}>
                         Save
                     </Button>
                 </CardActions>

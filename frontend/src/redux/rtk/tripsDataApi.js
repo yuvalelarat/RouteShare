@@ -36,7 +36,16 @@ export const tripsDataApi = createApi({
             }),
             transformResponse: (response) => response,
         }),
+        createTrip: builder.mutation({
+            query: (tripData) => ({
+                url: '/new-trip',
+                method: 'POST',
+                body: tripData,
+            }),
+            transformResponse: (response) => response.trip,
+        }),
     }),
 });
 
-export const { useGetMyTripsQuery, useGetSharedTripsQuery, useLazyGetTripQuery } = tripsDataApi;
+export const { useGetMyTripsQuery, useGetSharedTripsQuery, useLazyGetTripQuery, useCreateTripMutation } =
+    tripsDataApi;

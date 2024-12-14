@@ -28,7 +28,12 @@ export const formatDate = (dateString) => {
     return `${year}-${month}-${day}`;
 };
 
-const parseDate = (dateStr) => {
+export const formatDateToApi = (dateString) => {
+    const [year, month, day] = dateString.split('-');
+    return `${day}/${month}/${year}`;
+};
+
+export const parseDate = (dateStr) => {
     const [day, month, year] = dateStr.split('/').map(Number);
     return new Date(year, month - 1, day);
 };
