@@ -140,6 +140,7 @@ export default function NewActivityForm({ open, onClose, date, country }) {
                 activity_name: activityName,
                 location,
                 activity_type: activityType,
+                description: description,
                 cost: paymentMethod === 'No Payment' ? 0 : cost,
                 paid_by: paymentMethod === 'Single payment' ? paidBy : null,
                 payment_method: paymentMethod,

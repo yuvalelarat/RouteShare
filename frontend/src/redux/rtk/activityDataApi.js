@@ -31,10 +31,11 @@ export const activityDataApi = createApi({
                 cost,
                 paid_by,
                 payment_method,
+                description,
             }) => ({
                 url: `/new-activity/${journey_id}`,
                 method: 'POST',
-                body: { activity_name, location, activity_type, cost, paid_by, payment_method },
+                body: { activity_name, location, activity_type, cost, paid_by, payment_method, description },
             }),
         }),
         deleteActivity: builder.mutation({
