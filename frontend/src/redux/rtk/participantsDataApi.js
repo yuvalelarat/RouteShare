@@ -22,7 +22,15 @@ export const participantsDataApi = createApi({
             }),
             transformResponse: (response) => response,
         }),
+        removeParticipant: builder.mutation({
+            query: ({ trip_id, email }) => ({
+                url: `/remove-participant`,
+                method: 'DELETE',
+                body: { trip_id, email },
+            }),
+            transformResponse: (response) => response,
+        }),
     }),
 });
 
-export const { useLazyGetParticipantsQuery } = participantsDataApi;
+export const { useLazyGetParticipantsQuery, useRemoveParticipantMutation } = participantsDataApi;

@@ -4,13 +4,17 @@ import { cardContentStyle, cardStyle } from './styles.js';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { useGetSharedTripsQuery, useLazyGetTripQuery } from '../../redux/rtk/tripsDataApi.js';
-import { useDispatch } from 'react-redux';
+import { useRemoveParticipantMutation } from '../../redux/rtk/participantsDataApi.js';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { setSharedTrips } from '../../redux/slices/tripsDataSlice.js';
+import RemoveSharedTrip from './RemoveSharedTrip/RemoveSharedTrip.jsx';
 
 function SharedTripsArea() {
     const { data, error, isLoading } = useGetSharedTripsQuery();
     const [triggerGetSharedTrips, { data: sharedTripData, error: sharedTripError }] = useLazyGetTripQuery();
+    const [removeParticipant] = useRemoveParticipantMutation();
+    const email = useSelector((state) => state.userData.email);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -25,11 +29,18 @@ function SharedTripsArea() {
             .then((response) => {
                 if (response.success) {
                     window.location.href = `/trip/${tripId}`;
-                } else {
-                    alert('Error: Unable to load shared trip details');
                 }
             })
             .catch((err) => alert('Error: ' + err.message));
+    };
+
+    const handleDelete = (tripId, email) => {
+        try {
+            removeParticipant({ trip_id: tripId, email: email });
+            window.location.reload();
+        } catch (err) {
+            console.error('error removing you from shared trip' + err);
+        }
     };
 
     if (isLoading) {
@@ -77,9 +88,11 @@ function SharedTripsArea() {
                                 <Button variant="contained" disableElevation className={'expenses-button'}>
                                     Expenses
                                 </Button>
-                                <Button variant="contained" disableElevation className={'delete-button'}>
-                                    Remove
-                                </Button>
+                                <RemoveSharedTrip
+                                    handleDelete={handleDelete}
+                                    tripId={trip.trip_id}
+                                    email={email}
+                                />
                             </div>
                         </CardContent>
                     </Card>

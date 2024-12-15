@@ -4,6 +4,7 @@ const initialState = {
     firstName: '',
     lastName: '',
     token: '',
+    email: '',
     isLoading: false,
     loginTime: null,
     logoutTime: null,
@@ -24,6 +25,9 @@ const userDataSlice = createSlice({
         setToken: (state, action) => {
             state.token = action.payload;
         },
+        setEmail: (state, action) => {
+            state.email = action.payload;
+        },
         setLoginTime: (state, action) => {
             state.loginTime = action.payload;
         },
@@ -34,13 +38,21 @@ const userDataSlice = createSlice({
             state.firstName = '';
             state.lastName = '';
             state.token = '';
+            state.email = '';
             state.isLoading = false;
             state.logoutTime = new Date().toISOString();
         },
     },
 });
 
-export const { setUserFirstName, setUserLastName, setToken, setLoginTime, setLogoutTime, logoutUser } =
-    userDataSlice.actions;
+export const {
+    setUserFirstName,
+    setUserLastName,
+    setToken,
+    setEmail,
+    setLoginTime,
+    setLogoutTime,
+    logoutUser,
+} = userDataSlice.actions;
 
 export default userDataSlice.reducer;
