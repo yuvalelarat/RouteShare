@@ -75,7 +75,7 @@ export const removeParticipantService = async (
   );
   if (entitiesNotFound) return { error: "Entities not found" };
 
-  if (trip.user.user_id !== currentUserId) {
+  if (trip.user.user_id !== currentUserId && user.user_id !== currentUserId) {
     throw new Error("Unauthorized");
   }
 
