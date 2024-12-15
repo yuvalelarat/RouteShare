@@ -8,7 +8,7 @@ import { forwardRef, Fragment, useEffect, useState } from 'react';
 import { useLazyGetParticipantsQuery } from '../../../redux/rtk/participantsDataApi.js';
 import { useSelector } from 'react-redux';
 import { TextField } from '@mui/material';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import './EditSharingDialog.css';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -48,7 +48,9 @@ function EditSharingDialog({ tripId }) {
                 TransitionComponent={Transition}
                 keepMounted
                 onClose={handleClose}
-                aria-describedby="alert-dialog-slide-description">
+                aria-describedby="alert-dialog-slide-description"
+                maxWidth="sm"
+                fullWidth>
                 <DialogTitle style={{ fontWeight: '600' }}>{'Edit trip participants'}</DialogTitle>
                 <DialogContent>
                     <h4 style={{ fontWeight: '600' }}>Add participants by email to the trip:</h4>
@@ -60,7 +62,11 @@ function EditSharingDialog({ tripId }) {
                             type={'email'}
                             margin={'none'}
                         />
-                        <Button variant={'contained'} size={'small'} disableElevation>
+                        <Button
+                            variant={'contained'}
+                            size={'small'}
+                            disableElevation
+                            className={'share-button'}>
                             Share
                         </Button>
                     </div>
