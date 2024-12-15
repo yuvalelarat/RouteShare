@@ -1,4 +1,4 @@
-# TeaHaven E-Commerce Platform
+# TripSync - a collaborative trip planning with friends / familiy!
 
 ## Tech Stack
 - React
