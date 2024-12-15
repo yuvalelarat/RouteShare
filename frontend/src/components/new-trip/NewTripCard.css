@@ -1,0 +1,52 @@
+.trip-name {
+    width: 50%;
+    @media (max-width: 900px) {
+        width: 80%;
+    }
+    @media (max-width: 700px) {
+        width: 100%;
+    }
+}
+
+.start-date {
+    width: 30%;
+    min-width: 8rem;
+    @media (max-width: 800px) {
+        width: 50%;
+    }
+    @media (max-width: 500px) {
+        width: 100%;
+    }
+}
+
+.end-date {
+    width: 30%;
+    min-width: 8rem;
+    @media (max-width: 800px) {
+        width: 50%;
+    }
+    @media (max-width: 500px) {
+        width: 100%;
+    }
+}
+
+.description {
+    width: 100%;
+    @media (max-width: 800px) {
+        width: 100%;
+    }
+}
+
+.save-button {
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: var(--color-lightgreen-button-save) !important;
+}
+
+.cancel-button {
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: var(--color-lightred-button) !important;
+    margin-left: 10px !important;
+}
+

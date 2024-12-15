@@ -1,0 +1,13 @@
+html{
+    overflow-x: hidden;
+}
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    color: black;
+    font-family: "Poppins", serif;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}

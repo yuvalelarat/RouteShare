@@ -1,0 +1,119 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    width: 50%;
+    justify-content: center;
+
+    @media (max-width: 800px) {
+        display: none;
+    }
+}
+
+.nav-button {
+    background-color: transparent;
+    border: transparent;
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-size: medium;
+    cursor: pointer;
+    color: black;
+    margin: 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    padding: 10px 12px;
+}
+
+.nav-button p {
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.nav-button:hover p::after {
+    width: 100%;
+    background-color: var(--color-blue-symbol);
+    height: 2px;
+}
+
+.nav-button p::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-blue-symbol);
+    transition: width 0.3s ease, background-color 0.3s ease, height 0.3s ease;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+
+    @media (max-width: 800px) {
+        display: block;
+    }
+}
+
+.header-container {
+    display: flex;
+    padding: 3px 36px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    width: 25%;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-right {
+    width: 25%;
+    text-align: end;
+    @media (max-width: 800px) {
+        display: none;
+    }
+}
+
+.text-ellipsis {
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.drawer-style {
+    background-color: #ffffff !important;
+    width: 40%;
+    display: flex;
+    padding: 0 12px;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.drawer-header {
+    padding-top: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-wrap: nowrap;
+    text-align: center;
+}
+
+.drawer-hello {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    margin: 0;
+}

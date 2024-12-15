@@ -27,9 +27,9 @@ export const Activity = new EntitySchema({
       nullable: true,
     },
     activity_type: {
-      type: "varchar",
-      length: 50,
-      nullable: true,
+      type: "enum",
+      enum: ["Sightseeing", "Adventure", "Culture", "Relaxation", "Culinary", "Entertainment","Sports","Other"],
+      nullable: false,
     },
     description: {
       type: "text",
@@ -43,6 +43,11 @@ export const Activity = new EntitySchema({
       type: "timestamp",
       updateDate: true,
     },
+    payment_method: {
+      type: "enum",
+      enum: ["Equal Payment", "Equal Division", "No Payment", "Single payment"],
+      nullable: false,
+    },
   },
   relations: {
     journey: {
@@ -52,6 +57,14 @@ export const Activity = new EntitySchema({
         name: "journey_id",
       },
       onDelete: "CASCADE",
+    },
+    paid_by: {
+      target: "User",
+      type: "many-to-one",
+      joinColumn: {
+        name: "paid_by",
+      },
+      nullable: true,
     },
   },
 });

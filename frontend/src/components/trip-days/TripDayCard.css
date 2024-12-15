@@ -1,0 +1,68 @@
+.description-div {
+    outline: 1px solid black;
+    border-radius: 10px;
+    height: 10rem;
+    text-align: left;
+    padding: 0.5rem;
+}
+
+.card-action-style{
+    display: flex;
+    justify-content: center!important;
+    flex-direction: column !important;
+    gap: 1rem;
+}
+
+.buttons-container{
+    display: flex;
+    flex-direction: row;
+    gap: 2vw;
+}
+
+.more-info-button{
+    border: none!important;
+    font-family: inherit!important;
+    font-weight: 400!important;
+    font-size: medium!important;
+    padding: 6px 2px!important;
+    margin: 0!important;
+    display: flex!important;
+    color: black !important;
+    align-items: center!important;
+    outline: 1px solid black!important;
+    border-radius: 5px!important;
+    background-color: var(--color-lightblue-button)!important;
+    cursor: pointer!important;
+}
+
+.edit-day-button{
+    border: none!important;
+    font-family: inherit!important;
+    font-weight: 400!important;
+    font-size: medium!important;
+    padding: 6px 2px!important;
+    margin: 0!important;
+    display: flex!important;
+    color: black !important;
+    align-items: center!important;
+    outline: 1px solid black!important;
+    border-radius: 5px!important;
+    background-color: var(--color-lightgreen-button-share)!important;
+    cursor: pointer!important;
+}
+
+.delete-day-button{
+    border: none!important;
+    font-family: inherit!important;
+    font-weight: 400!important;
+    font-size: medium!important;
+    padding: 6px 2px!important;
+    margin: 0!important;
+    display: flex!important;
+    color: black !important;
+    align-items: center!important;
+    outline: 1px solid black!important;
+    border-radius: 5px!important;
+    background-color: var(--color-lightred-button)!important;
+    cursor: pointer!important;
+}

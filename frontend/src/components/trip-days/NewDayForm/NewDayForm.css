@@ -1,0 +1,18 @@
+.date {
+    width: 50%;
+    min-width: 8rem;
+}
+
+.save-button {
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: var(--color-lightgreen-button-save) !important;
+}
+
+.cancel-button {
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: var(--color-lightred-button) !important;
+    margin-left: 10px !important;
+}
+

@@ -1,5 +1,6 @@
 import { EntitySchema } from "typeorm";
 import { Trip } from "./trip.js";
+import { Activity } from "./activity.js";
 
 export const Journey = new EntitySchema({
   name: "Journey",
@@ -31,6 +32,10 @@ export const Journey = new EntitySchema({
       type: "timestamp",
       updateDate: true,
     },
+    expenses: {
+      type: "numeric",
+      default: 0,
+    }
   },
   relations: {
     trip: {
@@ -40,6 +45,11 @@ export const Journey = new EntitySchema({
         name: "trip_id",
       },
       onDelete: "CASCADE",
+    },
+    activities: {
+      target: "Activity",
+      type: "one-to-many",
+      inverseSide: "journey",
     },
   },
 });

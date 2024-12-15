@@ -1,0 +1,113 @@
+.trip-details {
+    padding-left: 2rem;
+    text-align: left;
+    max-width: 40rem;
+}
+
+.shared-trip-details {
+    padding-left: 2rem;
+    text-align: left;
+    width: 320px;
+}
+
+@media (max-width: 1000px) {
+    .shared-trip-details {
+        padding-left: 0;
+        text-align: center;
+        width: unset;
+    }
+
+    .trip-details {
+        padding-left: 0;
+        text-align: center;
+    }
+}
+
+.truncate-header-trip {
+    margin: 0;
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 600px;
+}
+
+@media (max-width: 1000px) {
+    .trip-details {
+        padding-left: 0;
+    }
+}
+
+.buttonDiv {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    padding-right: 2rem;
+}
+
+@media (max-width: 1000px) {
+    .buttonDiv {
+        padding-right: 0;
+    }
+}
+
+.shared-trip-trip-name {
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+.shared-trip-role-and-creator {
+    display: flex;
+    width: 30%;
+    justify-content: space-between;
+}
+
+@media (max-width: 1000px) {
+    .shared-trip-role-and-creator {
+        width: 50%;
+        gap: 25px;
+        white-space: wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+@media (max-width: 600px) {
+    .shared-trip-role-and-creator {
+        width: 80%;
+        gap: 25px;
+        white-space: wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.view-edit-button {
+    min-width: 126.49px !important;
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: var(--color-lightblue-button) !important;
+}
+
+.share-button {
+    min-width: 126.49px !important;
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: var(--color-lightgreen-button-share) !important;
+}
+
+.expenses-button {
+    min-width: 126.49px !important;
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: var(--color-lightyellow-button) !important;
+}
+
+.delete-button {
+    min-width: 126.49px !important;
+    color: black !important;
+    outline: 1px solid black !important;
+    background-color: var(--color-lightred-button) !important;
+}

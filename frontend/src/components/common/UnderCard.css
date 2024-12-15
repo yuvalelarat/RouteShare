@@ -1,0 +1,17 @@
+.forgot-password {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .forgot-password {
+        flex-direction: column;
+    }
+}
+
+.reset-password {
+    cursor: pointer;
+    color: #005ce6;
+}
