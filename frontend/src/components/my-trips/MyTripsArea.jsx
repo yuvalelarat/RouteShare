@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setTrips } from '../../redux/slices/tripsDataSlice.js';
 import DeleteTrip from './DeleteTrip/DeleteTrip.jsx';
+import EditSharingDialog from './EditParticipants/EditSharingDialog.jsx';
 
 function MyTripsArea() {
     const { data, error, isLoading } = useGetMyTripsQuery();
@@ -86,9 +87,7 @@ function MyTripsArea() {
                                     onClick={() => handleViewTripClick(trip.trip_id)}>
                                     View & Edit
                                 </Button>
-                                <Button variant="contained" disableElevation className={'share-button'}>
-                                    Edit Sharing
-                                </Button>
+                                <EditSharingDialog tripId={trip.trip_id} />
                                 <Button variant="contained" disableElevation className={'expenses-button'}>
                                     Expenses
                                 </Button>
