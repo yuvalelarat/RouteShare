@@ -1,4 +1,5 @@
 # TripSync - a collaborative trip planning with friends!
+![image](https://github.com/user-attachments/assets/c914943b-5ed8-4934-accf-5111e9040ff0)
 
 ## Tech Stack
 - React
