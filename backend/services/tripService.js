@@ -115,9 +115,12 @@ export const getTripService = async (user_id, trip_id) => {
     };
 };
 
-export const deleteTripService = async (user_id) => {
+export const deleteTripService = async (user_id, trip_id) => {
     const trip = await tripRepository.findOne({
-        where: { user: { user_id } },
+        where: {
+            trip_id: trip_id,
+            user: { user_id }
+        },
         relations: ['user']
     });
 
