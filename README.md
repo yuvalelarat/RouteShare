@@ -17,11 +17,11 @@
   - DB_PORT
   - DB_PASSWORD
   - DB
-smtp email details:
+- smtp email details:
   - EMAIL_USER
   - EMAIL_PASS
   - SMPT_HOST
-JWT:
+- JWT:
   - JWT_SECRET
 6. Run backend: `npm run dev`
 7. Run frontend: `npm run dev`
