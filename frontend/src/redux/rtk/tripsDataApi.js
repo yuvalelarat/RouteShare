@@ -44,8 +44,19 @@ export const tripsDataApi = createApi({
             }),
             transformResponse: (response) => response.trip,
         }),
+        deleteTrip: builder.mutation({
+            query: ({ trip_id }) => ({
+                url: `/delete-trip/${trip_id}`,
+                method: 'DELETE',
+            }),
+        }),
     }),
 });
 
-export const { useGetMyTripsQuery, useGetSharedTripsQuery, useLazyGetTripQuery, useCreateTripMutation } =
-    tripsDataApi;
+export const {
+    useGetMyTripsQuery,
+    useGetSharedTripsQuery,
+    useLazyGetTripQuery,
+    useCreateTripMutation,
+    useDeleteTripMutation,
+} = tripsDataApi;

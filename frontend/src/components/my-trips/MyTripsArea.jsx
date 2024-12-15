@@ -3,14 +3,20 @@ import './MyTrips.css';
 import { cardContentStyle, cardStyle } from './styles.js';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { useGetMyTripsQuery, useLazyGetTripQuery } from '../../redux/rtk/tripsDataApi.js';
+import {
+    useGetMyTripsQuery,
+    useLazyGetTripQuery,
+    useDeleteTripMutation,
+} from '../../redux/rtk/tripsDataApi.js';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { setTrips } from '../../redux/slices/tripsDataSlice.js';
+import DeleteTrip from './DeleteTrip/DeleteTrip.jsx';
 
 function MyTripsArea() {
     const { data, error, isLoading } = useGetMyTripsQuery();
     const [getTrip, { data: tripData, error: tripError }] = useLazyGetTripQuery();
+    const [deleteTrip] = useDeleteTripMutation();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -25,6 +31,24 @@ function MyTripsArea() {
             window.location.href = `/trip/${tripId}`;
         } else {
             alert(response?.data?.error || 'Error fetching trip details.');
+        }
+    };
+
+    const handleDelete = async (tripId) => {
+        console.log('Attempting to delete trip with ID:', tripId);
+
+        try {
+            const response = await deleteTrip({ trip_id: tripId });
+            console.log('Delete trip full response:', response);
+
+            if (response?.data?.success) {
+                console.log(response?.data?.success);
+                window.location.href = `/my-trips`;
+            } else {
+                console.error('Error deleting trip:', response?.data?.error);
+            }
+        } catch (error) {
+            console.error('Error in deleteTrip mutation:', error);
         }
     };
 
@@ -68,9 +92,7 @@ function MyTripsArea() {
                                 <Button variant="contained" disableElevation className={'expenses-button'}>
                                     Expenses
                                 </Button>
-                                <Button variant="contained" disableElevation className={'delete-button'}>
-                                    Delete
-                                </Button>
+                                <DeleteTrip handleDelete={handleDelete} tripId={trip.trip_id} />
                             </div>
                         </CardContent>
                     </Card>
