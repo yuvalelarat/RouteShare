@@ -17,7 +17,7 @@
   - DB_PORT
   - DB_PASSWORD
   - DB
-- smtp email details:
+- SMTP email details:
   - EMAIL_USER
   - EMAIL_PASS
   - SMPT_HOST
