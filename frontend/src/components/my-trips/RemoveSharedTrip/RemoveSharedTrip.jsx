@@ -26,6 +26,7 @@ function RemoveSharedTrip({ handleDelete, tripId, email }) {
                 onClick={handleOpen}
                 sx={{
                     color: 'black',
+                    transition: 'color 0.3s ease, background-color 0.3s ease',
                     '&:hover': {
                         backgroundColor: 'rgba(255, 0, 0, 0.1)',
                         color: 'red',

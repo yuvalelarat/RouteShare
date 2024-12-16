@@ -15,6 +15,7 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import NewActivityForm from '../NewActivityForm/NewActivityForm.jsx';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 
 // eslint-disable-next-line react/prop-types
 function BluredCard({ date, country }) {
@@ -48,20 +49,13 @@ function BluredCard({ date, country }) {
                 </CardContent>
                 <CardActions style={cardActionsStyle}>
                     <div className={'activity-action-style'}>
-                        {/* TODO: EDIT??? <Button
-                            variant={'contained'}
-                            disableElevation
-                            disabled={true}
-                            className={'edit-day-button'}>
-                            Edit
-                        </Button>*/}
-                        <Button
-                            variant={'contained'}
-                            disableElevation
-                            disabled={true}
-                            className={'delete-day-button'}>
-                            Delete
-                        </Button>
+                        <IconButton
+                            sx={{
+                                color: 'black',
+                            }}
+                            disabled={true}>
+                            <DeleteForeverTwoToneIcon fontSize={'large'} />
+                        </IconButton>
                     </div>
                 </CardActions>
             </Card>

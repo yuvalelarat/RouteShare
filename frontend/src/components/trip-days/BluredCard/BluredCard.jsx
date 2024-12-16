@@ -17,6 +17,7 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import NewDayForm from '../NewDayForm/NewDayForm.jsx';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 
 // eslint-disable-next-line react/prop-types
 function BluredCard({ startDate, endDate }) {
@@ -50,13 +51,6 @@ function BluredCard({ startDate, endDate }) {
                             variant={'contained'}
                             disableElevation
                             disabled={true}
-                            className={'edit-day-button'}>
-                            Edit
-                        </Button>
-                        <Button
-                            variant={'contained'}
-                            disableElevation
-                            disabled={true}
                             className={'more-info-button'}>
                             View
                         </Button>
@@ -64,9 +58,16 @@ function BluredCard({ startDate, endDate }) {
                             variant={'contained'}
                             disableElevation
                             disabled={true}
-                            className={'delete-day-button'}>
-                            Delete
+                            className={'edit-day-button'}>
+                            Edit
                         </Button>
+                        <IconButton
+                            sx={{
+                                color: 'black',
+                            }}
+                            disabled={true}>
+                            <DeleteForeverTwoToneIcon fontSize={'large'} />
+                        </IconButton>
                     </div>
                 </CardActions>
             </Card>
