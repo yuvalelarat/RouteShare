@@ -178,7 +178,7 @@ export default function NewDayForm({
                         }}>{`${localError} (${new Date(newDate).toLocaleDateString('en-GB')})`}</p>
                 )}
             </DialogContent>
-            <DialogActions style={{ display: 'flex', justifyContent: 'center' }}>
+            <DialogActions style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
                 <Button className={'cancel-button'} onClick={handleClose}>
                     Cancel
                 </Button>

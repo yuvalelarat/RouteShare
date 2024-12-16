@@ -87,7 +87,7 @@ function MyTripsArea() {
                                     View & Edit
                                 </Button>
                                 <EditSharingDialog tripId={trip.trip_id} />
-                                <Button variant="contained" disableElevation className={'share-button'}>
+                                <Button variant="outlined" disableElevation className={'share-button'}>
                                     Expenses
                                 </Button>
                                 <DeleteTrip handleDelete={handleDelete} tripId={trip.trip_id} />
