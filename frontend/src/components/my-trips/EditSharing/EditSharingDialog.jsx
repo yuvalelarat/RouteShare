@@ -7,8 +7,9 @@ import Slide from '@mui/material/Slide';
 import { forwardRef, Fragment, useEffect, useState } from 'react';
 import { useLazyGetParticipantsQuery } from '../../../redux/rtk/participantsDataApi.js';
 import { useSelector } from 'react-redux';
-import { TextField } from '@mui/material';
+import { IconButton, TextField } from '@mui/material';
 import './EditSharingDialog.css';
+import PersonAddAltTwoToneIcon from '@mui/icons-material/PersonAddAltTwoTone';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -69,13 +70,9 @@ function EditSharingDialog({ tripId }) {
                             type={'email'}
                             margin={'none'}
                         />
-                        <Button
-                            variant={'contained'}
-                            size={'small'}
-                            disableElevation
-                            className={'share-button'}>
-                            Share
-                        </Button>
+                        <IconButton onClick={handleClickOpen} sx={{ color: 'black' }}>
+                            <PersonAddAltTwoToneIcon />
+                        </IconButton>
                     </div>
                     <h4 style={{ fontWeight: '600' }}>Participants:</h4>
                     {noParticipants && <p>No participants have been shared yet</p>}{' '}

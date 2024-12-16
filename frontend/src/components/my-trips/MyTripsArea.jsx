@@ -10,7 +10,7 @@ import {
 } from '../../redux/rtk/tripsDataApi.js';
 import { useEffect } from 'react';
 import DeleteTrip from './DeleteTrip/DeleteTrip.jsx';
-import EditSharingDialog from './AddParticipants/EditSharingDialog.jsx';
+import EditSharingDialog from './EditSharing/EditSharingDialog.jsx';
 import { useNavigate } from 'react-router-dom';
 
 function MyTripsArea() {

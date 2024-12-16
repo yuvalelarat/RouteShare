@@ -61,11 +61,7 @@ function BluredCard({ startDate, endDate }) {
                             className={'edit-day-button'}>
                             Edit
                         </Button>
-                        <IconButton
-                            sx={{
-                                color: 'black',
-                            }}
-                            disabled={true}>
+                        <IconButton sx={{ color: 'black' }} disabled={true}>
                             <DeleteForeverTwoToneIcon fontSize={'large'} />
                         </IconButton>
                     </div>
