@@ -8,30 +8,29 @@ import {
     useLazyGetTripQuery,
     useDeleteTripMutation,
 } from '../../redux/rtk/tripsDataApi.js';
-import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { setTrips } from '../../redux/slices/tripsDataSlice.js';
 import DeleteTrip from './DeleteTrip/DeleteTrip.jsx';
 import EditSharingDialog from './EditParticipants/EditSharingDialog.jsx';
+import { useNavigate } from 'react-router-dom';
 
 function MyTripsArea() {
-    const { data, error, isLoading } = useGetMyTripsQuery();
+    const { data, error, isLoading, refetch } = useGetMyTripsQuery();
     const [getTrip, { data: tripData, error: tripError }] = useLazyGetTripQuery();
     const [deleteTrip] = useDeleteTripMutation();
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (data?.trips) {
-            dispatch(setTrips(data.trips));
+            sessionStorage.setItem('trips', JSON.stringify(data.trips));
         }
-    }, [data, dispatch]);
+    }, [data]);
 
     const handleViewTripClick = async (tripId) => {
         const response = await getTrip(tripId);
         if (response?.data?.success) {
-            window.location.href = `/trip/${tripId}`;
+            navigate(`/trip/${tripId}`);
         } else {
-            alert(response?.data?.error || 'Error fetching trip details.');
+            console.log('Error fetching trip details.' + response?.data?.error);
         }
     };
 
@@ -44,7 +43,7 @@ function MyTripsArea() {
 
             if (response?.data?.success) {
                 console.log(response?.data?.success);
-                window.location.href = `/my-trips`;
+                refetch();
             } else {
                 console.error('Error deleting trip:', response?.data?.error);
             }

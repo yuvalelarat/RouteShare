@@ -10,7 +10,7 @@ import { Box, FormControl, Input, InputAdornment, InputLabel, TextField } from '
 import { boxStyle, cardStyle, cardContentStyle } from './styles';
 import './NewTripCard.css';
 import { formatDateToApi } from '../../utils/common.utils.js';
-import { useCreateTripMutation } from '../../redux/rtk/tripsDataApi.js';
+import { useCreateTripMutation, useGetMyTripsQuery } from '../../redux/rtk/tripsDataApi.js';
 
 function NewTripCard() {
     const [formValues, setFormValues] = useState({
@@ -32,6 +32,7 @@ function NewTripCard() {
 
     const navigate = useNavigate();
     const [createTrip, { isLoading, isError, error }] = useCreateTripMutation();
+    const { refetch } = useGetMyTripsQuery();
 
     const handleFieldChange = (key, value) => {
         setErrors((prev) => ({ ...prev, [key]: false }));
@@ -56,6 +57,15 @@ function NewTripCard() {
 
     const handleNavigate = () => {
         navigate('/my-trips');
+    };
+
+    const resetFormValues = () => {
+        setFormValues({
+            tripName: '',
+            startDate: '',
+            endDate: '',
+            description: '',
+        });
     };
 
     const handleSave = async (e) => {
@@ -88,10 +98,8 @@ function NewTripCard() {
                 setAlertType('success');
                 setAlertMessage('Trip created successfully.');
                 setAlertOpen(true);
-
-                setTimeout(() => {
-                    window.location.href = `/my-trips`;
-                }, 1000);
+                refetch();
+                navigate('/my-trips');
             } catch (error) {
                 console.error('Error creating trip:', error);
                 setAlertMessage(error.data.error);

@@ -5,39 +5,39 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { useGetSharedTripsQuery, useLazyGetTripQuery } from '../../redux/rtk/tripsDataApi.js';
 import { useRemoveParticipantMutation } from '../../redux/rtk/participantsDataApi.js';
-import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { setSharedTrips } from '../../redux/slices/tripsDataSlice.js';
 import RemoveSharedTrip from './RemoveSharedTrip/RemoveSharedTrip.jsx';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function SharedTripsArea() {
-    const { data, error, isLoading } = useGetSharedTripsQuery();
+    const { data, error, isLoading, refetch } = useGetSharedTripsQuery();
     const [triggerGetSharedTrips, { data: sharedTripData, error: sharedTripError }] = useLazyGetTripQuery();
     const [removeParticipant] = useRemoveParticipantMutation();
     const email = useSelector((state) => state.userData.email);
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (data?.trips) {
-            dispatch(setSharedTrips(data.trips));
+            sessionStorage.setItem('trips', JSON.stringify(data.trips));
         }
-    }, [data, dispatch]);
+    }, [data]);
 
     const handleTripClick = (tripId) => {
         triggerGetSharedTrips(tripId)
             .unwrap()
             .then((response) => {
                 if (response.success) {
-                    window.location.href = `/trip/${tripId}`;
+                    navigate(`/trip/${tripId}`);
                 }
             })
-            .catch((err) => alert('Error: ' + err.message));
+            .catch((err) => console.log('Error: ' + err.message));
     };
 
     const handleDelete = (tripId, email) => {
         try {
             removeParticipant({ trip_id: tripId, email: email });
-            window.location.reload();
+            refetch();
         } catch (err) {
             console.error('error removing you from shared trip' + err);
         }

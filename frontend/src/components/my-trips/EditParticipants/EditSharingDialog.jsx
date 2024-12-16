@@ -16,11 +16,17 @@ const Transition = forwardRef(function Transition(props, ref) {
 // eslint-disable-next-line react/prop-types
 function EditSharingDialog({ tripId }) {
     const [open, setOpen] = useState(false);
+    const [email, setEmail] = useState('');
     const currentUserEmail = useSelector((state) => state.userData.email);
     const [getParticipants, { data: ParticipantsData, error: ParticipantsError, isLoading }] =
         useLazyGetParticipantsQuery();
 
     const noParticipants = ParticipantsData?.participants.length - 1 === 0;
+
+    const handleChange = (e) => {
+        e.preventDefault();
+        setEmail(e.target.value);
+    };
 
     useEffect(() => {
         if (tripId) {
@@ -34,9 +40,8 @@ function EditSharingDialog({ tripId }) {
 
     const handleClose = () => {
         setOpen(false);
+        setEmail('');
     };
-
-    console.log(currentUserEmail);
 
     return (
         <Fragment>
@@ -53,11 +58,13 @@ function EditSharingDialog({ tripId }) {
                 fullWidth>
                 <DialogTitle style={{ fontWeight: '600' }}>{'Edit trip participants'}</DialogTitle>
                 <DialogContent>
-                    <h4 style={{ fontWeight: '600' }}>Add participants by email to the trip:</h4>
+                    <h4 style={{ fontWeight: '600' }}>Add participants to the trip by email:</h4>
                     <div style={{ display: 'flex', gap: '0.5rem' }}>
                         <TextField
                             style={{ width: '100%' }}
                             label={'email to share'}
+                            value={email}
+                            onChange={handleChange}
                             variant="outlined"
                             type={'email'}
                             margin={'none'}
@@ -70,7 +77,7 @@ function EditSharingDialog({ tripId }) {
                             Share
                         </Button>
                     </div>
-                    <h4 style={{ fontWeight: '600' }}>Remove participants of the trip:</h4>
+                    <h4 style={{ fontWeight: '600' }}>Participants:</h4>
                     {noParticipants && <p>No participants have been shared yet</p>}{' '}
                     {ParticipantsData?.participants
                         .filter((participant) => participant.email !== currentUserEmail)

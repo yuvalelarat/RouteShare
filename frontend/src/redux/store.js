@@ -3,7 +3,6 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import userDataSlice from './slices/userDataSlice.js';
 import { userDataApi } from './rtk/userDataApi.js';
-import tripsDataSlice from './slices/tripsDataSlice.js';
 import { tripsDataApi } from './rtk/tripsDataApi.js';
 import { journeyDataApi } from './rtk/journeyDataApi.js';
 import { activityDataApi } from './rtk/activityDataApi.js';
@@ -19,7 +18,6 @@ const persistedUserDataReducer = persistReducer(persistConfig, userDataSlice);
 const store = configureStore({
     reducer: {
         userData: persistedUserDataReducer,
-        tripsData: tripsDataSlice,
         [userDataApi.reducerPath]: userDataApi.reducer,
         [tripsDataApi.reducerPath]: tripsDataApi.reducer,
         [journeyDataApi.reducerPath]: journeyDataApi.reducer,
