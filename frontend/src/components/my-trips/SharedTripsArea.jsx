@@ -18,9 +18,7 @@ function SharedTripsArea() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (data?.trips) {
-            sessionStorage.setItem('trips', JSON.stringify(data.trips));
-        }
+        refetch();
     }, [data]);
 
     const handleTripClick = (tripId) => {
@@ -83,7 +81,7 @@ function SharedTripsArea() {
                                     disableElevation
                                     className={'view-edit-button'}
                                     onClick={() => handleTripClick(trip.trip_id)}>
-                                    {trip.participants[0].role === 'edit' ? 'View & Edit' : 'View only'}
+                                    {trip.participants[0].role === 'edit' ? 'View & Edit' : 'View'}
                                 </Button>
                                 <Button variant="contained" disableElevation className={'share-button'}>
                                     Expenses

@@ -20,9 +20,7 @@ function MyTripsArea() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (data?.trips) {
-            sessionStorage.setItem('trips', JSON.stringify(data.trips));
-        }
+        refetch();
     }, [data]);
 
     const handleViewTripClick = async (tripId) => {

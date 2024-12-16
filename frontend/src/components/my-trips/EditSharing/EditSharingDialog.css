@@ -1,0 +1,12 @@
+.share-div{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+@media (max-width: 600px) {
+    .share-div{
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

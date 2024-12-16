@@ -51,6 +51,7 @@
     }
 }
 
+
 .shared-trip-trip-name {
     white-space: wrap;
     overflow: hidden;
@@ -81,6 +82,11 @@
         white-space: wrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        flex-direction: column;
+    }
+    .buttonDiv{
+        flex-direction: column;
+        gap: 5vw;
     }
 }
 

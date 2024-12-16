@@ -7,9 +7,10 @@ import Slide from '@mui/material/Slide';
 import { forwardRef, Fragment, useEffect, useState } from 'react';
 import { useLazyGetParticipantsQuery } from '../../../redux/rtk/participantsDataApi.js';
 import { useSelector } from 'react-redux';
-import { IconButton, TextField } from '@mui/material';
+import { FormControl, IconButton, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import './EditSharingDialog.css';
 import PersonAddAltTwoToneIcon from '@mui/icons-material/PersonAddAltTwoTone';
+import PersonRemoveTwoToneIcon from '@mui/icons-material/PersonRemoveTwoTone';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -60,9 +61,9 @@ function EditSharingDialog({ tripId }) {
                 <DialogTitle style={{ fontWeight: '600' }}>{'Edit trip participants'}</DialogTitle>
                 <DialogContent>
                     <h4 style={{ fontWeight: '600' }}>Add participants to the trip by email:</h4>
-                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <div className={'share-div'}>
                         <TextField
-                            style={{ width: '100%' }}
+                            style={{ width: '100%', minWidth: 150 }}
                             label={'email to share'}
                             value={email}
                             onChange={handleChange}
@@ -70,6 +71,21 @@ function EditSharingDialog({ tripId }) {
                             type={'email'}
                             margin={'none'}
                         />
+                        <FormControl
+                            sx={{ minWidth: 150 }}
+                            size="medium"
+                            margin={'none'}
+                            variant={'outlined'}>
+                            <InputLabel id="demo-select-small-label">Role</InputLabel>
+                            <Select
+                                labelId="demo-select-small-label"
+                                id="demo-select-small"
+                                name="role"
+                                label="role">
+                                <MenuItem value="view">View</MenuItem>
+                                <MenuItem value="edit">Edit</MenuItem>
+                            </Select>
+                        </FormControl>
                         <IconButton onClick={handleClickOpen} sx={{ color: 'black' }}>
                             <PersonAddAltTwoToneIcon />
                         </IconButton>
@@ -79,9 +95,41 @@ function EditSharingDialog({ tripId }) {
                     {ParticipantsData?.participants
                         .filter((participant) => participant.email !== currentUserEmail)
                         .map((participant, index) => (
-                            <p style={{ margin: '0' }} key={index} value={participant.user_id}>
-                                {`${participant.first_name} ${participant.last_name}`}
-                            </p>
+                            <div
+                                key={index}
+                                value={participant.user_id}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    width: '100%',
+                                    justifyContent: 'space-between',
+                                    borderBottom: '1px solid black',
+                                    paddingBottom: '8px',
+                                    marginBottom: '8px',
+                                }}>
+                                <p style={{ margin: '0', width: '50%' }} key={index}>
+                                    {`${participant.first_name} ${participant.last_name}`}
+                                </p>
+                                <FormControl
+                                    sx={{ minWidth: 100 }}
+                                    size="small"
+                                    margin={'none'}
+                                    variant={'outlined'}>
+                                    <InputLabel id="demo-select-small-label">Role</InputLabel>
+                                    <Select
+                                        labelId="demo-select-small-label"
+                                        id="demo-select-small"
+                                        name="role"
+                                        value={participant.role}
+                                        label="role">
+                                        <MenuItem value="view">View</MenuItem>
+                                        <MenuItem value="edit">Edit</MenuItem>
+                                    </Select>
+                                </FormControl>
+                                <IconButton onClick={handleClickOpen} sx={{ color: 'black' }}>
+                                    <PersonRemoveTwoToneIcon />
+                                </IconButton>
+                            </div>
                         ))}
                 </DialogContent>
                 <DialogActions></DialogActions>
