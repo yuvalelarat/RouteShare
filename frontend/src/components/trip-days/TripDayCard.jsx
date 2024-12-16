@@ -7,7 +7,7 @@ import './TripDayCard.css';
 import Button from '@mui/material/Button';
 import { useDeleteJourneyMutation } from '../../redux/rtk/journeyDataApi.js';
 import DeleteDay from './DeleteDay/DeleteDay.jsx';
-import EditDayForm from './EditDayForm/EditDayForm.jsx';
+import { EditDayForm } from './EditDayForm/EditDayForm.jsx';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TripContext from '../../context/TripContext.js';
