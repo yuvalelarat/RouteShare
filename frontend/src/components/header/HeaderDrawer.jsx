@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userPages, guestPages } from './constants.js';
 import { stringToUrlFormat } from '../../utils/common.utils.js';
 import { logoutUser } from '../../redux/slices/userDataSlice.js';
-import { logoutTrips } from '../../redux/slices/tripsDataSlice.js';
 
 // eslint-disable-next-line react/prop-types
 function HeaderDrawer({ open, toggleDrawer }) {
@@ -17,7 +16,6 @@ function HeaderDrawer({ open, toggleDrawer }) {
     const handleNavigate = (page) => {
         if (page === 'Logout') {
             dispatch(logoutUser());
-            dispatch(logoutTrips());
             console.log('Logged out');
         } else {
             navigate(`/${stringToUrlFormat(page)}`);
