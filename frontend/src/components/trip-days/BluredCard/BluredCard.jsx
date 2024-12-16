@@ -46,7 +46,7 @@ function BluredCard({ startDate, endDate }) {
                 </CardContent>
                 <CardActions style={cardActionsStyle}>
                     <h3 style={{ fontWeight: '400', margin: '0' }}>Expenses: 10000$</h3>
-                    <div style={{ display: 'flex', flexDirection: 'row', gap: '2vw' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: '2.2rem' }}>
                         <Button
                             variant={'contained'}
                             disableElevation
