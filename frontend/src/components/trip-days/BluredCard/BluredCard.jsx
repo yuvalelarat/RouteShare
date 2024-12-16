@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import Card from '@mui/material/Card';
 import '../TripDayCard.css';
 import CardContent from '@mui/material/CardContent';
@@ -7,7 +7,6 @@ import CardActions from '@mui/material/CardActions';
 import {
     cardStyle,
     circleStyle,
-    headerStyle,
     boxStyle,
     dayDescriptionBoxStyle,
     cardActionsStyle,
@@ -17,6 +16,7 @@ import {
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import NewDayForm from '../NewDayForm/NewDayForm.jsx';
+import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 // eslint-disable-next-line react/prop-types
 function BluredCard({ startDate, endDate }) {
@@ -72,13 +72,13 @@ function BluredCard({ startDate, endDate }) {
             </Card>
             <div style={circleContainerStyle}>
                 <div style={circleStyle}>
-                    <Button
-                        variant={'contained'}
-                        disableElevation
-                        style={headerStyle}
-                        onClick={handleClickOpen}>
-                        Add day
-                    </Button>
+                    <IconButton
+                        onClick={handleClickOpen}
+                        sx={{
+                            color: 'black',
+                        }}>
+                        <AddTwoToneIcon fontSize="large" />
+                    </IconButton>
                 </div>
             </div>
             <NewDayForm open={open} onClose={handleClose} startDate={startDate} endDate={endDate} />

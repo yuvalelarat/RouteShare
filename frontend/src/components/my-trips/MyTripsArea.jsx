@@ -10,7 +10,7 @@ import {
 } from '../../redux/rtk/tripsDataApi.js';
 import { useEffect } from 'react';
 import DeleteTrip from './DeleteTrip/DeleteTrip.jsx';
-import EditSharingDialog from './EditParticipants/EditSharingDialog.jsx';
+import EditSharingDialog from './AddParticipants/EditSharingDialog.jsx';
 import { useNavigate } from 'react-router-dom';
 
 function MyTripsArea() {
@@ -87,7 +87,7 @@ function MyTripsArea() {
                                     View & Edit
                                 </Button>
                                 <EditSharingDialog tripId={trip.trip_id} />
-                                <Button variant="contained" disableElevation className={'expenses-button'}>
+                                <Button variant="contained" disableElevation className={'share-button'}>
                                     Expenses
                                 </Button>
                                 <DeleteTrip handleDelete={handleDelete} tripId={trip.trip_id} />

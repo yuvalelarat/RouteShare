@@ -1,7 +1,8 @@
 import Button from '@mui/material/Button';
 import DeleteDialog from '../../common/DeleteDialog.jsx';
 import { useState } from 'react';
-
+import { IconButton } from '@mui/material';
+import RemoveCircleTwoToneIcon from '@mui/icons-material/RemoveCircleTwoTone';
 // eslint-disable-next-line react/prop-types
 function RemoveSharedTrip({ handleDelete, tripId, email }) {
     const [open, setOpen] = useState(false);
@@ -21,9 +22,17 @@ function RemoveSharedTrip({ handleDelete, tripId, email }) {
 
     return (
         <>
-            <Button variant={'contained'} disableElevation className={'delete-button'} onClick={handleOpen}>
-                Remove
-            </Button>
+            <IconButton
+                onClick={handleOpen}
+                sx={{
+                    color: 'black',
+                    '&:hover': {
+                        backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                        color: 'red',
+                    },
+                }}>
+                <RemoveCircleTwoToneIcon />
+            </IconButton>
             <DeleteDialog
                 open={open}
                 close={handleClose}

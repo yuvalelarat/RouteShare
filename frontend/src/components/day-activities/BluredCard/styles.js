@@ -34,10 +34,10 @@ export const cardStyle = {
 export const cardHeaderStyle = { fontWeight: '600', margin: '0' };
 
 export const circleStyle = {
-    width: '100px',
-    height: '100px',
+    width: '50px',
+    height: '50px',
     borderRadius: '50%',
-    backgroundColor: 'var(--color-lightgreen-button-save)',
+    backgroundColor: 'lightgrey',
     outline: '1px solid black',
     display: 'flex',
     justifyContent: 'center',

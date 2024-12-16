@@ -85,7 +85,7 @@ function SharedTripsArea() {
                                     onClick={() => handleTripClick(trip.trip_id)}>
                                     {trip.participants[0].role === 'edit' ? 'View & Edit' : 'View only'}
                                 </Button>
-                                <Button variant="contained" disableElevation className={'expenses-button'}>
+                                <Button variant="contained" disableElevation className={'share-button'}>
                                     Expenses
                                 </Button>
                                 <RemoveSharedTrip

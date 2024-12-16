@@ -1,6 +1,9 @@
 import Button from '@mui/material/Button';
 import DeleteDialog from '../../common/DeleteDialog.jsx';
 import { useState } from 'react';
+import { IconButton } from '@mui/material';
+import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
+import RemoveCircleTwoToneIcon from '@mui/icons-material/RemoveCircleTwoTone';
 
 // eslint-disable-next-line react/prop-types
 function DeleteDay({ handleDelete, tripId }) {
@@ -21,9 +24,17 @@ function DeleteDay({ handleDelete, tripId }) {
 
     return (
         <>
-            <Button variant={'contained'} disableElevation className={'delete-button'} onClick={handleOpen}>
-                Delete
-            </Button>
+            <IconButton
+                onClick={handleOpen}
+                sx={{
+                    color: 'black',
+                    '&:hover': {
+                        backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                        color: 'red',
+                    },
+                }}>
+                <DeleteForeverTwoToneIcon />
+            </IconButton>
             <DeleteDialog
                 open={open}
                 close={handleClose}

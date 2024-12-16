@@ -88,15 +88,17 @@
     min-width: 126.49px !important;
     color: black !important;
     outline: 1px solid black !important;
-    background-color: var(--color-lightblue-button) !important;
+    background-color: var(--color-blue-symbol) !important;
 }
 
 .share-button {
     min-width: 126.49px !important;
-    color: black !important;
-    outline: 1px solid black !important;
-    background-color: var(--color-lightgreen-button-share) !important;
+    color: var(--color-blue-test) !important;
+    outline: 1px solid var(--color-blue-test) !important;
+    border: 0px solid var(--color-blue-test) !important;
+    background-color: transparent !important;
 }
+
 
 .expenses-button {
     min-width: 126.49px !important;

@@ -45,7 +45,7 @@ function EditSharingDialog({ tripId }) {
 
     return (
         <Fragment>
-            <Button variant="contained" disableElevation className={'share-button'} onClick={handleClickOpen}>
+            <Button variant="outlined" disableElevation className={'share-button'} onClick={handleClickOpen}>
                 Edit Sharing
             </Button>
             <Dialog
