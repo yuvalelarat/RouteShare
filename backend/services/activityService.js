@@ -134,6 +134,7 @@ export const deleteActivityService = async (activity_id, user_id) => {
         "journey.trip",
         "journey.trip.user",
         "journey.trip.participants",
+        "journey.trip.participants.user",
         "paid_by"
       ],
     });
@@ -142,7 +143,7 @@ export const deleteActivityService = async (activity_id, user_id) => {
       throw new Error("Activity not found");
     }
 
-    if (activity.journey.trip.user.user_id !== user_id) {
+    if (activity.journey.trip.user?.user_id !== user_id) {
       const participant = activity.journey.trip.participants.find(
           (p) => p.user.user_id === user_id
       );
@@ -150,7 +151,6 @@ export const deleteActivityService = async (activity_id, user_id) => {
         throw new Error("You do not have permission to delete this activity.");
       }
     }
-
 
     if (activity.payment_method === "No Payment" && activity.cost > 0) {
       throw new Error("No Payment activities must have a cost of 0.");
