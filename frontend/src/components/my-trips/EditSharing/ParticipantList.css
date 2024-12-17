@@ -1,0 +1,7 @@
+.participant-list{
+    margin: 0;
+    width: 50%;
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
