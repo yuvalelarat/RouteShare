@@ -34,7 +34,7 @@ export const addParticipantService = async (
   });
 
   if (existingParticipant) {
-    throw new Error("User is already a participant");
+    throw new Error("Already a participant");
   }
 
   const newTripParticipant = tripParticipantRepository.create({
