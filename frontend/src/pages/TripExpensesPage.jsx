@@ -5,9 +5,11 @@ function TripExpensesPage() {
     const { trip_id } = useParams();
     const location = useLocation();
     const tripName = location.state?.tripName;
+    const tripExpenses = location.state?.tripExpenses;
     return (
         <>
             <PageTitle title={`Expenses for ${tripName}`} />
+            <p>{tripExpenses}</p>
         </>
     );
 }

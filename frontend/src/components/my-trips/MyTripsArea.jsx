@@ -23,9 +23,9 @@ function MyTripsArea() {
         refetch();
     }, [data]);
 
-    const handleClick = async (tripId, tripName, expenses = false) => {
+    const handleClick = async (tripId, tripName, tripExpenses, expenses = false) => {
         if (expenses) {
-            navigate(`/trip/${tripId}/expenses`, { state: { tripName } });
+            navigate(`/trip/${tripId}/expenses`, { state: { tripName, tripExpenses } });
             return;
         }
         const response = await getTrip(tripId);
@@ -93,7 +93,9 @@ function MyTripsArea() {
                                     variant="outlined"
                                     disableElevation
                                     className={'share-button'}
-                                    onClick={() => handleClick(trip.trip_id, trip.trip_name, true)}>
+                                    onClick={() =>
+                                        handleClick(trip.trip_id, trip.trip_name, trip.totalExpenses, true)
+                                    }>
                                     Expenses
                                 </Button>
                                 <DeleteTrip handleDelete={handleDelete} tripId={trip.trip_id} />
