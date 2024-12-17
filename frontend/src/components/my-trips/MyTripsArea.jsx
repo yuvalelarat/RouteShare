@@ -23,7 +23,11 @@ function MyTripsArea() {
         refetch();
     }, [data]);
 
-    const handleViewTripClick = async (tripId) => {
+    const handleClick = async (tripId, tripName, expenses = false) => {
+        if (expenses) {
+            navigate(`/trip/${tripId}/expenses`, { state: { tripName } });
+            return;
+        }
         const response = await getTrip(tripId);
         if (response?.data?.success) {
             navigate(`/trip/${tripId}`);
@@ -81,11 +85,15 @@ function MyTripsArea() {
                                     variant="contained"
                                     disableElevation
                                     className={'view-edit-button'}
-                                    onClick={() => handleViewTripClick(trip.trip_id)}>
+                                    onClick={() => handleClick(trip.trip_id)}>
                                     View & Edit
                                 </Button>
                                 <EditSharingDialog tripId={trip.trip_id} />
-                                <Button variant="outlined" disableElevation className={'share-button'}>
+                                <Button
+                                    variant="outlined"
+                                    disableElevation
+                                    className={'share-button'}
+                                    onClick={() => handleClick(trip.trip_id, trip.trip_name, true)}>
                                     Expenses
                                 </Button>
                                 <DeleteTrip handleDelete={handleDelete} tripId={trip.trip_id} />

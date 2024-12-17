@@ -21,7 +21,11 @@ function SharedTripsArea() {
         refetch();
     }, [data]);
 
-    const handleTripClick = (tripId) => {
+    const handleClick = (tripId, tripName, expenses = false) => {
+        if (expenses) {
+            navigate(`/trip/${tripId}/expenses`, { state: { tripName } });
+            return;
+        }
         triggerGetSharedTrips(tripId)
             .unwrap()
             .then((response) => {
@@ -80,10 +84,14 @@ function SharedTripsArea() {
                                     variant="contained"
                                     disableElevation
                                     className={'view-edit-button'}
-                                    onClick={() => handleTripClick(trip.trip_id)}>
+                                    onClick={() => handleClick(trip.trip_id)}>
                                     {trip.participants[0].role === 'edit' ? 'View & Edit' : 'View'}
                                 </Button>
-                                <Button variant="contained" disableElevation className={'share-button'}>
+                                <Button
+                                    variant="contained"
+                                    disableElevation
+                                    className={'share-button'}
+                                    onClick={() => handleClick(trip.trip_id, trip.trip_name, true)}>
                                     Expenses
                                 </Button>
                                 <RemoveSharedTrip
