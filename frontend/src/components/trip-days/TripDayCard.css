@@ -16,7 +16,7 @@
 .buttons-container{
     display: flex;
     flex-direction: row;
-    gap: 2vw;
+    gap: 2.2rem;
 }
 
 .more-info-button{
@@ -31,7 +31,7 @@
     align-items: center!important;
     outline: 1px solid black!important;
     border-radius: 5px!important;
-    background-color: var(--color-lightblue-button)!important;
+    background-color: var(--color-blue-symbol)!important;
     cursor: pointer!important;
 }
 
@@ -43,11 +43,11 @@
     padding: 6px 2px!important;
     margin: 0!important;
     display: flex!important;
-    color: black !important;
+    color: var(--color-blue-test) !important;
     align-items: center!important;
-    outline: 1px solid black!important;
+    outline: 1px solid var(--color-blue-test)!important;
     border-radius: 5px!important;
-    background-color: var(--color-lightgreen-button-share)!important;
+    background-color: transparent!important;
     cursor: pointer!important;
 }
 

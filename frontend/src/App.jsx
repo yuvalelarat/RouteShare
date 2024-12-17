@@ -11,6 +11,7 @@ import ActivitiesDayPage from './pages/ActivitiesDayPage.jsx';
 import UserRoutes from './private-routes/UserRoutes.jsx';
 import TripRoutes from './private-routes/TripRoutes.jsx';
 import JourneyRoutes from './private-routes/JourneyRoutes.jsx';
+import TripExpensesPage from './pages/TripExpensesPage.jsx';
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                         <Route path="/new-trip" element={<NewTripPage />} />
                         <Route element={<TripRoutes />}>
                             <Route path="/trip/:trip_id" element={<TripDaysPage />} />
+                            <Route path="/trip/:trip_id/expenses" element={<TripExpensesPage />} />
                             <Route element={<JourneyRoutes />}>
                                 <Route path="/trip/:trip_id/:journey_id" element={<ActivitiesDayPage />} />
                             </Route>

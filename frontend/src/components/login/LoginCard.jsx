@@ -13,6 +13,7 @@ import {
     logoutUser,
     setLoginTime,
     setToken,
+    setEmail,
     setUserFirstName,
     setUserLastName,
 } from '../../redux/slices/userDataSlice.js';
@@ -78,8 +79,10 @@ function LoginCard() {
                 dispatch(setToken(response.token));
                 dispatch(setUserFirstName(response.user.first_name));
                 dispatch(setUserLastName(response.user.last_name));
+                dispatch(setEmail(response.user.email));
 
                 setTimeout(() => {
+                    //TODO: check why its not working!
                     dispatch(logoutUser());
                 }, 7200000);
 

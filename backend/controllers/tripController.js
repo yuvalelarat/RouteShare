@@ -76,13 +76,15 @@ export const getTrip = async (req, res, next) => {
 
 export const deleteTrip = async (req, res, next) => {
     try {
+        const { trip_id } = req.params;
+
         const user_id = getUserIdFromToken(req, res);
         if (!user_id) {
             console.log('user id from token is not available');
             return;
         }
 
-        const result = await deleteTripService(user_id);
+        const result = await deleteTripService(user_id, trip_id);
 
         if (result.error) {
             return res.status(400).json({

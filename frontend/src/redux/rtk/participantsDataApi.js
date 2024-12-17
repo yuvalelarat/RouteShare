@@ -22,7 +22,36 @@ export const participantsDataApi = createApi({
             }),
             transformResponse: (response) => response,
         }),
+        addParticipant: builder.mutation({
+            query: ({ trip_id, email, role }) => ({
+                url: `/add-participant`,
+                method: 'POST',
+                body: { trip_id, email, role },
+            }),
+            transformResponse: (response) => response,
+        }),
+        removeParticipant: builder.mutation({
+            query: ({ trip_id, email }) => ({
+                url: `/remove-participant`,
+                method: 'DELETE',
+                body: { trip_id, email },
+            }),
+            transformResponse: (response) => response,
+        }),
+        editParticipantRole: builder.mutation({
+            query: ({ trip_id, email, new_role }) => ({
+                url: `/edit-participant-role`,
+                method: 'PATCH',
+                body: { trip_id, email, new_role },
+            }),
+            transformResponse: (response) => response,
+        }),
     }),
 });
 
-export const { useLazyGetParticipantsQuery } = participantsDataApi;
+export const {
+    useLazyGetParticipantsQuery,
+    useAddParticipantMutation,
+    useRemoveParticipantMutation,
+    useEditParticipantRoleMutation,
+} = participantsDataApi;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import PageTitle from '../components/common/PageTitle';
 import TripDayCard from '../components/trip-days/TripDayCard.jsx';
@@ -15,16 +15,26 @@ const socket = io('http://localhost:10000');
 
 function TripDaysPage() {
     const { trip_id } = useParams();
-    const { data, error, isLoading } = useGetAllJourneysQuery(trip_id);
+    const { data, error, isLoading, refetch } = useGetAllJourneysQuery(trip_id);
     const [journeys, setJourneys] = useState([]);
+    const dataRef = useRef(data);
 
     useEffect(() => {
         if (data) {
             setJourneys(data.journeys);
+            dataRef.current = data;
         }
     }, [data]);
 
-    useTripSocket(trip_id, setJourneys);
+    const socketHandler = useCallback(
+        (updatedJourneys) => {
+            setJourneys(updatedJourneys);
+            refetch();
+        },
+        [refetch],
+    );
+
+    useTripSocket(trip_id, socketHandler);
 
     const tripName = data?.trip_name;
     const tripAdmin = data?.trip_admin.admin_name;
@@ -33,8 +43,6 @@ function TripDaysPage() {
     const numberOfJourneys = journeys.length;
     const numberOfDays = calculateNumberOfDays(startDate, endDate);
     const description = data?.description;
-
-    console.log(description);
 
     const newJourneyDetails = (journeyId, newDate, newDayNumber, newLocation, newDescription) => {
         setJourneys((prevJourneys) =>

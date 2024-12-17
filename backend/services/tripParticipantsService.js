@@ -19,6 +19,10 @@ export const addParticipantService = async (
 
   const user = await dataSource.getRepository(User).findOneBy({ email });
 
+  if(!user) {
+    throw new Error("User not found");
+  }
+
   const entitiesNotFound = await checkIfEntitiesExist(
     [trip, user],
     ["Trip", "User"]
@@ -34,7 +38,7 @@ export const addParticipantService = async (
   });
 
   if (existingParticipant) {
-    throw new Error("User is already a participant");
+    throw new Error("Already a participant");
   }
 
   const newTripParticipant = tripParticipantRepository.create({
@@ -75,7 +79,7 @@ export const removeParticipantService = async (
   );
   if (entitiesNotFound) return { error: "Entities not found" };
 
-  if (trip.user.user_id !== currentUserId) {
+  if (trip.user.user_id !== currentUserId && user.user_id !== currentUserId) {
     throw new Error("Unauthorized");
   }
 

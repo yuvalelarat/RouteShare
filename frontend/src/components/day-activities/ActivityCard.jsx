@@ -3,7 +3,6 @@ import { boxStyle, cardContentStyle, cardStyle } from './styles.js';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
 import './ActivityCard.css';
 import DeleteActivity from './DeleteActivity/DeleteActivity.jsx';
 import { useDeleteActivityMutation } from '../../redux/rtk/activityDataApi.js';

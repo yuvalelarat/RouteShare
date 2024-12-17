@@ -7,8 +7,9 @@ import './TripDayCard.css';
 import Button from '@mui/material/Button';
 import { useDeleteJourneyMutation } from '../../redux/rtk/journeyDataApi.js';
 import DeleteDay from './DeleteDay/DeleteDay.jsx';
-import EditDayForm from './EditDayForm/EditDayForm.jsx';
+import { EditDayForm } from './EditDayForm/EditDayForm.jsx';
 import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TripContext from '../../context/TripContext.js';
 
 // eslint-disable-next-line react/prop-types
@@ -16,6 +17,7 @@ function TripDayCard({ dayNumber, country, description, expenses, date, journeyI
     const { trip_id, userRole } = useContext(TripContext);
     const [deleteJourney] = useDeleteJourneyMutation();
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
 
     const handleDelete = async () => {
         try {
@@ -26,7 +28,7 @@ function TripDayCard({ dayNumber, country, description, expenses, date, journeyI
     };
 
     const handleViewDayClick = () => {
-        window.location.href = `/trip/${trip_id}/${journeyId}`;
+        navigate(`/trip/${trip_id}/${journeyId}`);
     };
 
     const handleEditDayClick = () => {

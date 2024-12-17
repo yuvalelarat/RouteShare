@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import Card from '@mui/material/Card';
 import '../TripDayCard.css';
 import CardContent from '@mui/material/CardContent';
@@ -7,7 +7,6 @@ import CardActions from '@mui/material/CardActions';
 import {
     cardStyle,
     circleStyle,
-    headerStyle,
     boxStyle,
     dayDescriptionBoxStyle,
     cardActionsStyle,
@@ -17,6 +16,8 @@ import {
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import NewDayForm from '../NewDayForm/NewDayForm.jsx';
+import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 
 // eslint-disable-next-line react/prop-types
 function BluredCard({ startDate, endDate }) {
@@ -45,14 +46,7 @@ function BluredCard({ startDate, endDate }) {
                 </CardContent>
                 <CardActions style={cardActionsStyle}>
                     <h3 style={{ fontWeight: '400', margin: '0' }}>Expenses: 10000$</h3>
-                    <div style={{ display: 'flex', flexDirection: 'row', gap: '2vw' }}>
-                        <Button
-                            variant={'contained'}
-                            disableElevation
-                            disabled={true}
-                            className={'edit-day-button'}>
-                            Edit
-                        </Button>
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: '2.2rem' }}>
                         <Button
                             variant={'contained'}
                             disableElevation
@@ -64,21 +58,24 @@ function BluredCard({ startDate, endDate }) {
                             variant={'contained'}
                             disableElevation
                             disabled={true}
-                            className={'delete-day-button'}>
-                            Delete
+                            className={'edit-day-button'}>
+                            Edit
                         </Button>
+                        <IconButton sx={{ color: 'black' }} disabled={true}>
+                            <DeleteForeverTwoToneIcon fontSize={'large'} />
+                        </IconButton>
                     </div>
                 </CardActions>
             </Card>
             <div style={circleContainerStyle}>
                 <div style={circleStyle}>
-                    <Button
-                        variant={'contained'}
-                        disableElevation
-                        style={headerStyle}
-                        onClick={handleClickOpen}>
-                        Add day
-                    </Button>
+                    <IconButton
+                        onClick={handleClickOpen}
+                        sx={{
+                            color: 'black',
+                        }}>
+                        <AddTwoToneIcon fontSize="large" />
+                    </IconButton>
                 </div>
             </div>
             <NewDayForm open={open} onClose={handleClose} startDate={startDate} endDate={endDate} />

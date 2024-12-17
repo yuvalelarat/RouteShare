@@ -3,28 +3,54 @@ import './MyTrips.css';
 import { cardContentStyle, cardStyle } from './styles.js';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { useGetMyTripsQuery, useLazyGetTripQuery } from '../../redux/rtk/tripsDataApi.js';
-import { useDispatch } from 'react-redux';
+import {
+    useGetMyTripsQuery,
+    useLazyGetTripQuery,
+    useDeleteTripMutation,
+} from '../../redux/rtk/tripsDataApi.js';
 import { useEffect } from 'react';
-import { setTrips } from '../../redux/slices/tripsDataSlice.js';
+import DeleteTrip from './DeleteTrip/DeleteTrip.jsx';
+import EditSharingDialog from './EditSharing/EditSharingDialog.jsx';
+import { useNavigate } from 'react-router-dom';
 
 function MyTripsArea() {
-    const { data, error, isLoading } = useGetMyTripsQuery();
+    const { data, error, isLoading, refetch } = useGetMyTripsQuery();
     const [getTrip, { data: tripData, error: tripError }] = useLazyGetTripQuery();
-    const dispatch = useDispatch();
+    const [deleteTrip] = useDeleteTripMutation();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (data?.trips) {
-            dispatch(setTrips(data.trips));
-        }
-    }, [data, dispatch]);
+        refetch();
+    }, [data]);
 
-    const handleViewTripClick = async (tripId) => {
+    const handleClick = async (tripId, tripName, expenses = false) => {
+        if (expenses) {
+            navigate(`/trip/${tripId}/expenses`, { state: { tripName } });
+            return;
+        }
         const response = await getTrip(tripId);
         if (response?.data?.success) {
-            window.location.href = `/trip/${tripId}`;
+            navigate(`/trip/${tripId}`);
         } else {
-            alert(response?.data?.error || 'Error fetching trip details.');
+            console.log('Error fetching trip details.' + response?.data?.error);
+        }
+    };
+
+    const handleDelete = async (tripId) => {
+        console.log('Attempting to delete trip with ID:', tripId);
+
+        try {
+            const response = await deleteTrip({ trip_id: tripId });
+            console.log('Delete trip full response:', response);
+
+            if (response?.data?.success) {
+                console.log(response?.data?.success);
+                refetch();
+            } else {
+                console.error('Error deleting trip:', response?.data?.error);
+            }
+        } catch (error) {
+            console.error('Error in deleteTrip mutation:', error);
         }
     };
 
@@ -59,18 +85,18 @@ function MyTripsArea() {
                                     variant="contained"
                                     disableElevation
                                     className={'view-edit-button'}
-                                    onClick={() => handleViewTripClick(trip.trip_id)}>
+                                    onClick={() => handleClick(trip.trip_id)}>
                                     View & Edit
                                 </Button>
-                                <Button variant="contained" disableElevation className={'share-button'}>
-                                    Edit Sharing
-                                </Button>
-                                <Button variant="contained" disableElevation className={'expenses-button'}>
+                                <EditSharingDialog tripId={trip.trip_id} />
+                                <Button
+                                    variant="outlined"
+                                    disableElevation
+                                    className={'share-button'}
+                                    onClick={() => handleClick(trip.trip_id, trip.trip_name, true)}>
                                     Expenses
                                 </Button>
-                                <Button variant="contained" disableElevation className={'delete-button'}>
-                                    Delete
-                                </Button>
+                                <DeleteTrip handleDelete={handleDelete} tripId={trip.trip_id} />
                             </div>
                         </CardContent>
                     </Card>

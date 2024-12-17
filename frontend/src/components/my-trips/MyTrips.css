@@ -40,7 +40,7 @@
 .buttonDiv {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 2vw;
     justify-content: center;
     padding-right: 2rem;
 }
@@ -50,6 +50,7 @@
         padding-right: 0;
     }
 }
+
 
 .shared-trip-trip-name {
     white-space: wrap;
@@ -81,6 +82,11 @@
         white-space: wrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        flex-direction: column;
+    }
+    .buttonDiv{
+        flex-direction: column;
+        gap: 5vw;
     }
 }
 
@@ -88,14 +94,15 @@
     min-width: 126.49px !important;
     color: black !important;
     outline: 1px solid black !important;
-    background-color: var(--color-lightblue-button) !important;
+    background-color: var(--color-blue-symbol) !important;
 }
 
 .share-button {
     min-width: 126.49px !important;
-    color: black !important;
-    outline: 1px solid black !important;
-    background-color: var(--color-lightgreen-button-share) !important;
+    color: var(--color-blue-test) !important;
+    outline: 1px solid var(--color-blue-test) !important;
+    border: none !important;
+    background-color: transparent !important;
 }
 
 .expenses-button {
@@ -104,6 +111,17 @@
     outline: 1px solid black !important;
     background-color: var(--color-lightyellow-button) !important;
 }
+
+.delete-icon-button {
+    color: black !important;
+    transition: color 1s ease, background-color 1s ease;
+}
+
+.delete-icon-button:hover {
+    background-color: rgba(255, 0, 0, 0.1) !important;
+    color: red !important;
+}
+
 
 .delete-button {
     min-width: 126.49px !important;

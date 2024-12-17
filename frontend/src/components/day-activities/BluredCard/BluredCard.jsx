@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { cardContentStyle } from '../styles.js';
@@ -14,6 +14,8 @@ import {
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import NewActivityForm from '../NewActivityForm/NewActivityForm.jsx';
+import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
 
 // eslint-disable-next-line react/prop-types
 function BluredCard({ date, country }) {
@@ -47,32 +49,17 @@ function BluredCard({ date, country }) {
                 </CardContent>
                 <CardActions style={cardActionsStyle}>
                     <div className={'activity-action-style'}>
-                        {/* TODO: EDIT??? <Button
-                            variant={'contained'}
-                            disableElevation
-                            disabled={true}
-                            className={'edit-day-button'}>
-                            Edit
-                        </Button>*/}
-                        <Button
-                            variant={'contained'}
-                            disableElevation
-                            disabled={true}
-                            className={'delete-day-button'}>
-                            Delete
-                        </Button>
+                        <IconButton sx={{ color: 'black' }} disabled={true}>
+                            <DeleteForeverTwoToneIcon fontSize={'large'} />
+                        </IconButton>
                     </div>
                 </CardActions>
             </Card>
             <div style={circleContainerStyle}>
                 <div style={circleStyle}>
-                    <Button
-                        variant={'contained'}
-                        disableElevation
-                        style={headerStyle}
-                        onClick={handleClickOpen}>
-                        Add activity
-                    </Button>
+                    <IconButton onClick={handleClickOpen} sx={{ color: 'black' }}>
+                        <AddTwoToneIcon fontSize="large" />
+                    </IconButton>
                 </div>
             </div>
             {/*TODO: add AddDayForm*/}

@@ -3,7 +3,7 @@ import { Snackbar } from '@mui/material';
 
 // eslint-disable-next-line react/prop-types
 export function CustomAlert({ type, message, open, handleClose }) {
-    const backgroundColor = type === 'error' ? 'rgba(255, 0, 0, 0.08)' : 'rgba(0, 255, 0, 0.08)';
+    const backgroundColor = type === 'error' ? 'rgba(255, 0, 0, 0.80)' : 'rgba(0, 255, 0, 0.80)';
 
     return (
         <Snackbar
@@ -11,11 +11,14 @@ export function CustomAlert({ type, message, open, handleClose }) {
             autoHideDuration={4000}
             onClose={handleClose}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-            sx={{ position: 'absolute' }}>
+            sx={{
+                position: 'absolute',
+                top: '80px',
+            }}>
             <MuiAlert
                 onClose={handleClose}
                 severity={type}
-                sx={{ width: '100%', backgroundColor: backgroundColor }}>
+                sx={{ width: '100%', backgroundColor: backgroundColor, color: 'black' }}>
                 {message}
             </MuiAlert>
         </Snackbar>

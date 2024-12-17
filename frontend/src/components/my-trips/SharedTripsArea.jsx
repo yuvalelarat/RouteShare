@@ -4,32 +4,45 @@ import { cardContentStyle, cardStyle } from './styles.js';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { useGetSharedTripsQuery, useLazyGetTripQuery } from '../../redux/rtk/tripsDataApi.js';
-import { useDispatch } from 'react-redux';
+import { useRemoveParticipantMutation } from '../../redux/rtk/participantsDataApi.js';
 import { useEffect } from 'react';
-import { setSharedTrips } from '../../redux/slices/tripsDataSlice.js';
+import RemoveSharedTrip from './RemoveSharedTrip/RemoveSharedTrip.jsx';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function SharedTripsArea() {
-    const { data, error, isLoading } = useGetSharedTripsQuery();
+    const { data, error, isLoading, refetch } = useGetSharedTripsQuery();
     const [triggerGetSharedTrips, { data: sharedTripData, error: sharedTripError }] = useLazyGetTripQuery();
-    const dispatch = useDispatch();
+    const [removeParticipant] = useRemoveParticipantMutation();
+    const email = useSelector((state) => state.userData.email);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (data?.trips) {
-            dispatch(setSharedTrips(data.trips));
-        }
-    }, [data, dispatch]);
+        refetch();
+    }, [data]);
 
-    const handleTripClick = (tripId) => {
+    const handleClick = (tripId, tripName, expenses = false) => {
+        if (expenses) {
+            navigate(`/trip/${tripId}/expenses`, { state: { tripName } });
+            return;
+        }
         triggerGetSharedTrips(tripId)
             .unwrap()
             .then((response) => {
                 if (response.success) {
-                    window.location.href = `/trip/${tripId}`;
-                } else {
-                    alert('Error: Unable to load shared trip details');
+                    navigate(`/trip/${tripId}`);
                 }
             })
-            .catch((err) => alert('Error: ' + err.message));
+            .catch((err) => console.log('Error: ' + err.message));
+    };
+
+    const handleDelete = (tripId, email) => {
+        try {
+            removeParticipant({ trip_id: tripId, email: email });
+            refetch();
+        } catch (err) {
+            console.error('error removing you from shared trip' + err);
+        }
     };
 
     if (isLoading) {
@@ -71,15 +84,21 @@ function SharedTripsArea() {
                                     variant="contained"
                                     disableElevation
                                     className={'view-edit-button'}
-                                    onClick={() => handleTripClick(trip.trip_id)}>
-                                    {trip.participants[0].role === 'edit' ? 'View & Edit' : 'View only'}
+                                    onClick={() => handleClick(trip.trip_id)}>
+                                    {trip.participants[0].role === 'edit' ? 'View & Edit' : 'View'}
                                 </Button>
-                                <Button variant="contained" disableElevation className={'expenses-button'}>
+                                <Button
+                                    variant="contained"
+                                    disableElevation
+                                    className={'share-button'}
+                                    onClick={() => handleClick(trip.trip_id, trip.trip_name, true)}>
                                     Expenses
                                 </Button>
-                                <Button variant="contained" disableElevation className={'delete-button'}>
-                                    Remove
-                                </Button>
+                                <RemoveSharedTrip
+                                    handleDelete={handleDelete}
+                                    tripId={trip.trip_id}
+                                    email={email}
+                                />
                             </div>
                         </CardContent>
                     </Card>

@@ -6,7 +6,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 // eslint-disable-next-line react/prop-types
-export default function DeleteDialog({ open, close, handleDelete, dialogTitle, dialogContentText }) {
+export default function DeleteDialog({ open, close, handleDelete, dialogTitle, dialogContentText, remove }) {
     return (
         <Dialog
             open={open}
@@ -29,7 +29,7 @@ export default function DeleteDialog({ open, close, handleDelete, dialogTitle, d
                         handleDelete();
                         close();
                     }}>
-                    Delete
+                    {remove ? 'Remove' : 'Delete'}
                 </Button>
             </DialogActions>
         </Dialog>

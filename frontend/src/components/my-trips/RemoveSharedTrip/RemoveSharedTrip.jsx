@@ -2,10 +2,9 @@ import Button from '@mui/material/Button';
 import DeleteDialog from '../../common/DeleteDialog.jsx';
 import { useState } from 'react';
 import { IconButton } from '@mui/material';
-import DeleteForeverTwoToneIcon from '@mui/icons-material/DeleteForeverTwoTone';
-
+import RemoveCircleTwoToneIcon from '@mui/icons-material/RemoveCircleTwoTone';
 // eslint-disable-next-line react/prop-types
-function DeleteDay({ handleDelete }) {
+function RemoveSharedTrip({ handleDelete, tripId, email }) {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -14,6 +13,11 @@ function DeleteDay({ handleDelete }) {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const confirmDelete = () => {
+        handleDelete(tripId, email);
+        handleClose();
     };
 
     return (
@@ -28,19 +32,20 @@ function DeleteDay({ handleDelete }) {
                         color: 'red',
                     },
                 }}>
-                <DeleteForeverTwoToneIcon fontSize={'large'} />
+                <RemoveCircleTwoToneIcon />
             </IconButton>
             <DeleteDialog
                 open={open}
                 close={handleClose}
-                handleDelete={handleDelete}
-                dialogTitle={'Delete day'}
+                handleDelete={confirmDelete}
+                dialogTitle={'Remove trip'}
                 dialogContentText={
-                    'Are you sure you want to delete this day? This action will also delete all activities associated with this day and cannot be undone.'
+                    'Are you sure you want to remove yourself from this trip? This action is irreversible and will remove you from the trip permanently.'
                 }
+                remove={true}
             />
         </>
     );
 }
 
-export default DeleteDay;
+export default RemoveSharedTrip;
