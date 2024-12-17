@@ -19,6 +19,10 @@ export const addParticipantService = async (
 
   const user = await dataSource.getRepository(User).findOneBy({ email });
 
+  if(!user) {
+    throw new Error("User not found");
+  }
+
   const entitiesNotFound = await checkIfEntitiesExist(
     [trip, user],
     ["Trip", "User"]
