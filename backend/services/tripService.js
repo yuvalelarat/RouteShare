@@ -2,11 +2,7 @@ import dataSource from '../db/connection.js';
 import { User } from '../models/user.js';
 import { Trip } from '../models/trip.js';
 import { TripParticipant } from '../models/tripParticipant.js';
-import { Journey } from '../models/journey.js';
-import { Activity } from '../models/activity.js';
 import { checkIfEntitiesExist } from '../utils/errorHelpers.js';
-import { Not } from 'typeorm';
-import { generateAuthToken } from './userService.js';
 
 const tripRepository = dataSource.getRepository(Trip);
 
@@ -212,20 +208,23 @@ export const getMyTripsService = async (user_id) => {
 
         const trips = await tripRepository.find({
             where: { user: { user_id } },
-            relations: ['user']
+            relations: ['user', 'journeys']
         });
 
-
         return {
-            trips: trips.map((trip) => ({
-                trip_id: trip.trip_id,
-                trip_name: trip.trip_name,
-                start_date: trip.start_date,
-                end_date: trip.end_date,
-                description: trip.description,
-                created_at: trip.created_at,
-                updated_at: trip.updated_at
-            }))
+            trips: trips.map((trip) => {
+                const totalExpenses = trip.journeys.reduce((sum, journey) => sum + parseFloat(journey.expenses), 0);
+                return {
+                    trip_id: trip.trip_id,
+                    trip_name: trip.trip_name,
+                    start_date: trip.start_date,
+                    end_date: trip.end_date,
+                    description: trip.description,
+                    created_at: trip.created_at,
+                    updated_at: trip.updated_at,
+                    totalExpenses,
+                };
+            })
         };
     } catch (err) {
         console.error('Error fetching trips:', err);
