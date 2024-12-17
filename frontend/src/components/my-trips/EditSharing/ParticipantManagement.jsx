@@ -5,7 +5,7 @@ import { useAddParticipantMutation } from '../../../redux/rtk/participantsDataAp
 import './ParticipantManagement.css';
 
 // eslint-disable-next-line react/prop-types
-function ParticipantManagement({ tripId, onAlertTrigger }) {
+function ParticipantManagement({ tripId, onAlertTrigger, refetchParticipants }) {
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('view');
     const [addParticipant] = useAddParticipantMutation();
@@ -32,6 +32,7 @@ function ParticipantManagement({ tripId, onAlertTrigger }) {
             await addParticipant({ trip_id: tripId, email, role }).unwrap();
             onAlertTrigger('Added participant', 'success');
             setEmail('');
+            refetchParticipants();
         } catch (error) {
             console.error('Failed to add participant:', error.data.error);
             onAlertTrigger(error.data.error, 'error');

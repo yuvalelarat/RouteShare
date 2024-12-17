@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { Slide } from '@mui/material';
 import { forwardRef } from 'react';
 import ParticipantManagement from './ParticipantManagement';
 import ParticipantList from './ParticipantList';
 import { CustomAlert } from '../../common/CustomAlert.jsx';
+import { useLazyGetParticipantsQuery } from '../../../redux/rtk/participantsDataApi.js';
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -16,10 +17,21 @@ function EditSharingDialog({ tripId }) {
     const [alertOpen, setAlertOpen] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState('');
     const [alertType, setAlertType] = React.useState('success');
+    const [getParticipants, { data: ParticipantsData }] = useLazyGetParticipantsQuery();
 
     const handleClickOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleAlertClose = () => setAlertOpen(false);
+
+    useEffect(() => {
+        if (tripId) {
+            getParticipants(tripId);
+        }
+    }, [tripId, getParticipants]);
+
+    const refetchParticipants = () => {
+        getParticipants(tripId);
+    };
 
     const handleAlertTrigger = (message, type) => {
         setAlertMessage(message);
@@ -42,7 +54,11 @@ function EditSharingDialog({ tripId }) {
                 fullWidth>
                 <DialogTitle style={{ fontWeight: '600' }}>Edit trip participants</DialogTitle>
                 <DialogContent>
-                    <ParticipantManagement tripId={tripId} onAlertTrigger={handleAlertTrigger} />
+                    <ParticipantManagement
+                        tripId={tripId}
+                        onAlertTrigger={handleAlertTrigger}
+                        refetchParticipants={refetchParticipants}
+                    />
                     <ParticipantList tripId={tripId} onAlertTrigger={handleAlertTrigger} />
                 </DialogContent>
                 <CustomAlert
