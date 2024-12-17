@@ -20,6 +20,14 @@ function ParticipantManagement({ tripId, onAlertTrigger }) {
     };
 
     const addParticipantHandler = async () => {
+        if (!email) {
+            onAlertTrigger('Please enter email to share', 'error');
+            return;
+        }
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            onAlertTrigger('Invalid email', 'error');
+            return;
+        }
         try {
             await addParticipant({ trip_id: tripId, email, role }).unwrap();
             onAlertTrigger('Added participant', 'success');
