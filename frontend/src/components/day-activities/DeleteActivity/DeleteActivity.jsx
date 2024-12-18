@@ -1,4 +1,3 @@
-import Button from '@mui/material/Button';
 import DeleteDialog from '../../common/DeleteDialog.jsx';
 import { useState } from 'react';
 import { IconButton } from '@mui/material';
@@ -21,7 +20,7 @@ function DeleteDay({ handleDelete }) {
             <IconButton
                 onClick={handleOpen}
                 sx={{
-                    color: 'black',
+                    color: 'var(--color-light-black)',
                     transition: 'color 0.3s ease, background-color 0.3s ease',
                     '&:hover': {
                         backgroundColor: 'rgba(255, 0, 0, 0.1)',

@@ -99,33 +99,9 @@
 
 .share-button {
     min-width: 126.49px !important;
-    color: var(--color-blue-test) !important;
-    outline: 1px solid var(--color-blue-test) !important;
+    color: var(--color-darker-blue) !important;
+    outline: 1px solid var(--color-darker-blue) !important;
     border: none !important;
     background-color: transparent !important;
 }
 
-.expenses-button {
-    min-width: 126.49px !important;
-    color: black !important;
-    outline: 1px solid black !important;
-    background-color: var(--color-lightyellow-button) !important;
-}
-
-.delete-icon-button {
-    color: black !important;
-    transition: color 1s ease, background-color 1s ease;
-}
-
-.delete-icon-button:hover {
-    background-color: rgba(255, 0, 0, 0.1) !important;
-    color: red !important;
-}
-
-
-.delete-button {
-    min-width: 126.49px !important;
-    color: black !important;
-    outline: 1px solid black !important;
-    background-color: var(--color-lightred-button) !important;
-}

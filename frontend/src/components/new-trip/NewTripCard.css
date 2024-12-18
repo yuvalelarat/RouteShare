@@ -44,8 +44,8 @@
 }
 
 .cancel-button {
-    color: var(--color-blue-test) !important;
-    outline: 1px solid var(--color-blue-test) !important;
+    color: var(--color-darker-blue) !important;
+    outline: 1px solid var(--color-darker-blue) !important;
     background-color: transparent !important;
     margin-left: 10px !important;
 }

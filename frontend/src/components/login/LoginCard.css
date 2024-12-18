@@ -1,13 +1,14 @@
 .login-button {
     color: black !important;
-    outline: 1px solid var(--color-blue-login-register-button-outline) !important;
-    background-color: var(--color-blue-login-register-button) !important;
+    outline: 1px solid var(--color-gray-outline) !important;
+    background-color: var( --color-blue-symbol) !important;
+    border: none !important;
 }
 
 .register-button {
-    color: var(--color-blue-test) !important;
-    outline: 1px solid var(--color-blue-test) !important;
+    color: var( --color-darker-blue) !important;
+    outline: 1px solid var( --color-darker-blue) !important;
     background-color: transparent !important;
-    border: var(--color-blue-test) !important;
+    border: none !important;
     margin-left: 10px !important;
 }

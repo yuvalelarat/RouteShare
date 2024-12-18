@@ -1,5 +1,5 @@
 import './main.css';
-import logoMainPage from '../../assets/images/logo-main-page.png';
+import logoMainPage from '../../assets/images/logo-main-page2.png';
 import { useNavigate } from 'react-router-dom';
 
 function Main() {
@@ -15,9 +15,11 @@ function Main() {
             <h3 className={'third-heading'}>
                 Organize trips, track expenses, and stay connected every step of the way!
             </h3>
-            <button className={'button-div'} onClick={() => {
-                navigate('/register');
-            }}>
+            <button
+                className={'button-div'}
+                onClick={() => {
+                    navigate('/register');
+                }}>
                 <h3 className={'register'}>Register</h3>
             </button>
         </div>

@@ -3,7 +3,7 @@
     box-sizing: border-box;
     position: relative;
     border-radius: 35px;
-    background-image: url('../../assets/images/test5.jpg');
+    background-image: url('../../assets/images/dotsbg.jpg');
     background-size: auto;
     background-position: center;
     text-align: center;
@@ -69,7 +69,7 @@
 .second-heading {
     font-weight: 400;
     font-size: 5rem;
-    color: var(--color-blue-login-register-button-outline);
+    color: var(--color-gray-outline);
     margin: 0;
     text-shadow: rgba(0, 0, 0, 0.25) 0 14px 28px, rgba(0, 0, 0, 0.22) 0 10px 10px;
 }
@@ -96,7 +96,7 @@
     font-weight: 400;
     font-size: medium;
     cursor: pointer;
-    background-color: var(--color-blue-login-register-button);
+    background-color: var(--color-blue-symbol);
     padding: 4px 6px;
     margin-top: 15px;
     border-radius: 10px;

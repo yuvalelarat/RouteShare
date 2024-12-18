@@ -25,7 +25,7 @@ function DeleteDay({ handleDelete, tripId }) {
             <IconButton
                 onClick={handleOpen}
                 sx={{
-                    color: 'black',
+                    color: 'var(--color-light-black)',
                     transition: 'color 0.3s ease, background-color 0.3s ease',
                     '&:hover': {
                         backgroundColor: 'rgba(255, 0, 0, 0.1)',

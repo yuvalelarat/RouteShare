@@ -49,7 +49,7 @@ function BluredCard({ date, country }) {
                 </CardContent>
                 <CardActions style={cardActionsStyle}>
                     <div className={'activity-action-style'}>
-                        <IconButton sx={{ color: 'black' }} disabled={true}>
+                        <IconButton sx={{ color: 'var(--color-light-black)' }} disabled={true}>
                             <DeleteForeverTwoToneIcon fontSize={'large'} />
                         </IconButton>
                     </div>
@@ -57,7 +57,7 @@ function BluredCard({ date, country }) {
             </Card>
             <div style={circleContainerStyle}>
                 <div style={circleStyle}>
-                    <IconButton onClick={handleClickOpen} sx={{ color: 'black' }}>
+                    <IconButton onClick={handleClickOpen} sx={{ color: 'var(--color-light-black)' }}>
                         <AddTwoToneIcon fontSize="large" />
                     </IconButton>
                 </div>

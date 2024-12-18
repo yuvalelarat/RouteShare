@@ -43,26 +43,10 @@
     padding: 6px 2px!important;
     margin: 0!important;
     display: flex!important;
-    color: var(--color-blue-test) !important;
+    color: var(--color-darker-blue) !important;
     align-items: center!important;
-    outline: 1px solid var(--color-blue-test)!important;
+    outline: 1px solid var(--color-darker-blue)!important;
     border-radius: 5px!important;
     background-color: transparent!important;
-    cursor: pointer!important;
-}
-
-.delete-day-button{
-    border: none!important;
-    font-family: inherit!important;
-    font-weight: 400!important;
-    font-size: medium!important;
-    padding: 6px 2px!important;
-    margin: 0!important;
-    display: flex!important;
-    color: black !important;
-    align-items: center!important;
-    outline: 1px solid black!important;
-    border-radius: 5px!important;
-    background-color: var(--color-lightred-button)!important;
     cursor: pointer!important;
 }

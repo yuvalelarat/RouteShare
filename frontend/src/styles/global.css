@@ -1,14 +1,9 @@
 :root {
-    --color-lightblue: #7ed6df7a;
-    --color-lightgray: #f5f5f5;
     --color-lightgray-outline: #bdbdbd;
-    --color-blue-symbol: #1bc7fc;
-    --color-blue-login-register-button: #1bc7fc;
-    --color-blue-login-register-button-outline: #6a6a6a;
-    --color-lightblue-button: #bfe2ff;
-    --color-lightgreen-button-share: #c7ffb5;
-    --color-lightgreen-button-save: #aaff7c;
-    --color-lightyellow-button: #fff4b1;
-    --color-lightred-button: #ff7373;
-    --color-blue-test: #005875;
+    --color-blue-symbol: #00acb4;
+    --color-light-black: #393e45;
+    --color-dark-black: #222831;
+    --color-lightgray: #EEEEEE;
+    --color-gray-outline: #6a6a6a;
+    --color-darker-blue: #005875;
 }

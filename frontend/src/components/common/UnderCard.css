@@ -13,5 +13,6 @@
 
 .reset-password {
     cursor: pointer;
-    color: #005ce6;
+    color: black;
+    font-weight: 600;
 }
