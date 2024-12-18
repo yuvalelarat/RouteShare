@@ -22,6 +22,13 @@ export const activityDataApi = createApi({
             }),
             transformResponse: (response) => response,
         }),
+        getActivitiesByTripId: builder.query({
+            query: (trip_id) => ({
+                url: `/all-activities-trip-id/${trip_id}`,
+                method: 'GET',
+            }),
+            transformResponse: (response) => response,
+        }),
         createActivity: builder.mutation({
             query: ({
                 journey_id,
@@ -51,6 +58,8 @@ export const activityDataApi = createApi({
 export const {
     useGetActivitiesQuery,
     useLazyGetActivitiesQuery,
+    useGetActivitiesByTripIdQuery,
+    useLazyGetActivitiesByTripIdQuery,
     useCreateActivityMutation,
     useDeleteActivityMutation,
 } = activityDataApi;

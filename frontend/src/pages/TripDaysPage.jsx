@@ -74,6 +74,9 @@ function TripDaysPage() {
     if (error) {
         return <div>Error loading journeys: {error.message}</div>;
     }
+
+    const sortedJourneys = [...journeys].sort((a, b) => a.day_number - b.day_number);
+
     return (
         <TripContext.Provider
             value={{
@@ -96,7 +99,7 @@ function TripDaysPage() {
                 description={description}
             />
             <div className={'cardDiv'}>
-                {journeys.map((journey) => (
+                {sortedJourneys.map((journey) => (
                     <TripDayCard
                         key={journey.journey_id}
                         dayNumber={journey.day_number}
