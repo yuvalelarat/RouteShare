@@ -5,7 +5,8 @@ import {
 import {
   createActivityService,
   deleteActivityService,
-  getActivitiesByJourneyIdService
+  getActivitiesByJourneyIdService,
+  getActivitiesByTripIdService
 } from "../services/activityService.js";
 import { emitDeleteActivity, emitNewActivity } from '../socket/socket.js';
 import dataSource from '../db/connection.js';
@@ -191,4 +192,36 @@ export const getActivitiesByJourneyId = async (req, res) => {
       error: err.message || "Something went wrong",
     });
   }
-}
+};
+
+export const getActivitiesByTripId = async (req, res) => {
+  const { trip_id } = req.params;
+
+  try {
+    const user_id = getUserIdFromToken(req, res);
+    if (!user_id) {
+      console.log("user id from token is not available");
+      return;
+    }
+
+    const result = await getActivitiesByTripIdService(trip_id, user_id);
+
+    if (result.error) {
+      return res.status(403).json({
+        success: false,
+        message: result.error,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      response: result,
+    });
+  } catch (err) {
+    console.error("Unexpected error in getActivitiesByTripId:", err.message || err);
+    res.status(500).json({
+      success: false,
+      error: err.message || "Something went wrong",
+    });
+  }
+};

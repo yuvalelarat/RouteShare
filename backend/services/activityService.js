@@ -1,11 +1,13 @@
 import { Activity } from "../models/activity.js";
 import { Journey } from "../models/journey.js";
 import { TripParticipant } from "../models/tripParticipant.js";
+import { Trip } from '../models/trip.js';
 import dataSource from "../db/connection.js";
 
 const activityRepository = dataSource.getRepository(Activity);
 const journeyRepository = dataSource.getRepository(Journey);
 const tripParticipantRepository = dataSource.getRepository(TripParticipant);
+const tripRepository = dataSource.getRepository(Trip);
 
 export const createActivityService = async (
     journey_id,
@@ -366,5 +368,69 @@ export const getActivitiesByJourneyIdService = async (journey_id, user_id) => {
     };
   } catch (err) {
     throw new Error(err.message || "Error retrieving activities");
+  }
+};
+
+export const getActivitiesByTripIdService = async (trip_id, user_id) => {
+  try {
+    const trip = await tripRepository.findOne({
+      where: { trip_id },
+      relations: [
+        "user",
+        "participants",
+        "participants.user",
+        "journeys",
+        "journeys.activities",
+        "journeys.activities.paid_by"
+      ],
+    });
+
+    if (!trip) {
+      throw new Error("Trip not found");
+    }
+
+    if (trip.user.user_id !== user_id) {
+      const participant = trip.participants.find(
+          (p) => p.user.user_id === user_id
+      );
+
+      if (
+          !participant ||
+          (participant.role !== "edit" && participant.role !== "view")
+      ) {
+        throw new Error(
+            "You do not have permission to view activities for this trip."
+        );
+      }
+    }
+
+    const activitiesWithJourneyInfo = trip.journeys.flatMap(journey =>
+        journey.activities.map(activity => ({
+          ...activity,
+          day_number: journey.day_number,
+          country: journey.country,
+          paid_by: activity.paid_by ? {
+            user_id: activity.paid_by.user_id,
+            first_name: activity.paid_by.first_name,
+            last_name: activity.paid_by.last_name
+          } : null
+        }))
+    );
+
+    const sortedActivities = activitiesWithJourneyInfo.sort((a, b) => {
+      if (a.day_number !== b.day_number) {
+        return a.day_number - b.day_number;
+      }
+      return new Date(a.created_at) - new Date(b.created_at);
+    });
+
+    return {
+      activities: sortedActivities,
+      start_date: trip.start_date,
+      role: trip.user.user_id === user_id ? "admin" :
+          (trip.participants.find(p => p.user.user_id === user_id)?.role || "view")
+    };
+  } catch (err) {
+    throw new Error(err.message || "Error retrieving trip activities");
   }
 };
