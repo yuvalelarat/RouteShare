@@ -6,12 +6,12 @@ import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import NewTripPage from './pages/NewTripPage.jsx';
 import MyTripsPage from './pages/MyTripsPage.jsx';
-import TripDaysPage from './pages/TripDaysPage.jsx';
+import TripDaysPage from './pages/TripDaysPage/TripDaysPage.jsx';
 import ActivitiesDayPage from './pages/ActivitiesDayPage.jsx';
 import UserRoutes from './private-routes/UserRoutes.jsx';
 import TripRoutes from './private-routes/TripRoutes.jsx';
 import JourneyRoutes from './private-routes/JourneyRoutes.jsx';
-import TripExpensesPage from './pages/TripExpensesPage.jsx';
+import TripExpensesPage from './pages/TripExpensesPage/TripExpensesPage.jsx';
 
 function App() {
     return (

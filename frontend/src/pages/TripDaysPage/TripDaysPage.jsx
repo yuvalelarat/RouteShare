@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
-import PageTitle from '../components/common/PageTitle';
-import TripDayCard from '../components/trip-days/TripDayCard.jsx';
-import TripDetailsTop from '../components/trip-days/TripDetailsTop.jsx';
-import BluredCard from '../components/trip-days/BluredCard/BluredCard.jsx';
-import { useGetAllJourneysQuery } from '../redux/rtk/journeyDataApi.js';
+import PageTitle from '../../components/common/PageTitle.jsx';
+import TripDayCard from '../../components/trip-days/TripDayCard.jsx';
+import TripDetailsTop from '../../components/trip-days/TripDetailsTop.jsx';
+import BluredCard from '../../components/trip-days/BluredCard/BluredCard.jsx';
+import { useGetAllJourneysQuery } from '../../redux/rtk/journeyDataApi.js';
 import { useParams } from 'react-router-dom';
 import './TripDaysPage.css';
-import { calculateNumberOfDays, calculateJourneyDate } from '../utils/common.utils.js';
-import useTripSocket from '../hooks/useTripSocket';
-import TripContext from '../context/TripContext';
+import { calculateNumberOfDays, calculateJourneyDate } from '../../utils/common.utils.js';
+import useTripSocket from '../../hooks/useTripSocket.js';
+import TripContext from '../../context/TripContext.js';
 
 const socket = io('http://localhost:10000');
 

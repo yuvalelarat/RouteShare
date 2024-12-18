@@ -1,0 +1,8 @@
+.expenses-headings {
+    font-weight: 400;
+    text-align: center;
+    margin: 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
